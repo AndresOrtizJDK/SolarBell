@@ -1,0 +1,14 @@
+---
+description: Arquitectura React + Vite + Bun de SolarBell
+alwaysApply: true
+---
+
+# Architecture
+
+- Stack: React 19, Vite 8, Bun, Tailwind v4, Motion, React Router.
+- Imports con alias `@/`. No rutas relativas profundas.
+- Rutas en `src/pages`. Dominio nuevo en `src/features/<name>`.
+- UI primitiva en `src/components/ui`. Shell en `src/components/layout`.
+- Providers y router en `src/app`. No meter negocio en `main.tsx`.
+- Tokens de color/tipo en `src/styles/index.css`. Motion en `src/lib/motion.ts`.
+- No inventar producto. Lo no confirmado vive en `PRODUCT.md` como abierto.

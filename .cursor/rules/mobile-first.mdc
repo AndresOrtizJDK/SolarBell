@@ -1,0 +1,17 @@
+---
+description: Reglas mobile-first y touch nativo
+globs: **/*.{tsx,css,html}
+alwaysApply: false
+---
+
+# Mobile-first
+
+- Diseñar teléfono primero. `md:`/`lg:` son ampliaciones, no la base.
+- Shell: `100dvh`. Heroes estables: `100svh`. Nunca `100vh` para chrome.
+- Viewport: `width=device-width, initial-scale=1, viewport-fit=cover`.
+- Pad header/nav/sheets con `env(safe-area-inset-*)`.
+- Inputs ≥ 16px. Nunca `user-scalable=no` ni `maximum-scale=1`.
+- Press en `:active`. Hover solo si Tailwind `hover:` (ya es fine pointer).
+- Controles: `touch-action: manipulation` y `user-select: none`. El contenido se copia.
+- `overscroll-behavior: none` en `html, body`; `contain` en scroll interno.
+- Probar en hardware real los cambios de teclado, gesture o safe area.

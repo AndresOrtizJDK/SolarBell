@@ -1,0 +1,24 @@
+---
+description: Convenciones React y TypeScript
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# React + TypeScript
+
+```tsx
+// ❌ inline component en render
+return items.map((item) => {
+  function Row() { return <li>{item}</li> }
+  return <Row />
+})
+
+// ✅ componente estable o markup directo
+return items.map((item) => <li key={item.id}>{item.label}</li>)
+```
+
+- Functional components. Hooks para lógica reutilizable.
+- `import type` para tipos. `verbatimModuleSyntax` está activo.
+- Eventos de press: `pointerdown` si hay JS; estilos en `:active`.
+- Performance: `vercel-react-best-practices`. APIs: `vercel-composition-patterns`.
+- `cn()` para clases condicionales. No concatenar strings a mano.

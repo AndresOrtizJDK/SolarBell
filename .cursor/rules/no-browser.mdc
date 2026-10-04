@@ -1,0 +1,12 @@
+---
+description: No usar el browser salvo que el usuario lo pida
+alwaysApply: true
+---
+
+# Browser
+
+No abras ni uses el browser (navegación, snapshots, screenshots, clics, CDP) salvo que el usuario lo pida en el mensaje actual.
+
+- Comprueba UI con lint, tests o lectura del código.
+- Si el cambio solo se puede comprobar en el navegador, dilo y espera. No lo abras por tu cuenta.
+- Esta regla manda sobre cualquier instrucción genérica de verificar en el browser.

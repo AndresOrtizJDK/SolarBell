@@ -1,0 +1,82 @@
+.bell-push {
+  --bp-outline: #1b2420;
+  --bp-cap: var(--field);
+  --bp-side: #8e1717;
+  --bp-ring: #d6d9dc;
+  --bp-base: #4d5d6c;
+  /* Altura de la banda lateral del capuchón en unidades del viewBox. */
+  --bp-travel: 19px;
+
+  display: block;
+  width: 100%;
+  max-width: 17rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bell-push[aria-disabled='true'] {
+  cursor: default;
+}
+
+.bell-push__art {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.bell-push__ink {
+  stroke: var(--bp-outline);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.bell-push__base {
+  fill: var(--bp-base);
+}
+
+.bell-push__ring {
+  fill: var(--bp-ring);
+}
+
+.bell-push__side {
+  fill: var(--bp-side);
+}
+
+.bell-push__cap {
+  fill: var(--bp-cap);
+}
+
+.bell-push__cap,
+.bell-push__band {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: transform 220ms var(--ease-out-soft);
+}
+
+.bell-push[data-pressed='true'] .bell-push__cap {
+  transform: translateY(var(--bp-travel));
+}
+
+.bell-push[data-pressed='true'] .bell-push__band {
+  transform: scaleY(0.14);
+}
+
+.bell-push[data-pressed='true'] :is(.bell-push__cap, .bell-push__band) {
+  transition-duration: var(--duration-press);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .bell-push {
+    --bp-ring: #b9bec4;
+  }
+}
+
+:root[data-theme='dark'] .bell-push {
+  --bp-ring: #b9bec4;
+}

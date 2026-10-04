@@ -1,0 +1,22 @@
+---
+description: Craft UI — Emil, Impeccable, frontend-design
+alwaysApply: true
+---
+
+# Design craft
+
+Antes de UI o motion, leer la skill que aplica:
+
+- Viewport/touch → `mobile-native`
+- Animar → `animate` + `emil-design-eng`
+- Revisar motion → `review-animations`
+- Gestos / springs → `apple-design`
+- Visual / polish → `impeccable` + `frontend-design`
+- Audit web → `web-design-guidelines`
+
+Reglas cortas:
+
+- UI < 300ms. Press 100–160ms. Ease-out custom. Nunca `ease-in`.
+- Seguir `DESIGN.md`. No Inter, no púrpura, no glass como default.
+- `prefers-reduced-motion` siempre.
+- Verificar en browser (móvil y desktop) si el cambio es visible.
