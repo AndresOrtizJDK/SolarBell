@@ -1,16 +1,16 @@
 # Graph Report - SolarBell Proyect  (2026-10-05)
 
 ## Corpus Check
-- 149 files · ~137,884 words
+- 149 files · ~141,583 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1230 nodes · 1496 edges · 134 communities (98 shown, 36 thin omitted)
+- 1234 nodes · 1503 edges · 134 communities (98 shown, 36 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 41 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f18e284f`
+- Built from commit: `32ac6ea2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -219,8 +219,8 @@ Cohesion: 0.16
 Nodes (12): pebble, point, pointSoft, puff, Spinner(), SpinnerAppearance, SpinnerLabel(), SpinnerLabelProps (+4 more)
 
 ### Community 16 - "ring/store.ts"
-Cohesion: 0.20
-Nodes (15): applyDeviceRun(), config, DEFAULT_CONFIG, emit(), getConfig(), getRun(), listeners, RingRun (+7 more)
+Cohesion: 0.17
+Nodes (18): applyDeviceRun(), config, DEFAULT_CONFIG, emit(), getConfig(), getRun(), isSounding(), listeners (+10 more)
 
 ### Community 17 - "theme/store.ts"
 Cohesion: 0.23
@@ -471,7 +471,7 @@ Cohesion: 0.05
 Nodes (39): @base-ui/react, @capacitor/android, @capacitor/core, class-variance-authority, clsx, cn, @fontsource/jetbrains-mono, @fontsource-variable/geist (+31 more)
 
 ## Knowledge Gaps
-- **476 isolated node(s):** `uvx`, `$schema`, `typescript`, `oxc`, `.agents/**` (+471 more)
+- **477 isolated node(s):** `uvx`, `$schema`, `typescript`, `oxc`, `.agents/**` (+472 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **36 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -479,15 +479,15 @@ Nodes (39): @base-ui/react, @capacitor/android, @capacitor/core, class-variance-
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `react` connect `react` to `createLivingShader`, `use-morph.ts`, `bell-push.tsx`, `schedule/store.ts`, `src/components/ui/button.tsx`, `@/components/ui/toast.tsx`, `src/components/ui/toast.tsx`, `spinner.tsx`, `ring/store.ts`, `theme/store.ts`, `bell-form.tsx`, `toast.ts`, `device/store.ts`, `icon.tsx`, `presence.tsx`, `hold-button.tsx`, `choreography.ts`, `page.tsx`, `field.tsx`, `ignorePatterns`, `@/components/ui/button.tsx`, `control-appearance.ts`, `reference-gallery-motion.ts`, `reference-text-motion.ts`, `HoldButton.jsx`, `segmented.tsx`, `bell-list.tsx`, `ring-fields.tsx`, `flow-press.ts`, `use-motion-visibility.ts`, `use-organic-value.ts`, `stepper.tsx`, `ring-sheet.tsx`, `use-reduced-motion.ts`, `use-flow.ts`, `device/index.tsx`, `sheet.tsx`, `ring-pattern.tsx`?**
-  _High betweenness centrality (0.138) - this node is a cross-community bridge._
+  _High betweenness centrality (0.136) - this node is a cross-community bridge._
 - **Why does `snapshot()` connect `use-reduced-motion.ts` to `settings.ts`?**
-  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
 - **Why does `publish()` connect `settings.ts` to `use-reduced-motion.ts`?**
-  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
 - **Are the 5 inferred relationships involving `createLivingShader()` (e.g. with `appearance()` and `onLost()`) actually correct?**
   _`createLivingShader()` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `uvx`, `$schema`, `typescript` to the rest of the system?**
-  _476 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _477 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `settings.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.061343204653622425 - nodes in this community are weakly interconnected._
 - **Should `flow.ts` be split into smaller, more focused modules?**

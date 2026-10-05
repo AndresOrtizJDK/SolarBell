@@ -1,7 +1,7 @@
 import { TIME_DEFAULT_MS } from '@/features/schedule/bell'
 import type { RingConfig } from '@/features/schedule/types'
 import { device, type DeviceRun, type DeviceStatus } from '@/lib/device'
-import { useSyncExternalStore } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 
 const KEY = 'solarbell:ring:v2'
 /** Diferencia de reloj por debajo de la cual una nueva lectura no mueve la cuenta regresiva. */
@@ -96,6 +96,39 @@ export function useRingConfig() {
 
 export function useRingRun() {
   return useSyncExternalStore(subscribe, getRun)
+}
+
+/** Inicio y fin de cada toque, en ms desde `startedAt`. */
+function ringWindows(run: RingRun) {
+  let at = 0
+  return run.durations.map((ms, i) => {
+    const slot = { start: at, end: at + ms }
+    at += ms + (run.pauses[i] ?? 0)
+    return slot
+  })
+}
+
+function isSounding(run: RingRun | null) {
+  if (!run) return false
+  const elapsed = Date.now() - run.startedAt
+  return ringWindows(run).some(({ start, end }) => elapsed >= start && elapsed < end)
+}
+
+/** `true` mientras un toque suena; `false` en las pausas y sin toque. */
+export function useRingSounding(run: RingRun | null) {
+  const subscribeEdges = useCallback(
+    (notify: () => void) => {
+      if (!run) return () => {}
+      const elapsed = Date.now() - run.startedAt
+      const timers = ringWindows(run)
+        .flatMap(({ start, end }) => [start, end])
+        .filter((edge) => edge > elapsed)
+        .map((edge) => window.setTimeout(notify, edge - elapsed))
+      return () => timers.forEach((timer) => window.clearTimeout(timer))
+    },
+    [run],
+  )
+  return useSyncExternalStore(subscribeEdges, () => isSounding(run))
 }
 
 /** La campana lleva el tiempo: la app solo pide el toque y lo refleja. */

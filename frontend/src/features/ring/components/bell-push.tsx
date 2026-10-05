@@ -8,12 +8,14 @@ const MIN_PRESS_MS = 140
 type BellPushProps = {
   label: string
   onPress: () => void
-  /** Queda hundido mientras la campana suena. */
+  /** No responde mientras hay un toque en curso. */
   latched?: boolean
+  /** Hundido mientras la campana suena; arriba en las pausas. */
+  sunk?: boolean
   className?: string
 }
 
-export function BellPush({ label, onPress, latched = false, className }: BellPushProps) {
+export function BellPush({ label, onPress, latched = false, sunk = false, className }: BellPushProps) {
   const [pressed, setPressed] = useState(false)
   const downAt = useRef(0)
   const timer = useRef(0)
@@ -49,7 +51,7 @@ export function BellPush({ label, onPress, latched = false, className }: BellPus
       type="button"
       aria-label={label}
       aria-disabled={latched || undefined}
-      data-pressed={pressed || latched ? 'true' : undefined}
+      data-pressed={pressed || sunk ? 'true' : undefined}
       className={cn('bell-push', className)}
       onPointerDown={(e) => {
         if (latched || e.button !== 0) return

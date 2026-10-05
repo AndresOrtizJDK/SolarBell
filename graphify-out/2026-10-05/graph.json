@@ -3073,30 +3073,6 @@
       "source_location": "L17"
     },
     {
-      "id": "frontend_src_pages_special_dates_detail_specialdatedetailpage",
-      "label": "SpecialDateDetailPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "detail.tsx",
-      "file_type": "code",
-      "norm_label": "specialdatedetailpage()",
-      "source_file": "frontend/src/pages/special-dates/detail.tsx",
-      "source_location": "L21"
-    },
-    {
-      "id": "frontend_src_pages_special_dates_detail_specialdateeditor",
-      "label": "SpecialDateEditor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "detail.tsx",
-      "file_type": "code",
-      "norm_label": "specialdateeditor()",
-      "source_file": "frontend/src/pages/special-dates/detail.tsx",
-      "source_location": "L41"
-    },
-    {
       "id": "frontend_src_app_providers_appproviders",
       "label": "AppProviders()",
       "_callable": true,
@@ -3407,6 +3383,30 @@
       "norm_label": "sculptureprintpath()",
       "source_file": "frontend/src/lib/cojeev/sculpture-raster.ts",
       "source_location": "L118"
+    },
+    {
+      "id": "frontend_vite_config_away",
+      "label": "away()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "vite.config.ts",
+      "file_type": "code",
+      "norm_label": "away()",
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "frontend_vite_config_deviceproxy",
+      "label": "deviceProxy()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "vite.config.ts",
+      "file_type": "code",
+      "norm_label": "deviceproxy()",
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L21"
     },
     {
       "id": "frontend_src_features_ring_components_bell_push_bellpush",
@@ -4847,6 +4847,30 @@
       "norm_label": "ringstatus()",
       "source_file": "frontend/src/pages/ring/index.tsx",
       "source_location": "L60"
+    },
+    {
+      "id": "frontend_src_pages_special_dates_detail_specialdatedetailpage",
+      "label": "SpecialDateDetailPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "specialdatedetailpage()",
+      "source_file": "frontend/src/pages/special-dates/detail.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "frontend_src_pages_special_dates_detail_specialdateeditor",
+      "label": "SpecialDateEditor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "specialdateeditor()",
+      "source_file": "frontend/src/pages/special-dates/detail.tsx",
+      "source_location": "L41"
     },
     {
       "id": "frontend_src_pages_special_dates_index_specialdatespage",
@@ -7870,7 +7894,7 @@
       "file_type": "code",
       "norm_label": "settingrow()",
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L145"
+      "source_location": "L147"
     },
     {
       "id": "frontend_src_features_schedule_format_capitalize",
@@ -8290,7 +8314,7 @@
       "file_type": "code",
       "norm_label": "stepper()",
       "source_file": "frontend/src/components/ui/stepper.tsx",
-      "source_location": "L22"
+      "source_location": "L30"
     },
     {
       "id": "frontend_src_components_ui_switch_switch",
@@ -8919,17 +8943,6 @@
       "source_location": "L1"
     },
     {
-      "id": "frontend_src_pages_special_dates_detail",
-      "label": "detail.tsx",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "detail.tsx",
-      "file_type": "code",
-      "norm_label": "detail.tsx",
-      "source_file": "frontend/src/pages/special-dates/detail.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "frontend_tsconfig",
       "label": "tsconfig.json",
       "_origin": "ast",
@@ -9214,6 +9227,17 @@
       "norm_label": "vite.config.ts",
       "source_file": "frontend/vite.config.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "frontend_vite_config_target",
+      "label": "TARGET",
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "vite.config.ts",
+      "file_type": "code",
+      "norm_label": "target",
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L10"
     },
     {
       "id": "frontend_capacitor_config",
@@ -11318,6 +11342,17 @@
       "file_type": "code",
       "norm_label": "ring/index.tsx",
       "source_file": "frontend/src/pages/ring/index.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "frontend_src_pages_special_dates_detail",
+      "label": "detail.tsx",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "detail.tsx",
+      "source_file": "frontend/src/pages/special-dates/detail.tsx",
       "source_location": "L1"
     },
     {
@@ -14332,6 +14367,17 @@
       "norm_label": "stepper.tsx",
       "source_file": "frontend/src/components/ui/stepper.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "frontend_src_components_ui_stepper_tones",
+      "label": "tones",
+      "_origin": "ast",
+      "community": 90,
+      "community_name": "stepper.tsx",
+      "file_type": "code",
+      "norm_label": "tones",
+      "source_file": "frontend/src/components/ui/stepper.tsx",
+      "source_location": "L24"
     },
     {
       "id": "frontend_src_components_ui_switch",
@@ -18377,6 +18423,18 @@
       "context": "call",
       "source_file": "frontend/src/scripts/cojeev-materialize-fonts.mjs",
       "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_vite_config_deviceproxy",
+      "target": "frontend_vite_config_away",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -22684,13 +22742,24 @@
     },
     {
       "source": "frontend_src_components_ui_stepper",
+      "target": "frontend_src_components_ui_stepper_tones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/components/ui/stepper.tsx",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_components_ui_stepper",
       "target": "frontend_src_components_ui_stepper_stepper",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/components/ui/stepper.tsx",
-      "source_location": "L22",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -23691,7 +23760,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L145",
+      "source_location": "L147",
       "weight": 1.0
     },
     {
@@ -30655,6 +30724,39 @@
       "confidence_score": 1.0,
       "source_file": "frontend/tsconfig.node.json",
       "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_vite_config",
+      "target": "frontend_vite_config_target",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_vite_config",
+      "target": "frontend_vite_config_away",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_vite_config",
+      "target": "frontend_vite_config_deviceproxy",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L21",
       "weight": 1.0
     },
     {

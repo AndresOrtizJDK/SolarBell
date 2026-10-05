@@ -4,7 +4,7 @@ import { toast } from '@/features/feedback/toast'
 import { useDevice } from '@/features/device/store'
 import { BellPush } from '@/features/ring/components/bell-push'
 import { RingSheet } from '@/features/ring/components/ring-sheet'
-import { startRing, stopRing, useRingConfig, useRingRun, type RingRun } from '@/features/ring/store'
+import { startRing, stopRing, useRingConfig, useRingRun, useRingSounding, type RingRun } from '@/features/ring/store'
 import { RingPattern } from '@/features/schedule/components/ring-pattern'
 import { useNow } from '@/hooks/use-now'
 import { DEVICE_NETWORK, errorText } from '@/lib/device'
@@ -14,6 +14,7 @@ import { useState } from 'react'
 export function RingPage() {
   const config = useRingConfig()
   const run = useRingRun()
+  const sounding = useRingSounding(run)
   const { link } = useDevice()
   const [open, setOpen] = useState(false)
 
@@ -24,6 +25,7 @@ export function RingPage() {
         <BellPush
           label={run ? 'La campana está sonando' : 'Configurar y tocar la campana'}
           latched={run !== null}
+          sunk={sounding}
           onPress={() => setOpen(true)}
           className="row-start-2 w-[72%]"
         />
@@ -72,7 +74,7 @@ function RingStatus({ run }: { run: RingRun }) {
         Toque {ring} de {run.durations.length}
         <span className="ml-2 font-mono text-muted tabular-nums">{left} s</span>
       </p>
-      <RingPattern durations={run.durations} pauses={run.pauses} />
+      <RingPattern durations={run.durations} pauses={run.pauses} startedAt={run.startedAt} />
       <Button
         variant="line"
         className="mt-1 rounded-full px-5"

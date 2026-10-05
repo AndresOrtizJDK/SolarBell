@@ -326,7 +326,7 @@
       "file_type": "code",
       "norm_label": "ringpatternprops",
       "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
-      "source_location": "L5"
+      "source_location": "L7"
     },
     {
       "id": "frontend_src_components_ui_toast_toastactionprops",
@@ -3106,7 +3106,7 @@
       "file_type": "code",
       "norm_label": "ringpattern()",
       "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
-      "source_location": "L14"
+      "source_location": "L18"
     },
     {
       "id": "frontend_src_components_ui_toast_toast",
@@ -3418,7 +3418,7 @@
       "file_type": "code",
       "norm_label": "bellpush()",
       "source_file": "frontend/src/features/ring/components/bell-push.tsx",
-      "source_location": "L16"
+      "source_location": "L18"
     },
     {
       "id": "frontend_src_components_ui_button_button",
@@ -3661,6 +3661,18 @@
       "source_location": "L91"
     },
     {
+      "id": "frontend_src_features_ring_store_issounding",
+      "label": "isSounding()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "ring/store.ts",
+      "file_type": "code",
+      "norm_label": "issounding()",
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L111"
+    },
+    {
       "id": "frontend_src_features_ring_store_load",
       "label": "load()",
       "_callable": true,
@@ -3671,6 +3683,18 @@
       "norm_label": "load()",
       "source_file": "frontend/src/features/ring/store.ts",
       "source_location": "L31"
+    },
+    {
+      "id": "frontend_src_features_ring_store_ringwindows",
+      "label": "ringWindows()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "ring/store.ts",
+      "file_type": "code",
+      "norm_label": "ringwindows()",
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L102"
     },
     {
       "id": "frontend_src_features_ring_store_setrun",
@@ -3694,7 +3718,7 @@
       "file_type": "code",
       "norm_label": "startring()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L102"
+      "source_location": "L135"
     },
     {
       "id": "frontend_src_features_ring_store_stopring",
@@ -3706,7 +3730,7 @@
       "file_type": "code",
       "norm_label": "stopring()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L115"
+      "source_location": "L148"
     },
     {
       "id": "frontend_src_features_ring_store_subscribe",
@@ -3755,6 +3779,18 @@
       "norm_label": "useringrun()",
       "source_file": "frontend/src/features/ring/store.ts",
       "source_location": "L97"
+    },
+    {
+      "id": "frontend_src_features_ring_store_useringsounding",
+      "label": "useRingSounding()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "ring/store.ts",
+      "file_type": "code",
+      "norm_label": "useringsounding()",
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L118"
     },
     {
       "id": "frontend_src_features_theme_store_apply",
@@ -4846,7 +4882,7 @@
       "file_type": "code",
       "norm_label": "ringstatus()",
       "source_file": "frontend/src/pages/ring/index.tsx",
-      "source_location": "L60"
+      "source_location": "L62"
     },
     {
       "id": "frontend_src_pages_special_dates_detail_specialdatedetailpage",
@@ -9029,6 +9065,17 @@
       "norm_label": "ring-pattern.tsx",
       "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "frontend_src_features_schedule_components_ring_pattern_no_pauses",
+      "label": "NO_PAUSES",
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "ring-pattern.tsx",
+      "file_type": "code",
+      "norm_label": "no_pauses",
+      "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
+      "source_location": "L5"
     },
     {
       "id": "frontend_src_components_ui_toast",
@@ -15066,6 +15113,18 @@
       "weight": 1.0
     },
     {
+      "source": "frontend_src_features_ring_store_issounding",
+      "target": "frontend_src_features_ring_store_ringwindows",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
       "source": "frontend_src_features_ring_store_setrun",
       "target": "frontend_src_features_ring_store_emit",
       "relation": "calls",
@@ -15086,7 +15145,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L109",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
@@ -15098,7 +15157,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L111",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -15110,7 +15169,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L116",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -15122,7 +15181,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L118",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store_useringsounding",
+      "target": "frontend_src_features_ring_store_ringwindows",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store_useringsounding",
+      "target": "frontend_src_features_ring_store_issounding",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L131",
       "weight": 1.0
     },
     {
@@ -23254,7 +23337,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/ring/components/bell-push.tsx",
-      "source_location": "L16",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -23303,7 +23386,7 @@
     },
     {
       "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_startring",
+      "target": "frontend_src_features_ring_store_ringwindows",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23314,13 +23397,46 @@
     },
     {
       "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_issounding",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_useringsounding",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_startring",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
       "target": "frontend_src_features_ring_store_stopring",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L115",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
@@ -23815,7 +23931,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
-      "source_location": "L14",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_components_ring_pattern",
+      "target": "frontend_src_features_schedule_components_ring_pattern_no_pauses",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -23826,7 +23953,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -30074,7 +30201,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/pages/ring/index.tsx",
-      "source_location": "L60",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -31449,5 +31576,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f18e284fe65c951160d2e7b6bdbe0c4c3da40053"
+  "built_at_commit": "32ac6ea2c33e5d3d50496d460aefde06843e2cb1"
 }
