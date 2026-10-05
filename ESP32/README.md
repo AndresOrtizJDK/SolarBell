@@ -1,54 +1,72 @@
-# ESP32 — nodo SolarBell (simulado)
+# ESP32 — campana SolarBell (local, sin internet)
 
-`solarbell_node/` se conecta por Wi-Fi + WebSocket al backend y ejecuta los toques que manda
-(manuales desde la app o programados por el horario). Todavía no hay relé: el **LED azul
-integrado (GPIO2)** hace de relé.
+`solarbell_local/` crea su propia red Wi-Fi, guarda el horario en la flash y toca sola con su
+reloj. La app (APK) se une a esa red para cambiar el horario o tocar a mano; después el teléfono
+se puede ir. Todavía no hay relé: el **LED azul integrado (GPIO2)** hace de relé.
 
 | LED | Significa |
 | --- | --- |
-| Parpadeo lento | Sin Wi-Fi o sin servidor |
-| 2 destellos cortos | Conectó al servidor o llegó un comando |
+| Parpadeo lento | Sin hora: no toca el horario hasta que la app se conecte |
+| 2 destellos cortos | Se unió un teléfono o se guardó el horario |
 | Encendido fijo | Toque en curso (apagado durante la pausa entre toques) |
 
 Cada acción también sale por el monitor serie a 115200 baudios.
 
 ## Configurar
 
-1. Copia `solarbell_node/configuracion.ejemplo.h` como `solarbell_node/configuracion.h` (está en `.gitignore`).
-2. Completa `WIFI_RED`, `WIFI_CLAVE`, `SERVIDOR_DIRECCION` (IP LAN del PC que corre el backend) y
-   `CLAVE_DISPOSITIVO` (igual a `DEVICE_API_KEY` del backend; en local es `dev-device-key`).
+1. Copia `solarbell_local/configuracion.ejemplo.h` como `solarbell_local/configuracion.h` (está en `.gitignore`).
+2. Cambia `RED_CLAVE`. Es la única protección: quien la tenga puede tocar la campana.
+3. Con un DS3231 conectado (SDA GPIO21, SCL GPIO22), descomenta `USAR_DS3231`.
 
 ## Compilar y subir
 
 ### Arduino IDE
 
-1. Gestor de tarjetas: instala **esp32** de Espressif y elige tu placa (p. ej. *ESP32 Dev Module*).
-2. Gestor de librerías: instala **WebSockets** (Markus Sattler) y **ArduinoJson** (Benoit Blanchon, v7).
-3. Abre `solarbell_node/solarbell_node.ino`, sube y abre el monitor serie a 115200.
+1. Gestor de tarjetas: **esp32** de Espressif, placa *ESP32 Dev Module* (esquema de particiones por defecto: trae espacio para LittleFS).
+2. Gestor de librerías: **ArduinoJson** (Benoit Blanchon, v7) y, con DS3231, **RTClib** (Adafruit).
+3. Abre `solarbell_local/solarbell_local.ino`, sube y abre el monitor serie a 115200.
 
 ### arduino-cli
 
 ```bash
 arduino-cli core install esp32:esp32
-arduino-cli lib install WebSockets ArduinoJson
-arduino-cli compile --fqbn esp32:esp32:esp32 solarbell_node
-arduino-cli upload  --fqbn esp32:esp32:esp32 -p /dev/ttyUSB0 solarbell_node
+arduino-cli lib install ArduinoJson RTClib
+arduino-cli compile --fqbn esp32:esp32:esp32 solarbell_local
+arduino-cli upload  --fqbn esp32:esp32:esp32 -p /dev/ttyUSB0 solarbell_local
 arduino-cli monitor -p /dev/ttyUSB0 -c baudrate=115200
 ```
 
-## Protocolo (`/ws/device?key=...`)
+## Reloj
 
-Servidor → nodo:
+Sin internet no hay hora de red. Cada vez que la app se conecta, pone la campana en la hora del
+teléfono (y su zona horaria) si difiere en más de 5 s.
 
-```json
-{ "type": "welcome", "pauseMs": 1000 }
-{ "type": "ring", "id": 12, "durations": [3, 3, 3], "pauseMs": 1000 }
-{ "type": "stop", "id": 12 }
-```
+- **Con DS3231**: la hora aguanta cortes de luz.
+- **Sin DS3231**: un corte borra la hora. La campana no toca el horario (LED en parpadeo lento)
+  hasta que un teléfono se vuelva a conectar. El toque manual funciona igual.
 
-Nodo → servidor: `hello` (firmware, MAC, RSSI), `started`, `done` y `stopped`, cada uno con el `id` del toque.
+Si el ESP32 se reinicia dentro del minuto de un timbrado que ya sonó, no lo repite. Si vuelve la
+luz después de la hora, tampoco toca tarde.
 
-El servidor lleva el tiempo del toque; si el nodo pierde la conexión en medio de un toque, lo corta.
+## Energía
+
+El Wi-Fi en modo punto de acceso gasta del orden de 100 mA todo el día (~2.4 Ah diarios). Sobre la
+VRLA de ~7.5 Ah del kit se nota en días sin sol: medir antes de dejarlo así en el sitio.
+
+## API (`http://192.168.4.1`)
+
+JSON con las mismas claves que `frontend/src/features/schedule/types.ts`.
+
+| Ruta | Qué hace |
+| --- | --- |
+| `GET /api/status` | `firmware`, `clockSet`, `now`, `offsetMinutes`, `pauseMs` y `run` (toque en curso con `elapsedMs`) |
+| `GET /api/schedule` | Horario guardado (`weekly`, `specials`) |
+| `PUT /api/schedule` | Reemplaza el horario completo; responde lo guardado |
+| `POST /api/clock` | `{ "now": <ms epoch>, "offsetMinutes": -300 }` |
+| `POST /api/ring` | `{ "rings": 3, "ringSeconds": 3, "customDurations": null }` toca ahora |
+| `POST /api/ring/stop` | Corta el toque en curso |
+
+Errores: `{ "detail": "..." }` con 400, 413, 422 o 500.
 
 ## Cuando llegue el relé
 

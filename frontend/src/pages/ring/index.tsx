@@ -1,26 +1,20 @@
 import { Page } from '@/components/layout/page'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/features/feedback/toast'
+import { useDevice } from '@/features/device/store'
 import { BellPush } from '@/features/ring/components/bell-push'
 import { RingSheet } from '@/features/ring/components/ring-sheet'
-import {
-  startRing,
-  stopRing,
-  useDeviceOnline,
-  useRingConfig,
-  useRingRun,
-  type RingRun,
-} from '@/features/ring/store'
+import { startRing, stopRing, useRingConfig, useRingRun, type RingRun } from '@/features/ring/store'
 import { RingPattern } from '@/features/schedule/components/ring-pattern'
 import { useNow } from '@/hooks/use-now'
-import { errorText } from '@/lib/api'
+import { DEVICE_NETWORK, errorText } from '@/lib/device'
 import { Square } from 'lucide-react'
 import { useState } from 'react'
 
 export function RingPage() {
   const config = useRingConfig()
   const run = useRingRun()
-  const online = useDeviceOnline()
+  const { link } = useDevice()
   const [open, setOpen] = useState(false)
 
   return (
@@ -37,8 +31,10 @@ export function RingPage() {
           {run ? <RingStatus key={run.id} run={run} /> : (
             <div className="flex flex-col items-center gap-1 text-center">
               <p className="text-[0.95rem] text-muted">Presiona el botón para elegir cómo suena</p>
-              {online === false && (
-                <p className="text-[0.86rem] text-field-ink">La campana no está conectada</p>
+              {link === 'away' && (
+                <p className="text-[0.86rem] text-field-ink">
+                  Únete a la red {DEVICE_NETWORK} para tocar
+                </p>
               )}
             </div>
           )}
@@ -52,10 +48,7 @@ export function RingPage() {
         onRing={(next) => {
           setOpen(false)
           startRing(next).then(
-            (started) =>
-              started?.delivered
-                ? toast('Campana sonando')
-                : toast('La campana no está conectada', 'danger'),
+            () => toast('Campana sonando'),
             (error: unknown) => toast(errorText(error), 'danger'),
           )
         }}

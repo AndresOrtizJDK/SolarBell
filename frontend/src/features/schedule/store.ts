@@ -6,13 +6,12 @@ import type {
   ScheduleState,
   SpecialDate,
 } from '@/features/schedule/types'
-import { api, ApiError, errorText } from '@/lib/api'
+import { device, errorText } from '@/lib/device'
 import { createId } from '@/lib/id'
-import { onLive } from '@/lib/live'
 import { useSyncExternalStore } from 'react'
 
-/** Cache del último estado del servidor: solo sirve para el primer render. */
-const KEY = 'solarbell:schedule:v2'
+/** Última copia leída de la campana. La que manda es la guardada en el ESP32. */
+const KEY = 'solarbell:schedule:local:v1'
 const NAME_DEBOUNCE_MS = 400
 
 const EMPTY: ScheduleState = { weekly: { days: [], bells: [] }, specials: [] }
@@ -22,12 +21,14 @@ function load(): ScheduleState {
     const raw = localStorage.getItem(KEY)
     if (raw) return JSON.parse(raw) as ScheduleState
   } catch {
-    // Storage corrupto o bloqueado: esperar al servidor.
+    // Storage corrupto o bloqueado: esperar a la campana.
   }
   return EMPTY
 }
 
 let state = load()
+/** Lo último que la campana confirmó: a esto se vuelve si un cambio no llega. */
+let confirmed = state
 const listeners = new Set<() => void>()
 
 function emit() {
@@ -64,9 +65,9 @@ export function useSchedule() {
   return useSyncExternalStore(subscribe, getSnapshot)
 }
 
-// Las peticiones van en fila para que el servidor las vea en el mismo orden que el usuario
-// (crear la fecha antes de agregarle un timbrado). La respuesta solo reemplaza el estado
-// cuando no queda nada pendiente: así no pisa lo que el usuario sigue escribiendo.
+// Cada cambio manda el horario completo. Van en fila para que la campana guarde el último.
+// La respuesta solo reemplaza el estado cuando no queda nada pendiente: así no pisa lo que
+// el usuario sigue escribiendo.
 let queue: Promise<unknown> = Promise.resolve()
 let pending = 0
 let failed = false
@@ -77,36 +78,37 @@ function enqueue<T>(request: () => Promise<T>) {
   return run
 }
 
-async function mutate(optimistic: ScheduleState, request: () => Promise<ScheduleState>) {
-  commit(optimistic)
+const saveOnDevice = (next: ScheduleState) =>
+  device<ScheduleState>('/schedule', { method: 'PUT', body: next })
+
+async function mutate(next: ScheduleState) {
+  commit(next)
   pending++
   try {
-    const next = await enqueue(request)
-    if (pending === 1 && !failed) commit(next)
+    const saved = await enqueue(() => saveOnDevice(next))
+    confirmed = saved
+    if (pending === 1 && !failed) commit(saved)
   } catch (error) {
+    if (!failed) toast(errorText(error), 'danger')
     failed = true
-    if (!(error instanceof ApiError && error.status === 401)) toast(errorText(error), 'danger')
   } finally {
     pending--
     if (pending === 0 && failed) {
       failed = false
-      void refreshSchedule()
+      commit(confirmed)
     }
   }
 }
 
 export async function refreshSchedule() {
   try {
-    const next = await enqueue(() => api<ScheduleState>('/schedule'))
+    const next = await enqueue(() => device<ScheduleState>('/schedule'))
+    confirmed = next
     if (pending === 0) commit(next)
   } catch {
-    // Sin servidor se queda el cache; la reconexión del WebSocket vuelve a pedirlo.
+    // Fuera de alcance se queda la última copia; al volver la campana se pide de nuevo.
   }
 }
-
-onLive((message) => {
-  if (message.type === 'open') void refreshSchedule()
-})
 
 export function getBells(current: ScheduleState, scope: BellScope) {
   if (scope.kind === 'weekly') return current.weekly.bells
@@ -125,32 +127,23 @@ function withBells(scope: BellScope, update: (bells: Bell[]) => Bell[]): Schedul
   }
 }
 
-function scopeParam(scope: BellScope) {
-  return scope.kind === 'weekly' ? 'weekly' : `special:${scope.id}`
-}
-
 export function saveBell(scope: BellScope, bell: Bell) {
-  const next = withBells(scope, (bells) =>
-    bells.some((b) => b.id === bell.id)
-      ? bells.map((b) => (b.id === bell.id ? bell : b))
-      : [...bells, bell],
+  void mutate(
+    withBells(scope, (bells) =>
+      bells.some((b) => b.id === bell.id)
+        ? bells.map((b) => (b.id === bell.id ? bell : b))
+        : [...bells, bell],
+    ),
   )
-  const path = `/schedule/bells/${encodeURIComponent(bell.id)}?scope=${encodeURIComponent(scopeParam(scope))}`
-  void mutate(next, () => api<ScheduleState>(path, { method: 'PUT', body: bell }))
 }
 
 export function deleteBell(scope: BellScope, id: string) {
-  const next = withBells(scope, (bells) => bells.filter((b) => b.id !== id))
-  void mutate(next, () =>
-    api<ScheduleState>(`/schedule/bells/${encodeURIComponent(id)}`, { method: 'DELETE' }),
-  )
+  void mutate(withBells(scope, (bells) => bells.filter((b) => b.id !== id)))
 }
 
 export function setWeekdays(days: number[]) {
   const sorted = [...days].sort((a, b) => a - b)
-  void mutate({ ...state, weekly: { ...state.weekly, days: sorted } }, () =>
-    api<ScheduleState>('/schedule/weekdays', { method: 'PUT', body: { days: sorted } }),
-  )
+  void mutate({ ...state, weekly: { ...state.weekly, days: sorted } })
 }
 
 export function findSpecialByDate(date: string, current = state) {
@@ -163,31 +156,24 @@ export function createSpecial(input: Omit<SpecialDate, 'id' | 'bells'>) {
     id: createId(),
     bells: input.mode === 'custom' ? cloneBells(state.weekly.bells) : [],
   }
-  void mutate({ ...state, specials: [...state.specials, special] }, () =>
-    api<ScheduleState>('/specials', { method: 'POST', body: special }),
-  )
+  void mutate({ ...state, specials: [...state.specials, special] })
   return special.id
 }
 
 const nameTimers = new Map<string, number>()
 
-function patchSpecial(id: string, patch: Partial<Omit<SpecialDate, 'id'>>) {
-  void mutate(state, () =>
-    api<ScheduleState>(`/specials/${encodeURIComponent(id)}`, { method: 'PATCH', body: patch }),
-  )
-}
-
 export function updateSpecial(id: string, patch: Partial<Omit<SpecialDate, 'id'>>) {
-  commit({
+  const next = {
     ...state,
     specials: state.specials.map((s) => (s.id === id ? { ...s, ...patch } : s)),
-  })
+  }
 
   const onlyName = patch.name !== undefined && Object.keys(patch).length === 1
   if (!onlyName) {
-    patchSpecial(id, patch)
+    void mutate(next)
     return
   }
+  commit(next)
 
   // El nombre se guarda por tecla: se agrupa y se manda el último valor.
   const timer = nameTimers.get(id)
@@ -198,8 +184,7 @@ export function updateSpecial(id: string, patch: Partial<Omit<SpecialDate, 'id'>
     window.setTimeout(() => {
       nameTimers.delete(id)
       pending--
-      const name = state.specials.find((s) => s.id === id)?.name
-      if (name !== undefined) patchSpecial(id, { name })
+      void mutate(state)
     }, NAME_DEBOUNCE_MS),
   )
 }
@@ -209,7 +194,5 @@ export function copyWeeklyInto(id: string) {
 }
 
 export function deleteSpecial(id: string) {
-  void mutate({ ...state, specials: state.specials.filter((s) => s.id !== id) }, () =>
-    api<ScheduleState>(`/specials/${encodeURIComponent(id)}`, { method: 'DELETE' }),
-  )
+  void mutate({ ...state, specials: state.specials.filter((s) => s.id !== id) })
 }

@@ -1,34 +1,27 @@
 # SolarBell Proyect
 
-Monorepo de la campana solar SolarBell.
+Monorepo de la campana solar SolarBell. Rama `offline-local`: sin internet, sin servidor, sin login.
+La versión con backend (FastAPI + PostgreSQL) sigue en `main`.
 
-- `frontend/` — React 19 + Vite 8 + Bun. App web mobile-first.
-- `backend/` — FastAPI + SQLAlchemy 2 (async) + Alembic + PostgreSQL. REST + WebSocket.
-- `ESP32/solarbell_node/` — sketch Arduino del nodo. Sin relé: el LED azul simula cada toque.
+- `frontend/` — React 19 + Vite 8 + Bun, empaquetada como APK con Capacitor (`frontend/android/`).
+- `ESP32/solarbell_local/` — sketch Arduino. Crea la red Wi-Fi `SolarBell`, guarda el horario en
+  la flash y toca solo con su reloj. Sin relé: el LED azul simula cada toque.
+
+La app habla por HTTP con la campana en `192.168.4.1` (`frontend/src/lib/device.ts`). El
+contrato está en `ESP32/README.md`.
 
 ## Commands
 
-Local (Podman):
-
-- `podman-compose -f compose.dev.yaml up -d` — PostgreSQL + API con recarga en `:8000`
-- `cd frontend && bun dev` — servidor en `0.0.0.0:5173`; `/api` y `/ws` van por proxy a `:8000`
-
 Frontend (`cd frontend`):
 
+- `bun dev` — servidor en `0.0.0.0:5173`; `/api` va por proxy a la campana (`SOLARBELL_DEVICE`)
 - `bun run build`
 - `bun run lint`
-- `bun run preview`
+- `bun run apk` — APK de depuración (JDK 21 y `ANDROID_HOME`; ver `frontend/README.md`)
 
-Backend (`cd backend`):
+Firmware:
 
-- `uv run pytest`
-- `uv run alembic upgrade head`
-- `uv run alembic revision --autogenerate -m "..."`
-- `uv run uvicorn app.principal:app --reload` (sin contenedor; necesita `DATABASE_URL`)
-
-Producción (Docker):
-
-- `docker compose up -d --build` — `db` + `api` + `web` (nginx en `:80`)
+- `arduino-cli compile --fqbn esp32:esp32:esp32 ESP32/solarbell_local` (necesita `configuracion.h`)
 
 ## Skills
 
@@ -56,17 +49,11 @@ Ver `.cursor/rules/`. No inventar producto: `frontend/PRODUCT.md` marca lo abier
 ```
 frontend/src/app          providers + router
 frontend/src/pages        rutas
-frontend/src/features     dominios (schedule, ring, session, theme, feedback)
+frontend/src/features     dominios (schedule, ring, device, theme, feedback)
 frontend/src/components   ui + layout
 frontend/src/hooks lib styles
-backend/app/api           rutas REST + WebSocket
-backend/app/models        SQLAlchemy
-backend/app/schemas       Pydantic (camelCase)
-backend/app/services      toque, programador, concentrador (WebSocket)
-backend/alembic           migraciones
-ESP32/solarbell_node      firmware del nodo
-compose.yaml              producción (docker compose)
-compose.dev.yaml          local (podman-compose)
+frontend/android          proyecto Android de Capacitor
+ESP32/solarbell_local     firmware de la campana
 ```
 
 <!-- code-review-graph MCP tools -->

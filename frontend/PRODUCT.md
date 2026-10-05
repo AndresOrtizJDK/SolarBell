@@ -59,20 +59,23 @@ Español claro y corto. Instrumento de campo, no marketing de vatios inflados.
 - **Horario**: horario global (por defecto lunes a viernes, 8:00, 10:00 y 12:00). CRUD de timbrados con nombre, hora, veces que suena y duración por toque; opciones avanzadas para duración por toque individual. Días activos editables de lunes a viernes. Sábado y domingo se cubren con una fecha especial.
 - **Tocar**: botón de campana dibujado; al presionarlo abre un bottom sheet para elegir veces que suena, duración por toque y opciones avanzadas (duración por toque individual), y lo ejecuta enseguida. Recuerda la última configuración y muestra el toque en curso con opción de detener.
 - **Fechas especiales**: una fecha reemplaza el horario solo ese día, con horario especial propio o sin timbrado.
-- **Perfil**: nombre, apariencia (claro u oscuro) y cerrar sesión.
+- **Campana** (reemplaza a Perfil en esta rama): conexión, reloj y firmware de la campana, cómo unirse a su red y apariencia (claro u oscuro).
 
-## Decided
+## Decided (rama `offline-local`)
 
-- **MCU**: ESP32 por Wi-Fi (`ESP32/solarbell_node`). Por ahora sin relé: el LED azul integrado simula cada toque.
-- **Camino app ↔ nodo**: app → backend FastAPI (`backend/`) → WebSocket `/ws/device` → ESP32.
-- **API del horario**: el horario, las fechas especiales y los toques viven en PostgreSQL. El backend dispara los timbrados programados en la zona horaria `TZ` (por defecto `America/Bogota`). `localStorage` queda solo como cache del primer render.
-- **Autenticación**: correo + contraseña con JWT. El usuario inicial sale de `ADMIN_EMAIL` / `ADMIN_PASSWORD`; el nodo entra con `DEVICE_API_KEY`.
-- **Toque manual**: `POST /api/ring`; el servidor lleva el tiempo y avisa por `/ws/app` cuando termina.
+- **Sin internet ni servidor**: la versión con backend sigue en `main`.
+- **MCU**: ESP32 (`ESP32/solarbell_local`). Crea su propia red Wi-Fi `SolarBell`; la app le habla por HTTP en `192.168.4.1`. Por ahora sin relé: el LED azul integrado simula cada toque.
+- **App**: APK con Capacitor. Mismas pantallas que la web.
+- **Horario**: vive en la flash del ESP32 y lo toca la campana con su reloj, aunque el teléfono se vaya. La app manda el horario completo en cada cambio; si la campana no está al alcance, el cambio no se guarda y la app vuelve a la última copia.
+- **Reloj**: la app pone la campana en la hora del teléfono al conectarse. Con DS3231 la hora aguanta cortes de luz; sin él, no toca el horario hasta la próxima conexión.
+- **Sin login**: la protección es la clave de la red Wi-Fi de la campana.
+- **Toque manual**: `POST /api/ring`; la campana lleva el tiempo y la app lo lee de `/api/status`.
 
 ## Open decisions
 
-- Radio LoRa (Ra-02): si reemplaza al Wi-Fi o hace de puente entre un gateway y la campana.
-- Pausa entre toques consecutivos de un mismo timbrado: provisional `RING_PAUSE_MS=1000`, no confirmada.
-- Más de un usuario o roles: hoy hay un solo admin, sin registro.
-- Historial (la tabla `ring_events` ya lo guarda, sin UI) y batería.
+- Radio LoRa (Ra-02): si hace falta para llegar a la campana desde más lejos que el Wi-Fi.
+- Consumo del Wi-Fi siempre encendido (~100 mA) sobre la VRLA del kit; quizá encenderlo solo con un botón.
+- DS3231: no aparece en las fotos del kit.
+- Pausa entre toques consecutivos de un mismo timbrado: provisional `PAUSA_TOQUE_MS=1000`, no confirmada.
+- Historial de toques y batería.
 - Ah exactos de la VRLA y watts reales de inversor/campana

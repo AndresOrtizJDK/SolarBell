@@ -1,13 +1,14 @@
 import type { RingConfig } from '@/features/schedule/types'
-import { api } from '@/lib/api'
-import { onLive } from '@/lib/live'
+import { device, type DeviceRun, type DeviceStatus } from '@/lib/device'
 import { useSyncExternalStore } from 'react'
 
 const KEY = 'solarbell:ring:v1'
+/** Diferencia de reloj por debajo de la cual una nueva lectura no mueve la cuenta regresiva. */
+const DRIFT_MS = 500
 
 const DEFAULT_CONFIG: RingConfig = { rings: 1, ringSeconds: 3, customDurations: null }
 
-/** Toque en curso según el servidor. Tiempos en ms epoch. */
+/** Toque en curso. Tiempos en ms epoch del teléfono. */
 export type RingRun = {
   id: number
   source: 'manual' | 'scheduled'
@@ -17,11 +18,7 @@ export type RingRun = {
   pauseMs: number
   startedAt: number
   endsAt: number
-  /** `false`: el nodo no estaba conectado y el toque solo quedó registrado. */
-  delivered: boolean
 }
-
-type RingState = { run: RingRun | null; deviceOnline: boolean }
 
 function load(): RingConfig {
   try {
@@ -35,8 +32,6 @@ function load(): RingConfig {
 
 let config = load()
 let run: RingRun | null = null
-/** `null` hasta que el servidor responda. */
-let deviceOnline: boolean | null = null
 let timer = 0
 const listeners = new Set<() => void>()
 
@@ -51,30 +46,43 @@ function subscribe(listener: () => void) {
   }
 }
 
+function toRun(remote: DeviceRun, receivedAt: number): RingRun {
+  const startedAt = receivedAt - remote.elapsedMs
+  const total =
+    remote.durations.reduce((sum, s) => sum + s * 1000, 0) +
+    remote.pauseMs * Math.max(remote.durations.length - 1, 0)
+  return {
+    id: remote.id,
+    source: remote.source,
+    label: remote.label,
+    durations: remote.durations,
+    pauseMs: remote.pauseMs,
+    startedAt,
+    endsAt: startedAt + total,
+  }
+}
+
 function setRun(next: RingRun | null) {
   window.clearTimeout(timer)
   run = next
-  // Respaldo por si el WebSocket no avisa el final.
+  // Si la campana deja de responder, el toque se da por terminado a su hora.
   if (next) timer = window.setTimeout(() => setRun(null), Math.max(0, next.endsAt - Date.now()))
   emit()
 }
 
-function apply(state: RingState) {
-  deviceOnline = state.deviceOnline
-  setRun(state.run)
-}
-
-onLive((message) => {
-  if (message.type === 'ring_state') setRun(message.run as RingRun | null)
-  if (message.type === 'device_status') {
-    deviceOnline = message.online
-    emit()
+/** Lo llama cada lectura de `/status`. */
+export function applyDeviceRun(remote: DeviceRun | null, receivedAt = Date.now()) {
+  if (!remote) {
+    if (run) setRun(null)
+    return
   }
-})
+  const next = toRun(remote, receivedAt)
+  if (run?.id === next.id && Math.abs(run.startedAt - next.startedAt) < DRIFT_MS) return
+  setRun(next)
+}
 
 const getConfig = () => config
 const getRun = () => run
-const getDeviceOnline = () => deviceOnline
 
 export function useRingConfig() {
   return useSyncExternalStore(subscribe, getConfig)
@@ -84,11 +92,7 @@ export function useRingRun() {
   return useSyncExternalStore(subscribe, getRun)
 }
 
-export function useDeviceOnline() {
-  return useSyncExternalStore(subscribe, getDeviceOnline)
-}
-
-/** Pide el toque al servidor, que lo manda al nodo y lleva el tiempo. */
+/** La campana lleva el tiempo: la app solo pide el toque y lo refleja. */
 export async function startRing(next: RingConfig) {
   config = next
   try {
@@ -97,16 +101,13 @@ export async function startRing(next: RingConfig) {
     // Sin storage la configuración vive solo en esta sesión.
   }
   emit()
-  const state = await api<RingState>('/ring', { method: 'POST', body: next })
-  apply(state)
-  return state.run
+  const status = await device<DeviceStatus>('/ring', { method: 'POST', body: next })
+  applyDeviceRun(status.run)
+  return run
 }
 
 export async function stopRing() {
   setRun(null)
-  apply(await api<RingState>('/ring/stop', { method: 'POST' }))
-}
-
-export async function refreshRing() {
-  apply(await api<RingState>('/ring'))
+  const status = await device<DeviceStatus>('/ring/stop', { method: 'POST' })
+  applyDeviceRun(status.run)
 }

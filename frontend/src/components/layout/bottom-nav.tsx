@@ -1,6 +1,6 @@
 import { cn } from '@/lib/cn'
 import { spring } from '@/lib/motion'
-import { BellRing, CalendarDays, Clock3, House, UserRound } from 'lucide-react'
+import { BellRing, CalendarDays, Clock3, House, Wifi } from 'lucide-react'
 import { motion } from 'motion/react'
 import { NavLink } from 'react-router'
 
@@ -9,7 +9,7 @@ const items = [
   { to: '/horario', label: 'Horario', icon: Clock3, end: false },
   { to: '/tocar', label: 'Tocar', icon: BellRing, end: false },
   { to: '/fechas', label: 'Fechas', icon: CalendarDays, end: false },
-  { to: '/perfil', label: 'Perfil', icon: UserRound, end: false },
+  { to: '/campana', label: 'Campana', icon: Wifi, end: false },
 ] as const
 
 export function BottomNav() {

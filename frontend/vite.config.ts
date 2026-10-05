@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 
-const API = process.env.SOLARBELL_API ?? 'http://localhost:8000'
+/** El PC se une a la red de la campana; en el navegador `/api` sale por este proxy. */
+const DEVICE = process.env.SOLARBELL_DEVICE ?? 'http://192.168.4.1'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
@@ -17,14 +18,12 @@ export default defineConfig({
     host: true,
     port: 5173,
     proxy: {
-      '/api': { target: API, changeOrigin: true },
-      '/ws': { target: API, ws: true, changeOrigin: true },
+      '/api': { target: DEVICE, changeOrigin: true },
     },
   },
   preview: {
     proxy: {
-      '/api': { target: API, changeOrigin: true },
-      '/ws': { target: API, ws: true, changeOrigin: true },
+      '/api': { target: DEVICE, changeOrigin: true },
     },
   },
 })
