@@ -1,16 +1,16 @@
 # Graph Report - SolarBell Proyect  (2026-10-05)
 
 ## Corpus Check
-- 187 files · ~135,704 words
+- 149 files · ~137,701 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1443 nodes · 2071 edges · 154 communities (109 shown, 45 thin omitted)
-- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 78 edges (avg confidence: 0.89)
+- 1226 nodes · 1491 edges · 135 communities (99 shown, 36 thin omitted)
+- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 41 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `57b03892`
+- Built from commit: `f18e284f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -46,7 +46,7 @@
 - scroll-thumb.ts
 - toast.ts
 - assembly-geometry.ts
-- session/store.ts
+- device/store.ts
 - theme-transition.ts
 - reference-effect-geometry.ts
 - compilerOptions
@@ -61,7 +61,7 @@
 - types.ts
 - choreography.ts
 - slider-geometry.ts
-- services/horario.py
+- device.ts
 - number-motion.ts
 - reference-additions-math.ts
 - reference-text-math.ts
@@ -77,7 +77,7 @@
 - Find Skills
 - ignorePatterns
 - @/components/ui/button.tsx
-- SolarBell — frontend
+- SolarBell — app
 - control-appearance.ts
 - marquee-motion.ts
 - geometry.ts
@@ -101,85 +101,61 @@
 - use-organic-value.ts
 - pointer-geometry.ts
 - bottom-nav.tsx
-- semilla.py
+- MainActivity
 - form-actions.tsx
-- sheet.tsx
+- ExampleInstrumentedTest.java
 - stepper.tsx
 - switch.tsx
 - ring-sheet.tsx
-- principal.py
+- use-reduced-motion.ts
 - mode-picker.tsx
 - special-date-row.tsx
 - weekday-display.tsx
 - icon-data.ts
 - subtle-backgrounds.ts
-- profile/index.tsx
-- test_programador.py
+- device/index.tsx
+- gradlew
 - schedule/index.tsx
 - tsconfig.json
 - router.tsx
-- models/__init__.py
+- sheet.tsx
+- ring-pattern.tsx
 - lucide-icon-names.ts
 - shape-data.ts
-- EsquemaBase
-- services/toque.py
-- seguridad.py
-- Concentrador
-- test_horario.py
-- test_autenticacion.py
-- api.ts
-- package.json
-- live.ts
-- test_toque.py
-- ESP32 — nodo SolarBell (simulado)
+- capacitor.config.ts
+- ESP32 — campana SolarBell (local, sin internet)
 - bell-push.tsx
 - dependencies
 - src/components/ui/button.tsx
-- @fontsource-variable/geist
-- @lottiefiles/dotlottie-react
-- lucide-react
-- react-dom
-- react-router
-- shadcn
-- tailwind-merge
 - code-review-graph
-- solarbell-backend
 - bell-form.tsx
-- deploy.sh
-- @fontsource/jetbrains-mono
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 51 edges
+1. `react` - 53 edges
 2. `compilerOptions` - 22 edges
 3. `loadMotionSettings()` - 21 edges
-4. `EsquemaBase` - 19 edges
-5. `Base` - 17 edges
-6. `createLivingShader()` - 17 edges
-7. `compilerOptions` - 16 edges
-8. `Timbrado` - 15 edges
-9. `EstadoHorario` - 14 edges
-10. `sembrar()` - 14 edges
+4. `createLivingShader()` - 17 edges
+5. `compilerOptions` - 16 edges
+6. `Product` - 12 edges
+7. `mutate()` - 10 edges
+8. `attach()` - 10 edges
+9. `BloomSimulation` - 10 edges
+10. `Bill of materials` - 10 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `obtener_usuario_actual()` --uses--> `Usuario`  [INFERRED]
-  backend/app/core/seguridad.py → backend/app/models/usuario.py
-- `fabrica()` --uses--> `Base`  [INFERRED]
-  backend/tests/conftest.py → backend/app/db/base.py
-- `ciclo_de_vida()` --indirect_call--> `sesion()`  [INFERRED]
-  backend/app/principal.py → backend/tests/conftest.py
-- `revisar_minuto()` --uses--> `ConfigToque`  [INFERRED]
-  backend/app/services/programador.py → backend/app/schemas/horario.py
-- `revisar_minuto()` --indirect_call--> `sesion()`  [INFERRED]
-  backend/app/services/programador.py → backend/tests/conftest.py
+- `publish()` --indirect_call--> `snapshot()`  [INFERRED]
+  frontend/src/lib/cojeev-motion/settings.ts → frontend/src/lib/cojeev-motion/use-reduced-motion.ts
+- `cancel()` --indirect_call--> `frame()`  [INFERRED]
+  frontend/src/lib/cojeev/living-shader.ts → frontend/src/lib/cojeev-motion/use-morph.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (154 total, 45 thin omitted)
+## Communities (135 total, 36 thin omitted)
 
 ### Community 0 - "settings.ts"
-Cohesion: 0.05
-Nodes (67): acquireEvents(), applyFlowSettings(), Category, defaultSettings, DOMAIN, event(), exportMorphJSON(), factoryCfg (+59 more)
+Cohesion: 0.06
+Nodes (60): acquireEvents(), applyFlowSettings(), Category, defaultSettings, DOMAIN, event(), exportMorphJSON(), factoryCfg (+52 more)
 
 ### Community 1 - "flow.ts"
 Cohesion: 0.11
@@ -202,12 +178,12 @@ Cohesion: 0.18
 Nodes (19): acquireEnvironment(), bodySeed(), clear(), disposeEnvironment(), frame(), instances, morphClock, morphInputs() (+11 more)
 
 ### Community 6 - "devDependencies"
-Cohesion: 0.11
-Nodes (19): devDependencies, oxlint, tailwindcss, @tailwindcss/vite, @types/node, @types/react, @types/react-dom, typescript (+11 more)
+Cohesion: 0.06
+Nodes (33): @capacitor/cli, devDependencies, @capacitor/cli, oxlint, tailwindcss, @tailwindcss/vite, @types/node, @types/react (+25 more)
 
 ### Community 7 - "schedule/store.ts"
 Cohesion: 0.14
-Nodes (24): commit(), copyWeeklyInto(), createSpecial(), deleteBell(), deleteSpecial(), emit(), EMPTY, enqueue() (+16 more)
+Nodes (23): commit(), copyWeeklyInto(), createSpecial(), deleteBell(), deleteSpecial(), emit(), EMPTY, enqueue() (+15 more)
 
 ### Community 8 - "format.ts"
 Cohesion: 0.14
@@ -242,8 +218,8 @@ Cohesion: 0.16
 Nodes (12): pebble, point, pointSoft, puff, Spinner(), SpinnerAppearance, SpinnerLabel(), SpinnerLabelProps (+4 more)
 
 ### Community 16 - "ring/store.ts"
-Cohesion: 0.17
-Nodes (18): apply(), config, DEFAULT_CONFIG, emit(), getConfig(), getDeviceOnline(), getRun(), listeners (+10 more)
+Cohesion: 0.20
+Nodes (15): applyDeviceRun(), config, DEFAULT_CONFIG, emit(), getConfig(), getRun(), listeners, RingRun (+7 more)
 
 ### Community 17 - "theme/store.ts"
 Cohesion: 0.23
@@ -267,11 +243,11 @@ Nodes (27): compilerOptions, allowArbitraryExtensions, allowImportingTsExtension
 
 ### Community 22 - "Product"
 Cohesion: 0.15
-Nodes (12): Constraints, Decided, Evidence, Módulos v1 (confirmados por el usuario), Open decisions, Platform, Positioning, Product (+4 more)
+Nodes (12): Constraints, Decided (rama `offline-local`), Evidence, Módulos v1 (confirmados por el usuario), Open decisions, Platform, Positioning, Product (+4 more)
 
 ### Community 23 - "bell.ts"
-Cohesion: 0.20
-Nodes (7): bellSummary(), ringDurations(), RINGS_MAX, RINGS_MIN, SECONDS_MAX, SECONDS_MIN, totalSeconds()
+Cohesion: 0.15
+Nodes (12): bellSummary(), formatSeconds(), ringDurations(), ringPauses(), RINGS_MAX, RINGS_MIN, secondsFormat, TIME_DEFAULT_MS (+4 more)
 
 ### Community 24 - "upcoming.ts"
 Cohesion: 0.27
@@ -297,9 +273,9 @@ Nodes (10): emit(), FeedbackToast, getServerSnapshot(), getSnapshot(), listeners
 Cohesion: 0.18
 Nodes (8): assemblyContour, AssemblyGeometry, AssemblyGeometryOptions, AssemblyPartId, AssemblyRect, organismChoices, OrganismKind, shapes
 
-### Community 31 - "session/store.ts"
-Cohesion: 0.22
-Nodes (10): commit(), listeners, refreshSession(), rename(), Session, signIn(), signOut(), subscribe() (+2 more)
+### Community 31 - "device/store.ts"
+Cohesion: 0.20
+Nodes (14): commit(), DeviceLink, DeviceState, getSnapshot(), listeners, onVisibility(), poll(), scheduleNext() (+6 more)
 
 ### Community 32 - "theme-transition.ts"
 Cohesion: 0.27
@@ -357,9 +333,9 @@ Nodes (5): isQuiet(), motionTokens, resolveChoreography(), useChoreography(), us
 Cohesion: 0.57
 Nodes (7): clamp(), f(), sliderRailPath(), sliderRubberPath(), sliderRubberProfile(), sliderScreenVelocity(), sliderThumbPath()
 
-### Community 46 - "services/horario.py"
-Cohesion: 0.09
-Nodes (57): alias, borrar_especial(), copiar_semanal(), crear_especial(), modificar_especial(), delete, patch, post (+49 more)
+### Community 46 - "device.ts"
+Cohesion: 0.22
+Nodes (8): device(), DEVICE_NETWORK, DeviceError, DeviceRun, DeviceStatus, errorMessage(), RequestOptions, withTimeout()
 
 ### Community 48 - "reference-additions-math.ts"
 Cohesion: 0.43
@@ -409,9 +385,9 @@ Nodes (13): ignorePatterns, plugins, rules, react/only-export-components, react/
 Cohesion: 0.50
 Nodes (3): Button(), ButtonProps, buttonVariants
 
-### Community 62 - "SolarBell — frontend"
-Cohesion: 0.40
-Nodes (4): Agentes, Scripts, Setup, SolarBell — frontend
+### Community 62 - "SolarBell — app"
+Cohesion: 0.33
+Nodes (5): Agentes, APK, Desarrollo en el navegador, Scripts, SolarBell — app
 
 ### Community 63 - "control-appearance.ts"
 Cohesion: 0.40
@@ -446,8 +422,8 @@ Cohesion: 0.67
 Nodes (3): BellList(), Editing, nextSuggestedTime()
 
 ### Community 79 - "ring-fields.tsx"
-Cohesion: 0.67
-Nodes (3): resize(), RingFields(), RingFieldsProps
+Cohesion: 0.40
+Nodes (4): resize(), RingFields(), RingFieldsProps, time
 
 ### Community 82 - "SolarBell Proyect"
 Cohesion: 0.20
@@ -461,89 +437,53 @@ Nodes (3): readPreferences(), subscribePreferences(), useMotionVisibility()
 Cohesion: 0.67
 Nodes (3): GuidedPointerPoint, normalizePointerPoints(), resolvePointerPoint()
 
-### Community 87 - "semilla.py"
-Cohesion: 0.21
-Nodes (14): async_sessionmaker, hashear_contrasena(), _principal(), AsyncSession, Datos base idempotentes: admin, horario semanal por defecto y el dispositivo…, sembrar(), auth(), cliente() (+6 more)
+### Community 87 - "MainActivity"
+Cohesion: 0.33
+Nodes (6): android.net.ConnectivityManager, android.os.Bundle, com.getcapacitor.BridgeActivity, MainActivity, NetworkCallback, Override
 
-### Community 93 - "principal.py"
-Cohesion: 0.31
-Nodes (5): get, Sesion, salud(), ciclo_de_vida(), FastAPI
+### Community 89 - "ExampleInstrumentedTest.java"
+Cohesion: 0.33
+Nodes (5): androidx.test.ext.junit.runners.AndroidJUnit4, ExampleInstrumentedTest, ExampleUnitTest, org.junit.runner.RunWith, org.junit.Test
 
-### Community 102 - "test_programador.py"
-Cohesion: 0.27
-Nodes (14): resolver_dia(), ejecutar_programador(), datetime, Dispara los timbrados de `ahora` (hora local del sitio). Devuelve los ids que…, revisar_minuto(), a_las(), AsyncSession, date (+6 more)
+### Community 93 - "use-reduced-motion.ts"
+Cohesion: 0.46
+Nodes (7): changed(), listeners, media(), serverSnapshot(), snapshot(), subscribe(), useReducedMotion()
 
-### Community 108 - "models/__init__.py"
+### Community 101 - "device/index.tsx"
+Cohesion: 0.38
+Nodes (5): appearance, DevicePage(), linkText(), relative, sinceText()
+
+### Community 102 - "gradlew"
+Cohesion: 0.83
+Nodes (3): gradlew script, die(), warn()
+
+### Community 131 - "ESP32 — campana SolarBell (local, sin internet)"
 Cohesion: 0.20
-Nodes (13): _ejecutar_migraciones(), migrar_con_conexion(), Base, Dispositivo, EventoToque, Historial de toques. Un timbrado programado solo se registra una vez por día., FechaEspecial, HorarioSemanal (+5 more)
-
-### Community 121 - "EsquemaBase"
-Cohesion: 0.16
-Nodes (18): actualizar_yo(), iniciar_sesion(), get, patch, post, Sesion, UsuarioActual, yo() (+10 more)
-
-### Community 122 - "services/toque.py"
-Cohesion: 0.10
-Nodes (22): detener_toque(), iniciar_toque(), obtener_toque(), get, post, Sesion, UsuarioActual, ConfigToque (+14 more)
-
-### Community 123 - "seguridad.py"
-Cohesion: 0.13
-Nodes (19): _marcar_visto(), websocket, socket_app(), socket_dispositivo(), Configuracion, Cada campo se lee de la variable de entorno de su `alias` (p. ej.…, decodificar_token_acceso(), hashear_clave_api() (+11 more)
-
-### Community 124 - "Concentrador"
-Cohesion: 0.27
-Nodes (4): Concentrador, Any, WebSocket, Conexiones WebSocket vivas: nodos ESP32 y apps abiertas. Vive en memoria (1…
-
-### Community 125 - "test_horario.py"
-Cohesion: 0.43
-Nodes (7): AsyncClient, test_dias_de_la_semana(), test_flujo_de_fechas_especiales(), test_guardar_y_borrar_timbrado_semanal(), test_semilla_coincide_con_el_horario_del_frontend(), test_timbrado_no_salta_de_horario(), test_validacion_del_timbrado()
-
-### Community 126 - "test_autenticacion.py"
-Cohesion: 0.48
-Nodes (6): AsyncClient, test_actualizar_nombre(), test_login_ignora_mayusculas_del_correo(), test_login_rechaza_contrasena_incorrecta(), test_rutas_protegidas_piden_token(), test_salud()
-
-### Community 127 - "api.ts"
-Cohesion: 0.18
-Nodes (6): api(), ApiError, errorMessage(), onUnauthorized(), RequestOptions, token
-
-### Community 128 - "package.json"
-Cohesion: 0.18
-Nodes (10): name, packageManager, private, scripts, build, dev, lint, preview (+2 more)
-
-### Community 129 - "live.ts"
-Cohesion: 0.28
-Nodes (5): dispatch(), listeners, LiveMessage, open(), scheduleRetry()
-
-### Community 130 - "test_toque.py"
-Cohesion: 0.67
-Nodes (3): AsyncClient, test_toque_manual_y_detener(), test_toque_nuevo_reemplaza_al_actual()
-
-### Community 131 - "ESP32 — nodo SolarBell (simulado)"
-Cohesion: 0.25
-Nodes (7): arduino-cli, Arduino IDE, Compilar y subir, Configurar, Cuando llegue el relé, ESP32 — nodo SolarBell (simulado), Protocolo (`/ws/device?key=...`)
+Nodes (9): API (`http://192.168.4.1`), arduino-cli, Arduino IDE, Compilar y subir, Configurar, Cuando llegue el relé, Energía, ESP32 — campana SolarBell (local, sin internet) (+1 more)
 
 ### Community 136 - "dependencies"
-Cohesion: 0.11
-Nodes (19): @base-ui/react, class-variance-authority, clsx, cn, dependencies, @base-ui/react, class-variance-authority, clsx (+11 more)
+Cohesion: 0.05
+Nodes (39): @base-ui/react, @capacitor/android, @capacitor/core, class-variance-authority, clsx, cn, @fontsource/jetbrains-mono, @fontsource-variable/geist (+31 more)
 
 ## Knowledge Gaps
-- **461 isolated node(s):** `uvx`, `solarbell-backend`, `deploy.sh script`, `$schema`, `typescript` (+456 more)
+- **474 isolated node(s):** `uvx`, `$schema`, `typescript`, `oxc`, `.agents/**` (+469 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **45 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **36 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `settings.ts`, `createLivingShader`, `use-morph.ts`, `bell-push.tsx`, `schedule/store.ts`, `src/components/ui/button.tsx`, `@/components/ui/toast.tsx`, `src/components/ui/toast.tsx`, `spinner.tsx`, `ring/store.ts`, `theme/store.ts`, `bell-form.tsx`, `toast.ts`, `session/store.ts`, `icon.tsx`, `presence.tsx`, `hold-button.tsx`, `choreography.ts`, `page.tsx`, `field.tsx`, `ignorePatterns`, `@/components/ui/button.tsx`, `control-appearance.ts`, `reference-gallery-motion.ts`, `reference-text-motion.ts`, `HoldButton.jsx`, `segmented.tsx`, `bell-list.tsx`, `flow-press.ts`, `use-motion-visibility.ts`, `use-organic-value.ts`, `sheet.tsx`, `ring-sheet.tsx`, `use-flow.ts`, `profile/index.tsx`, `detail.tsx`?**
-  _High betweenness centrality (0.095) - this node is a cross-community bridge._
-- **What connects `uvx`, `solarbell-backend`, `deploy.sh script` to the rest of the system?**
-  _461 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `react` connect `react` to `createLivingShader`, `use-morph.ts`, `bell-push.tsx`, `schedule/store.ts`, `src/components/ui/button.tsx`, `@/components/ui/toast.tsx`, `src/components/ui/toast.tsx`, `spinner.tsx`, `ring/store.ts`, `theme/store.ts`, `bell-form.tsx`, `toast.ts`, `device/store.ts`, `icon.tsx`, `presence.tsx`, `hold-button.tsx`, `choreography.ts`, `page.tsx`, `field.tsx`, `ignorePatterns`, `@/components/ui/button.tsx`, `control-appearance.ts`, `reference-gallery-motion.ts`, `reference-text-motion.ts`, `HoldButton.jsx`, `segmented.tsx`, `bell-list.tsx`, `ring-fields.tsx`, `flow-press.ts`, `use-motion-visibility.ts`, `use-organic-value.ts`, `stepper.tsx`, `ring-sheet.tsx`, `use-reduced-motion.ts`, `use-flow.ts`, `device/index.tsx`, `detail.tsx`, `sheet.tsx`, `ring-pattern.tsx`?**
+  _High betweenness centrality (0.131) - this node is a cross-community bridge._
+- **Why does `snapshot()` connect `use-reduced-motion.ts` to `settings.ts`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `publish()` connect `settings.ts` to `use-reduced-motion.ts`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Are the 5 inferred relationships involving `createLivingShader()` (e.g. with `appearance()` and `onLost()`) actually correct?**
+  _`createLivingShader()` has 5 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `uvx`, `$schema`, `typescript` to the rest of the system?**
+  _474 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `settings.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.053830227743271224 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.061343204653622425 - nodes in this community are weakly interconnected._
 - **Should `flow.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.10591133004926108 - nodes in this community are weakly interconnected._
-- **Should `createLivingShader` be split into smaller, more focused modules?**
-  _Cohesion score 0.1396011396011396 - nodes in this community are weakly interconnected._
-- **Should `components.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
-- **Should `chart-geometry.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._

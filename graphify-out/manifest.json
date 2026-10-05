@@ -156,9 +156,9 @@
     "semantic_hash": ""
   },
   "frontend/src/components/ui/stepper.tsx": {
-    "mtime": 1791076305.2256975,
-    "seen": 1791227116.6562662,
-    "ast_hash": "0d88512498d70b9d24218e5449817f51",
+    "mtime": 1791241719.3785305,
+    "seen": 1791241914.903865,
+    "ast_hash": "b85aa4f5953ded16b11eb293d08775f9",
     "semantic_hash": ""
   },
   "frontend/src/components/ui/switch.tsx": {
@@ -186,21 +186,21 @@
     "semantic_hash": ""
   },
   "frontend/src/features/ring/components/ring-sheet.tsx": {
-    "mtime": 1791082826.1466763,
-    "seen": 1791227116.6562688,
-    "ast_hash": "336d3b3c6cfe562adfcd2b027e6127bb",
+    "mtime": 1791241318.6689224,
+    "seen": 1791241387.5834143,
+    "ast_hash": "019072c9b5b222658dbf79037e0a8d3c",
     "semantic_hash": ""
   },
   "frontend/src/features/ring/store.ts": {
-    "mtime": 1791238976.5451806,
-    "seen": 1791239441.9276257,
-    "ast_hash": "cd877fcae2116e7dbd7b36895c9ff601",
+    "mtime": 1791241308.920865,
+    "seen": 1791241387.583415,
+    "ast_hash": "90b3d903c212932f2e0cd90c77b67f38",
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/bell.ts": {
-    "mtime": 1791082753.2595322,
-    "seen": 1791227116.6562698,
-    "ast_hash": "14dc346676ea10e264957b133e819d52",
+    "mtime": 1791241263.4010699,
+    "seen": 1791241387.5834155,
+    "ast_hash": "c53f8b023ade2bc500c851900f0f4131",
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/components/bell-form.tsx": {
@@ -228,15 +228,15 @@
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/components/ring-fields.tsx": {
-    "mtime": 1791082765.4689028,
-    "seen": 1791227116.6562724,
-    "ast_hash": "185a5daff280d477da4c85cbc4c83ae4",
+    "mtime": 1791241721.2511823,
+    "seen": 1791241914.9038749,
+    "ast_hash": "c2fff098a6b20333189a2ca2c860f8dd",
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/components/ring-pattern.tsx": {
-    "mtime": 1791057932.1366255,
-    "seen": 1791227116.656273,
-    "ast_hash": "04a0d2e923444a4c48e725beba8ac3b1",
+    "mtime": 1791241297.406112,
+    "seen": 1791241387.5834196,
+    "ast_hash": "20dc6bc94b512b5c94b4ee8648a26ac2",
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/components/special-date-form.tsx": {
@@ -270,15 +270,15 @@
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/store.ts": {
-    "mtime": 1791239033.3155365,
-    "seen": 1791239441.9276412,
-    "ast_hash": "8532c5285afbbfa75266765f1cf01adf",
+    "mtime": 1791241320.0029304,
+    "seen": 1791241387.5834234,
+    "ast_hash": "2dacdad9aecf7d245d1588ef1369a9e6",
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/types.ts": {
-    "mtime": 1791082749.710498,
-    "seen": 1791227116.6562772,
-    "ast_hash": "6cefb82c7b146eb494179d02c07f697c",
+    "mtime": 1791241256.2825513,
+    "seen": 1791241387.5834243,
+    "ast_hash": "01d9161098f4230485461de09ea0fa6d",
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/upcoming.ts": {
@@ -720,9 +720,9 @@
     "semantic_hash": ""
   },
   "frontend/src/pages/ring/index.tsx": {
-    "mtime": 1791239075.554571,
-    "seen": 1791239441.9277275,
-    "ast_hash": "d7ffc653707af9e8dd18d249886ede58",
+    "mtime": 1791241315.7517498,
+    "seen": 1791241387.5834758,
+    "ast_hash": "3715b07420ccab3ed5ab442b94c53ebd",
     "semantic_hash": ""
   },
   "frontend/src/pages/schedule/index.tsx": {
@@ -768,9 +768,9 @@
     "semantic_hash": ""
   },
   "frontend/vite.config.ts": {
-    "mtime": 1791239133.3384738,
-    "seen": 1791239441.9277365,
-    "ast_hash": "2e0ee4a006c0cdd4e9132dcc49ee2b7c",
+    "mtime": 1791241875.4410062,
+    "seen": 1791241914.9039376,
+    "ast_hash": "664d562de278c042be91556ec9a4b042",
     "semantic_hash": ""
   },
   "frontend/DESIGN.md": {
@@ -906,15 +906,15 @@
     "semantic_hash": ""
   },
   "ESP32/README.md": {
-    "mtime": 1791239370.653936,
-    "seen": 1791239441.9277406,
-    "ast_hash": "c388b8a25a0d4827d77dbb289ff65757",
+    "mtime": 1791241373.9672456,
+    "seen": 1791241387.5834837,
+    "ast_hash": "036eaaddc9d8f68202137feb6bb193d5",
     "semantic_hash": ""
   },
   "ESP32/solarbell_local/configuracion.ejemplo.h": {
-    "mtime": 1791238671.2099001,
-    "seen": 1791239441.9275625,
-    "ast_hash": "25ed102d1630b93b20426a6c56c89dbe",
+    "mtime": 1791241368.505214,
+    "seen": 1791241387.5833802,
+    "ast_hash": "c811e666f9bd20f67da66487d52aacd7",
     "semantic_hash": ""
   },
   "frontend/android/app/build.gradle": {
@@ -990,15 +990,15 @@
     "semantic_hash": ""
   },
   "frontend/src/lib/device.ts": {
-    "mtime": 1791238961.330093,
-    "seen": 1791239441.9277182,
-    "ast_hash": "007f2e24fbb3a1150f39bb9e8e86f757",
+    "mtime": 1791241311.969883,
+    "seen": 1791241387.5834703,
+    "ast_hash": "545d273f859954feccc8b036732acec9",
     "semantic_hash": ""
   },
   "frontend/src/pages/device/index.tsx": {
-    "mtime": 1791239104.8601034,
-    "seen": 1791239441.927724,
-    "ast_hash": "28d386a73ab2d8be6b832e2c5eb74695",
+    "mtime": 1791241322.862172,
+    "seen": 1791241387.5834737,
+    "ast_hash": "798372ba738928d85ff787bb43f632f5",
     "semantic_hash": ""
   },
   "frontend/android/app/src/main/res/drawable-land-hdpi/splash.png": {

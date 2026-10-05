@@ -13,8 +13,10 @@ export type DeviceRun = {
   id: number
   source: 'manual' | 'scheduled'
   label: string
+  /** ms de cada toque. */
   durations: number[]
-  pauseMs: number
+  /** ms de silencio tras cada toque menos el último. */
+  pauses: number[]
   elapsedMs: number
 }
 
@@ -24,7 +26,6 @@ export type DeviceStatus = {
   /** ms epoch del reloj de la campana; `null` si nunca se puso en hora. */
   now: number | null
   offsetMinutes: number
-  pauseMs: number
   run: DeviceRun | null
 }
 

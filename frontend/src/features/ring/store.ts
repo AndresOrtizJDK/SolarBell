@@ -1,21 +1,29 @@
+import { TIME_DEFAULT_MS } from '@/features/schedule/bell'
 import type { RingConfig } from '@/features/schedule/types'
 import { device, type DeviceRun, type DeviceStatus } from '@/lib/device'
 import { useSyncExternalStore } from 'react'
 
-const KEY = 'solarbell:ring:v1'
+const KEY = 'solarbell:ring:v2'
 /** Diferencia de reloj por debajo de la cual una nueva lectura no mueve la cuenta regresiva. */
 const DRIFT_MS = 500
 
-const DEFAULT_CONFIG: RingConfig = { rings: 1, ringSeconds: 3, customDurations: null }
+const DEFAULT_CONFIG: RingConfig = {
+  rings: 1,
+  ringMs: TIME_DEFAULT_MS,
+  pauseMs: TIME_DEFAULT_MS,
+  customDurations: null,
+  customPauses: null,
+}
 
 /** Toque en curso. Tiempos en ms epoch del teléfono. */
 export type RingRun = {
   id: number
   source: 'manual' | 'scheduled'
   label: string
+  /** ms de cada toque. */
   durations: number[]
-  /** Silencio entre toques consecutivos. */
-  pauseMs: number
+  /** ms de silencio tras cada toque menos el último. */
+  pauses: number[]
   startedAt: number
   endsAt: number
 }
@@ -48,15 +56,13 @@ function subscribe(listener: () => void) {
 
 function toRun(remote: DeviceRun, receivedAt: number): RingRun {
   const startedAt = receivedAt - remote.elapsedMs
-  const total =
-    remote.durations.reduce((sum, s) => sum + s * 1000, 0) +
-    remote.pauseMs * Math.max(remote.durations.length - 1, 0)
+  const total = [...remote.durations, ...remote.pauses].reduce((sum, ms) => sum + ms, 0)
   return {
     id: remote.id,
     source: remote.source,
     label: remote.label,
     durations: remote.durations,
-    pauseMs: remote.pauseMs,
+    pauses: remote.pauses,
     startedAt,
     endsAt: startedAt + total,
   }

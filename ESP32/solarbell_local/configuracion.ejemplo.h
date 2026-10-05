@@ -4,13 +4,10 @@
 // Red Wi-Fi que crea la campana. El teléfono se une a ella; no hace falta router ni internet.
 // La clave es la única protección: quien la tenga puede tocar la campana. Mínimo 8 caracteres.
 #define RED_NOMBRE "SolarBell"
-#define RED_CLAVE "cambia-esta-clave"
+#define RED_CLAVE "6767" 
 
 // Hora local en minutos respecto a UTC (Colombia: -300). La app la corrige al conectarse.
 #define ZONA_MINUTOS -300
-
-// Silencio entre toques consecutivos de un mismo timbrado.
-#define PAUSA_TOQUE_MS 1000
 
 // LED azul integrado. En la mayoría de DevKit es GPIO2.
 #define PIN_LED 2

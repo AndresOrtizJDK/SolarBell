@@ -34,14 +34,16 @@
 #include <RTClib.h>
 #endif
 
-#define VERSION_FIRMWARE "0.2.0"
+#define VERSION_FIRMWARE "0.3.0"
 
 static_assert(sizeof(RED_CLAVE) > 8, "RED_CLAVE necesita al menos 8 caracteres (WPA2)");
 
-// Mismos límites que `frontend/src/features/schedule/bell.ts`.
+// Mismos límites que `frontend/src/features/schedule/bell.ts`. Toques y pausas en ms.
 static const uint8_t MAX_TOQUES = 10;
-static const int SEGUNDOS_MIN = 1;
-static const int SEGUNDOS_MAX = 30;
+static const int MS_MIN = 100;
+static const int MS_MAX = 30000;
+// Pausa fija de los horarios guardados por la versión 0.2, que no la configuraba.
+static const uint16_t PAUSA_ANTERIOR_MS = 1000;
 
 static const size_t MAX_HORARIO_BYTES = 24 * 1024;
 // El reloj arranca en 1970: antes de esta fecha nadie lo ha puesto en hora.
@@ -113,6 +115,7 @@ struct SecuenciaToque {
   char etiqueta[121] = "";
   uint8_t cantidad = 0;
   uint16_t duraciones[MAX_TOQUES];
+  uint16_t pausas[MAX_TOQUES - 1];
   uint8_t indice = 0;
   bool faseEncendida = false;
   uint32_t inicio = 0;
@@ -125,11 +128,11 @@ void iniciarFase(bool encendida, uint32_t ahora) {
   toque.faseEncendida = encendida;
   fijarRele(encendida);
   if (encendida) {
-    Serial.printf("[toque] %u de %u: %u s\n", toque.indice + 1, toque.cantidad,
+    Serial.printf("[toque] %u de %u: %u ms\n", toque.indice + 1, toque.cantidad,
                   toque.duraciones[toque.indice]);
-    toque.finFase = ahora + (uint32_t)toque.duraciones[toque.indice] * 1000UL;
+    toque.finFase = ahora + toque.duraciones[toque.indice];
   } else {
-    toque.finFase = ahora + PAUSA_TOQUE_MS;
+    toque.finFase = ahora + toque.pausas[toque.indice];
   }
 }
 
@@ -146,55 +149,61 @@ void actualizarToque(uint32_t ahora) {
       terminarToque("terminado");
       return;
     }
-    if (PAUSA_TOQUE_MS > 0) {
-      iniciarFase(false, ahora);
-      return;
-    }
+    iniciarFase(false, ahora);
+    return;
   }
   toque.indice++;
   iniciarFase(true, ahora);
 }
 
-bool segundosValidos(JsonVariantConst valor) {
+bool msValido(JsonVariantConst valor) {
   if (!valor.is<int>()) return false;
-  int segundos = valor.as<int>();
-  return segundos >= SEGUNDOS_MIN && segundos <= SEGUNDOS_MAX;
+  int ms = valor.as<int>();
+  return ms >= MS_MIN && ms <= MS_MAX;
 }
 
-// `rings`, `ringSeconds` y `customDurations`: lo que comparten un timbrado y un toque manual.
-bool configToqueValida(JsonVariantConst config) {
-  int toques = config["rings"] | 0;
-  if (toques < 1 || toques > MAX_TOQUES || !segundosValidos(config["ringSeconds"])) return false;
-  JsonVariantConst personalizadas = config["customDurations"];
-  if (personalizadas.isNull()) return true;
-  if (!personalizadas.is<JsonArrayConst>()) return false;
-  JsonArrayConst lista = personalizadas.as<JsonArrayConst>();
-  if (lista.size() != (size_t)toques) return false;
-  for (JsonVariantConst segundos : lista) {
-    if (!segundosValidos(segundos)) return false;
+bool listaMsValida(JsonVariantConst valor, size_t largo) {
+  if (!valor.is<JsonArrayConst>()) return false;
+  JsonArrayConst lista = valor.as<JsonArrayConst>();
+  if (lista.size() != largo) return false;
+  for (JsonVariantConst ms : lista) {
+    if (!msValido(ms)) return false;
   }
   return true;
 }
 
-uint8_t leerDuraciones(JsonVariantConst config, uint16_t *destino) {
-  uint8_t cantidad = 0;
-  JsonArrayConst personalizadas = config["customDurations"].as<JsonArrayConst>();
-  if (!personalizadas.isNull()) {
-    for (JsonVariantConst segundos : personalizadas) {
-      if (cantidad >= MAX_TOQUES) break;
-      destino[cantidad++] = constrain(segundos.as<int>(), SEGUNDOS_MIN, SEGUNDOS_MAX);
-    }
-    return cantidad;
+// `rings`, `ringMs`, `pauseMs`, `customDurations` y `customPauses`: lo que comparten un timbrado y
+// un toque manual. Las listas propias van juntas: una por toque y una por pausa.
+bool configToqueValida(JsonVariantConst config) {
+  int toques = config["rings"] | 0;
+  if (toques < 1 || toques > MAX_TOQUES) return false;
+  if (!msValido(config["ringMs"]) || !msValido(config["pauseMs"])) return false;
+  JsonVariantConst duraciones = config["customDurations"];
+  JsonVariantConst pausas = config["customPauses"];
+  if (duraciones.isNull() && pausas.isNull()) return true;
+  return listaMsValida(duraciones, toques) && listaMsValida(pausas, toques - 1);
+}
+
+uint8_t leerToque(JsonVariantConst config, uint16_t *duraciones, uint16_t *pausas) {
+  uint8_t cantidad = constrain(config["rings"] | 0, 0, (int)MAX_TOQUES);
+  int duracion = constrain(config["ringMs"] | 1000, MS_MIN, MS_MAX);
+  int pausa = constrain(config["pauseMs"] | 1000, MS_MIN, MS_MAX);
+  JsonArrayConst propias = config["customDurations"].as<JsonArrayConst>();
+  JsonArrayConst pausasPropias = config["customPauses"].as<JsonArrayConst>();
+  for (uint8_t i = 0; i < cantidad; i++) {
+    int ms = propias.isNull() ? duracion : (propias[i] | duracion);
+    duraciones[i] = constrain(ms, MS_MIN, MS_MAX);
+    if (i + 1 >= cantidad) break;
+    ms = pausasPropias.isNull() ? pausa : (pausasPropias[i] | pausa);
+    pausas[i] = constrain(ms, MS_MIN, MS_MAX);
   }
-  int toques = constrain(config["rings"] | 0, 0, (int)MAX_TOQUES);
-  uint16_t segundos = constrain(config["ringSeconds"] | 3, SEGUNDOS_MIN, SEGUNDOS_MAX);
-  while (cantidad < toques) destino[cantidad++] = segundos;
   return cantidad;
 }
 
 bool iniciarToque(JsonVariantConst config, bool programado) {
   uint16_t duraciones[MAX_TOQUES];
-  uint8_t cantidad = leerDuraciones(config, duraciones);
+  uint16_t pausas[MAX_TOQUES - 1];
+  uint8_t cantidad = leerToque(config, duraciones, pausas);
   if (cantidad == 0) return false;
   if (toque.activa) terminarToque("reemplazado");
 
@@ -203,6 +212,7 @@ bool iniciarToque(JsonVariantConst config, bool programado) {
   strlcpy(toque.etiqueta, config["label"] | "", sizeof toque.etiqueta);
   toque.cantidad = cantidad;
   memcpy(toque.duraciones, duraciones, sizeof duraciones);
+  memcpy(toque.pausas, pausas, sizeof pausas);
   toque.indice = 0;
   toque.activa = true;
   toque.inicio = millis();
@@ -323,19 +333,53 @@ void horarioPorDefecto(JsonDocument &doc) {
     timbrado["label"] = etiquetas[i];
     timbrado["time"] = horas[i];
     timbrado["rings"] = 3;
-    timbrado["ringSeconds"] = 3;
+    timbrado["ringMs"] = 3000;
+    timbrado["pauseMs"] = PAUSA_ANTERIOR_MS;
     timbrado["customDurations"] = nullptr;
+    timbrado["customPauses"] = nullptr;
   }
   doc["specials"].to<JsonArray>();
 }
 
-bool leerHorario(const char *ruta, JsonDocument &doc) {
+// La versión 0.2 guardaba `ringSeconds` y `customDurations` en segundos, con pausa fija.
+bool migrarTimbrados(JsonArray timbrados) {
+  bool migrado = false;
+  for (JsonObject timbrado : timbrados) {
+    if (timbrado["ringMs"].is<int>()) continue;
+    int toques = timbrado["rings"] | 0;
+    timbrado["ringMs"] = (timbrado["ringSeconds"] | 3) * 1000;
+    timbrado["pauseMs"] = PAUSA_ANTERIOR_MS;
+    timbrado.remove("ringSeconds");
+    JsonArray duraciones = timbrado["customDurations"].as<JsonArray>();
+    if (duraciones.isNull()) {
+      timbrado["customPauses"] = nullptr;
+    } else {
+      for (JsonVariant segundos : duraciones) segundos.set(segundos.as<int>() * 1000);
+      JsonArray pausas = timbrado["customPauses"].to<JsonArray>();
+      for (int i = 1; i < toques; i++) pausas.add(PAUSA_ANTERIOR_MS);
+    }
+    migrado = true;
+  }
+  return migrado;
+}
+
+bool migrarHorario(JsonDocument &doc) {
+  bool migrado = migrarTimbrados(doc["weekly"]["bells"].as<JsonArray>());
+  for (JsonObject especial : doc["specials"].as<JsonArray>()) {
+    if (migrarTimbrados(especial["bells"].as<JsonArray>())) migrado = true;
+  }
+  return migrado;
+}
+
+bool leerHorario(const char *ruta, JsonDocument &doc, bool &migrado) {
   if (!LittleFS.exists(ruta)) return false;
   File archivo = LittleFS.open(ruta, "r");
   if (!archivo) return false;
   DeserializationError error = deserializeJson(doc, archivo);
   archivo.close();
-  return !error && horarioValido(doc.as<JsonVariantConst>());
+  if (error) return false;
+  migrado = migrarHorario(doc);
+  return horarioValido(doc.as<JsonVariantConst>());
 }
 
 // Se escribe aparte y se renombra: un corte a mitad no deja el horario a medias.
@@ -351,8 +395,11 @@ bool guardarHorario(JsonDocument &doc) {
 }
 
 void cargarHorario() {
-  if (leerHorario(RUTA_HORARIO, horario) || leerHorario(RUTA_HORARIO_TEMPORAL, horario)) {
+  bool migrado = false;
+  if (leerHorario(RUTA_HORARIO, horario, migrado) ||
+      leerHorario(RUTA_HORARIO_TEMPORAL, horario, migrado)) {
     Serial.println("[horario] cargado de la memoria");
+    if (migrado && guardarHorario(horario)) Serial.println("[horario] pasado a milisegundos");
     return;
   }
   Serial.println("[horario] sin horario guardado: lunes a viernes 8:00, 10:00 y 12:00");
@@ -442,7 +489,6 @@ void responderEstado() {
   if (horaValida()) doc["now"] = ahoraEpochMs();
   else doc["now"] = nullptr;
   doc["offsetMinutes"] = zonaMinutos;
-  doc["pauseMs"] = PAUSA_TOQUE_MS;
   if (!toque.activa) {
     doc["run"] = nullptr;
   } else {
@@ -452,7 +498,8 @@ void responderEstado() {
     run["label"] = toque.etiqueta;
     JsonArray duraciones = run["durations"].to<JsonArray>();
     for (uint8_t i = 0; i < toque.cantidad; i++) duraciones.add(toque.duraciones[i]);
-    run["pauseMs"] = PAUSA_TOQUE_MS;
+    JsonArray pausas = run["pauses"].to<JsonArray>();
+    for (uint8_t i = 0; i + 1 < toque.cantidad; i++) pausas.add(toque.pausas[i]);
     // El reloj de la campana puede no estar en hora: la app calcula inicio y fin con el suyo.
     run["elapsedMs"] = millis() - toque.inicio;
   }

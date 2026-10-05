@@ -11,7 +11,7 @@ import { createId } from '@/lib/id'
 import { useSyncExternalStore } from 'react'
 
 /** Última copia leída de la campana. La que manda es la guardada en el ESP32. */
-const KEY = 'solarbell:schedule:local:v1'
+const KEY = 'solarbell:schedule:local:v2'
 const NAME_DEBOUNCE_MS = 400
 
 const EMPTY: ScheduleState = { weekly: { days: [], bells: [] }, specials: [] }

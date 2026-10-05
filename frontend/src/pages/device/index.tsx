@@ -1,4 +1,4 @@
-import { Page, PageHeader } from '@/components/layout/page'
+import { Page } from '@/components/layout/page'
 import { Segmented } from '@/components/ui/segmented'
 import { useDevice, type DeviceState } from '@/features/device/store'
 import { setTheme, useTheme } from '@/features/theme/store'
@@ -37,7 +37,8 @@ export function DevicePage() {
 
   return (
     <Page>
-      <PageHeader title="Campana" />
+      <h1 className="sr-only">Campana</h1>
+      <div aria-hidden className="h-16" />
 
       <section className="rounded-[1.75rem] bg-raised px-5 py-2 shadow-raised">
         <Row label="Estado">

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Sheet } from '@/components/ui/sheet'
-import { totalSeconds } from '@/features/schedule/bell'
+import { formatSeconds, totalMs } from '@/features/schedule/bell'
 import { RingFields } from '@/features/schedule/components/ring-fields'
 import type { RingConfig } from '@/features/schedule/types'
 import { BellRing } from 'lucide-react'
@@ -30,7 +30,7 @@ export function RingSheet({ open, initial, onClose, onRing }: RingSheetProps) {
       footer={
         <Button className="min-h-13 w-full rounded-full text-[1rem]" onClick={() => onRing(draft)}>
           <BellRing aria-hidden className="size-4.5" />
-          Tocar {totalSeconds(draft)} s
+          Tocar {formatSeconds(totalMs(draft))} s
         </Button>
       }
     >

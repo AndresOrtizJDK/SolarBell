@@ -60,10 +60,11 @@ export function RingPage() {
 function RingStatus({ run }: { run: RingRun }) {
   const now = useNow().getTime()
   const left = Math.max(0, Math.ceil((run.endsAt - now) / 1000))
-  const elapsed = (now - run.startedAt) / 1000
-  const pause = run.pauseMs / 1000
+  const elapsed = now - run.startedAt
   let ring = 0
-  for (let end = 0; ring < run.durations.length && end <= elapsed; ring++) end += run.durations[ring] + pause
+  for (let end = 0; ring < run.durations.length && end <= elapsed; ring++) {
+    end += run.durations[ring] + (run.pauses[ring] ?? 0)
+  }
 
   return (
     <div className="flex w-full max-w-xs flex-col items-center gap-3">
@@ -71,7 +72,7 @@ function RingStatus({ run }: { run: RingRun }) {
         Toque {ring} de {run.durations.length}
         <span className="ml-2 font-mono text-muted tabular-nums">{left} s</span>
       </p>
-      <RingPattern durations={run.durations} />
+      <RingPattern durations={run.durations} pauses={run.pauses} />
       <Button
         variant="line"
         className="mt-1 rounded-full px-5"

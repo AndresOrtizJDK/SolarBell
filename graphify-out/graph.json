@@ -303,6 +303,32 @@
       "source_location": "L1"
     },
     {
+      "id": "frontend_src_components_ui_sheet_sheetprops",
+      "label": "SheetProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 108,
+      "community_name": "sheet.tsx",
+      "file_type": "code",
+      "norm_label": "sheetprops",
+      "source_file": "frontend/src/components/ui/sheet.tsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "frontend_src_features_schedule_components_ring_pattern_ringpatternprops",
+      "label": "RingPatternProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 109,
+      "community_name": "ring-pattern.tsx",
+      "file_type": "code",
+      "norm_label": "ringpatternprops",
+      "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
+      "source_location": "L5"
+    },
+    {
       "id": "frontend_src_components_ui_toast_toastactionprops",
       "label": "ToastActionProps",
       "_callable": true,
@@ -612,7 +638,7 @@
       "file_type": "code",
       "norm_label": "ringrun",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L12"
+      "source_location": "L19"
     },
     {
       "id": "frontend_src_features_theme_store_theme",
@@ -847,19 +873,6 @@
       "norm_label": "morphhost",
       "source_file": "frontend/src/lib/cojeev-motion/category.ts",
       "source_location": "L17"
-    },
-    {
-      "id": "frontend_src_components_ui_sheet_sheetprops",
-      "label": "SheetProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "sheetprops",
-      "source_file": "frontend/src/components/ui/sheet.tsx",
-      "source_location": "L4"
     },
     {
       "id": "frontend_src_lib_cojeev_motion_scroll_thumb_scrollroot",
@@ -1444,7 +1457,7 @@
       "file_type": "code",
       "norm_label": "bellscope",
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L37"
+      "source_location": "L42"
     },
     {
       "id": "frontend_src_features_schedule_types_ringconfig",
@@ -1457,7 +1470,7 @@
       "file_type": "code",
       "norm_label": "ringconfig",
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L13"
+      "source_location": "L18"
     },
     {
       "id": "frontend_src_features_schedule_types_schedulestate",
@@ -1470,7 +1483,7 @@
       "file_type": "code",
       "norm_label": "schedulestate",
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L32"
+      "source_location": "L37"
     },
     {
       "id": "frontend_src_features_schedule_types_specialdate",
@@ -1483,7 +1496,7 @@
       "file_type": "code",
       "norm_label": "specialdate",
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L23"
+      "source_location": "L28"
     },
     {
       "id": "frontend_src_features_schedule_types_specialdatemode",
@@ -1496,7 +1509,7 @@
       "file_type": "code",
       "norm_label": "specialdatemode",
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L21"
+      "source_location": "L26"
     },
     {
       "id": "frontend_src_features_schedule_types_weeklyschedule",
@@ -1509,7 +1522,7 @@
       "file_type": "code",
       "norm_label": "weeklyschedule",
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L15"
+      "source_location": "L20"
     },
     {
       "id": "frontend_src_lib_device_deviceerror",
@@ -1522,7 +1535,7 @@
       "file_type": "code",
       "norm_label": "deviceerror",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L31"
+      "source_location": "L32"
     },
     {
       "id": "frontend_src_lib_device_devicerun",
@@ -1548,7 +1561,7 @@
       "file_type": "code",
       "norm_label": "devicestatus",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L21"
+      "source_location": "L23"
     },
     {
       "id": "frontend_src_lib_device_requestoptions",
@@ -1561,7 +1574,7 @@
       "file_type": "code",
       "norm_label": "requestoptions",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L59"
+      "source_location": "L60"
     },
     {
       "id": "frontend_src_lib_cojeev_number_motion_numberpart",
@@ -2042,7 +2055,7 @@
       "file_type": "code",
       "norm_label": "ringfieldsprops",
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L15"
+      "source_location": "L19"
     },
     {
       "id": "frontend_src_features_schedule_format_countdownpart",
@@ -2237,7 +2250,7 @@
       "file_type": "code",
       "norm_label": "stepperprops",
       "source_file": "frontend/src/components/ui/stepper.tsx",
-      "source_location": "L4"
+      "source_location": "L5"
     },
     {
       "id": "frontend_src_components_ui_switch_switchprops",
@@ -3021,7 +3034,7 @@
       "file_type": "code",
       "norm_label": "row()",
       "source_file": "frontend/src/pages/device/index.tsx",
-      "source_location": "L84"
+      "source_location": "L85"
     },
     {
       "id": "frontend_src_pages_device_index_sincetext",
@@ -3060,30 +3073,6 @@
       "source_location": "L17"
     },
     {
-      "id": "frontend_src_pages_special_dates_detail_specialdatedetailpage",
-      "label": "SpecialDateDetailPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "detail.tsx",
-      "file_type": "code",
-      "norm_label": "specialdatedetailpage()",
-      "source_file": "frontend/src/pages/special-dates/detail.tsx",
-      "source_location": "L21"
-    },
-    {
-      "id": "frontend_src_pages_special_dates_detail_specialdateeditor",
-      "label": "SpecialDateEditor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "detail.tsx",
-      "file_type": "code",
-      "norm_label": "specialdateeditor()",
-      "source_file": "frontend/src/pages/special-dates/detail.tsx",
-      "source_location": "L41"
-    },
-    {
       "id": "frontend_src_app_providers_appproviders",
       "label": "AppProviders()",
       "_callable": true,
@@ -3096,28 +3085,16 @@
       "source_location": "L9"
     },
     {
-      "id": "frontend_src_pages_ring_index_ringpage",
-      "label": "RingPage()",
+      "id": "frontend_src_components_ui_sheet_sheet",
+      "label": "Sheet()",
       "_callable": true,
       "_origin": "ast",
       "community": 108,
-      "community_name": "ring/index.tsx",
+      "community_name": "sheet.tsx",
       "file_type": "code",
-      "norm_label": "ringpage()",
-      "source_file": "frontend/src/pages/ring/index.tsx",
-      "source_location": "L14"
-    },
-    {
-      "id": "frontend_src_pages_ring_index_ringstatus",
-      "label": "RingStatus()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 108,
-      "community_name": "ring/index.tsx",
-      "file_type": "code",
-      "norm_label": "ringstatus()",
-      "source_file": "frontend/src/pages/ring/index.tsx",
-      "source_location": "L60"
+      "norm_label": "sheet()",
+      "source_file": "frontend/src/components/ui/sheet.tsx",
+      "source_location": "L12"
     },
     {
       "id": "frontend_src_features_schedule_components_ring_pattern_ringpattern",
@@ -3129,7 +3106,7 @@
       "file_type": "code",
       "norm_label": "ringpattern()",
       "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
-      "source_location": "L4"
+      "source_location": "L14"
     },
     {
       "id": "frontend_src_components_ui_toast_toast",
@@ -3408,6 +3385,30 @@
       "source_location": "L118"
     },
     {
+      "id": "frontend_vite_config_away",
+      "label": "away()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "vite.config.ts",
+      "file_type": "code",
+      "norm_label": "away()",
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "frontend_vite_config_deviceproxy",
+      "label": "deviceProxy()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "vite.config.ts",
+      "file_type": "code",
+      "norm_label": "deviceproxy()",
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L21"
+    },
+    {
       "id": "frontend_src_features_ring_components_bell_push_bellpush",
       "label": "BellPush()",
       "_callable": true,
@@ -3621,7 +3622,7 @@
       "file_type": "code",
       "norm_label": "applydevicerun()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L74"
+      "source_location": "L80"
     },
     {
       "id": "frontend_src_features_ring_store_emit",
@@ -3633,7 +3634,7 @@
       "file_type": "code",
       "norm_label": "emit()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L38"
+      "source_location": "L46"
     },
     {
       "id": "frontend_src_features_ring_store_getconfig",
@@ -3645,7 +3646,7 @@
       "file_type": "code",
       "norm_label": "getconfig()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L84"
+      "source_location": "L90"
     },
     {
       "id": "frontend_src_features_ring_store_getrun",
@@ -3657,7 +3658,7 @@
       "file_type": "code",
       "norm_label": "getrun()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L85"
+      "source_location": "L91"
     },
     {
       "id": "frontend_src_features_ring_store_load",
@@ -3669,7 +3670,7 @@
       "file_type": "code",
       "norm_label": "load()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L23"
+      "source_location": "L31"
     },
     {
       "id": "frontend_src_features_ring_store_setrun",
@@ -3681,7 +3682,7 @@
       "file_type": "code",
       "norm_label": "setrun()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L65"
+      "source_location": "L71"
     },
     {
       "id": "frontend_src_features_ring_store_startring",
@@ -3693,7 +3694,7 @@
       "file_type": "code",
       "norm_label": "startring()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L96"
+      "source_location": "L102"
     },
     {
       "id": "frontend_src_features_ring_store_stopring",
@@ -3705,7 +3706,7 @@
       "file_type": "code",
       "norm_label": "stopring()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L109"
+      "source_location": "L115"
     },
     {
       "id": "frontend_src_features_ring_store_subscribe",
@@ -3717,7 +3718,7 @@
       "file_type": "code",
       "norm_label": "subscribe()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L42"
+      "source_location": "L50"
     },
     {
       "id": "frontend_src_features_ring_store_torun",
@@ -3729,7 +3730,7 @@
       "file_type": "code",
       "norm_label": "torun()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L49"
+      "source_location": "L57"
     },
     {
       "id": "frontend_src_features_ring_store_useringconfig",
@@ -3741,7 +3742,7 @@
       "file_type": "code",
       "norm_label": "useringconfig()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L87"
+      "source_location": "L93"
     },
     {
       "id": "frontend_src_features_ring_store_useringrun",
@@ -3753,7 +3754,7 @@
       "file_type": "code",
       "norm_label": "useringrun()",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L91"
+      "source_location": "L97"
     },
     {
       "id": "frontend_src_features_theme_store_apply",
@@ -4341,7 +4342,7 @@
       "file_type": "code",
       "norm_label": "belllabel()",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L41"
+      "source_location": "L59"
     },
     {
       "id": "frontend_src_features_schedule_bell_bellsummary",
@@ -4353,7 +4354,7 @@
       "file_type": "code",
       "norm_label": "bellsummary()",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L45"
+      "source_location": "L63"
     },
     {
       "id": "frontend_src_features_schedule_bell_clonebells",
@@ -4365,7 +4366,7 @@
       "file_type": "code",
       "norm_label": "clonebells()",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L33"
+      "source_location": "L50"
     },
     {
       "id": "frontend_src_features_schedule_bell_createbell",
@@ -4377,7 +4378,19 @@
       "file_type": "code",
       "norm_label": "createbell()",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L9"
+      "source_location": "L12"
+    },
+    {
+      "id": "frontend_src_features_schedule_bell_formatseconds",
+      "label": "formatSeconds()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "bell.ts",
+      "file_type": "code",
+      "norm_label": "formatseconds()",
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L42"
     },
     {
       "id": "frontend_src_features_schedule_bell_ringdurations",
@@ -4389,7 +4402,19 @@
       "file_type": "code",
       "norm_label": "ringdurations()",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L21"
+      "source_location": "L26"
+    },
+    {
+      "id": "frontend_src_features_schedule_bell_ringpauses",
+      "label": "ringPauses()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "bell.ts",
+      "file_type": "code",
+      "norm_label": "ringpauses()",
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L30"
     },
     {
       "id": "frontend_src_features_schedule_bell_sortbells",
@@ -4401,19 +4426,19 @@
       "file_type": "code",
       "norm_label": "sortbells()",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L29"
+      "source_location": "L46"
     },
     {
-      "id": "frontend_src_features_schedule_bell_totalseconds",
-      "label": "totalSeconds()",
+      "id": "frontend_src_features_schedule_bell_totalms",
+      "label": "totalMs()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "bell.ts",
       "file_type": "code",
-      "norm_label": "totalseconds()",
+      "norm_label": "totalms()",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L25"
+      "source_location": "L34"
     },
     {
       "id": "frontend_src_features_schedule_upcoming_adddays",
@@ -4692,18 +4717,6 @@
       "source_location": "L12"
     },
     {
-      "id": "frontend_src_components_ui_sheet_sheet",
-      "label": "Sheet()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "sheet()",
-      "source_file": "frontend/src/components/ui/sheet.tsx",
-      "source_location": "L12"
-    },
-    {
       "id": "frontend_src_features_schedule_components_special_date_form_specialdateform",
       "label": "SpecialDateForm()",
       "_callable": true,
@@ -4810,6 +4823,54 @@
       "norm_label": "usereferenceref()",
       "source_file": "frontend/src/lib/cojeev/reference-ref.ts",
       "source_location": "L6"
+    },
+    {
+      "id": "frontend_src_pages_ring_index_ringpage",
+      "label": "RingPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "ringpage()",
+      "source_file": "frontend/src/pages/ring/index.tsx",
+      "source_location": "L14"
+    },
+    {
+      "id": "frontend_src_pages_ring_index_ringstatus",
+      "label": "RingStatus()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "ringstatus()",
+      "source_file": "frontend/src/pages/ring/index.tsx",
+      "source_location": "L60"
+    },
+    {
+      "id": "frontend_src_pages_special_dates_detail_specialdatedetailpage",
+      "label": "SpecialDateDetailPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "specialdatedetailpage()",
+      "source_file": "frontend/src/pages/special-dates/detail.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "frontend_src_pages_special_dates_detail_specialdateeditor",
+      "label": "SpecialDateEditor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "specialdateeditor()",
+      "source_file": "frontend/src/pages/special-dates/detail.tsx",
+      "source_location": "L41"
     },
     {
       "id": "frontend_src_pages_special_dates_index_specialdatespage",
@@ -6261,7 +6322,7 @@
       "file_type": "code",
       "norm_label": "device()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L61"
+      "source_location": "L62"
     },
     {
       "id": "frontend_src_lib_device_deviceerror_constructor",
@@ -6273,7 +6334,7 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L34"
+      "source_location": "L35"
     },
     {
       "id": "frontend_src_lib_device_errormessage",
@@ -6285,7 +6346,7 @@
       "file_type": "code",
       "norm_label": "errormessage()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L41"
+      "source_location": "L42"
     },
     {
       "id": "frontend_src_lib_device_errortext",
@@ -6297,7 +6358,7 @@
       "file_type": "code",
       "norm_label": "errortext()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L78"
+      "source_location": "L79"
     },
     {
       "id": "frontend_src_lib_device_withtimeout",
@@ -6309,7 +6370,7 @@
       "file_type": "code",
       "norm_label": "withtimeout()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L51"
+      "source_location": "L52"
     },
     {
       "id": "frontend_src_lib_cojeev_number_motion_mixnumber",
@@ -7809,7 +7870,7 @@
       "file_type": "code",
       "norm_label": "resize()",
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L20"
+      "source_location": "L33"
     },
     {
       "id": "frontend_src_features_schedule_components_ring_fields_ringfields",
@@ -7821,7 +7882,19 @@
       "file_type": "code",
       "norm_label": "ringfields()",
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L26"
+      "source_location": "L39"
+    },
+    {
+      "id": "frontend_src_features_schedule_components_ring_fields_settingrow",
+      "label": "SettingRow()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "ring-fields.tsx",
+      "file_type": "code",
+      "norm_label": "settingrow()",
+      "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
+      "source_location": "L147"
     },
     {
       "id": "frontend_src_features_schedule_format_capitalize",
@@ -8241,7 +8314,7 @@
       "file_type": "code",
       "norm_label": "stepper()",
       "source_file": "frontend/src/components/ui/stepper.tsx",
-      "source_location": "L17"
+      "source_location": "L30"
     },
     {
       "id": "frontend_src_components_ui_switch_switch",
@@ -8870,17 +8943,6 @@
       "source_location": "L1"
     },
     {
-      "id": "frontend_src_pages_special_dates_detail",
-      "label": "detail.tsx",
-      "_origin": "ast",
-      "community": 104,
-      "community_name": "detail.tsx",
-      "file_type": "code",
-      "norm_label": "detail.tsx",
-      "source_file": "frontend/src/pages/special-dates/detail.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "frontend_tsconfig",
       "label": "tsconfig.json",
       "_origin": "ast",
@@ -8947,14 +9009,14 @@
       "source_location": "L11"
     },
     {
-      "id": "frontend_src_pages_ring_index",
-      "label": "ring/index.tsx",
+      "id": "frontend_src_components_ui_sheet",
+      "label": "sheet.tsx",
       "_origin": "ast",
       "community": 108,
-      "community_name": "ring/index.tsx",
+      "community_name": "sheet.tsx",
       "file_type": "code",
-      "norm_label": "ring/index.tsx",
-      "source_file": "frontend/src/pages/ring/index.tsx",
+      "norm_label": "sheet.tsx",
+      "source_file": "frontend/src/components/ui/sheet.tsx",
       "source_location": "L1"
     },
     {
@@ -9165,6 +9227,17 @@
       "norm_label": "vite.config.ts",
       "source_file": "frontend/vite.config.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "frontend_vite_config_target",
+      "label": "TARGET",
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "vite.config.ts",
+      "file_type": "code",
+      "norm_label": "target",
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L10"
     },
     {
       "id": "frontend_capacitor_config",
@@ -9539,7 +9612,7 @@
       "node_kind": "heading",
       "norm_label": "cuando llegue el rele",
       "source_file": "ESP32/README.md",
-      "source_location": "L71"
+      "source_location": "L73"
     },
     {
       "id": "esp32_readme_energ\u00eda",
@@ -10200,7 +10273,7 @@
       "file_type": "code",
       "norm_label": "config",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L33"
+      "source_location": "L41"
     },
     {
       "id": "frontend_src_features_ring_store_default_config",
@@ -10211,7 +10284,7 @@
       "file_type": "code",
       "norm_label": "default_config",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L9"
+      "source_location": "L10"
     },
     {
       "id": "frontend_src_features_ring_store_listeners",
@@ -10222,7 +10295,7 @@
       "file_type": "code",
       "norm_label": "listeners",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L36"
+      "source_location": "L44"
     },
     {
       "id": "frontend_src_features_theme_store",
@@ -10953,26 +11026,59 @@
       "source_location": "L4"
     },
     {
-      "id": "frontend_src_features_schedule_bell_seconds_max",
-      "label": "SECONDS_MAX",
+      "id": "frontend_src_features_schedule_bell_secondsformat",
+      "label": "secondsFormat",
       "_origin": "ast",
       "community": 23,
       "community_name": "bell.ts",
       "file_type": "code",
-      "norm_label": "seconds_max",
+      "norm_label": "secondsformat",
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L39"
+    },
+    {
+      "id": "frontend_src_features_schedule_bell_time_default_ms",
+      "label": "TIME_DEFAULT_MS",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "bell.ts",
+      "file_type": "code",
+      "norm_label": "time_default_ms",
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "frontend_src_features_schedule_bell_time_max_ms",
+      "label": "TIME_MAX_MS",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "bell.ts",
+      "file_type": "code",
+      "norm_label": "time_max_ms",
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "frontend_src_features_schedule_bell_time_min_ms",
+      "label": "TIME_MIN_MS",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "bell.ts",
+      "file_type": "code",
+      "norm_label": "time_min_ms",
       "source_file": "frontend/src/features/schedule/bell.ts",
       "source_location": "L7"
     },
     {
-      "id": "frontend_src_features_schedule_bell_seconds_min",
-      "label": "SECONDS_MIN",
+      "id": "frontend_src_features_schedule_bell_time_step_ms",
+      "label": "TIME_STEP_MS",
       "_origin": "ast",
       "community": 23,
       "community_name": "bell.ts",
       "file_type": "code",
-      "norm_label": "seconds_min",
+      "norm_label": "time_step_ms",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L6"
+      "source_location": "L9"
     },
     {
       "id": "frontend_src_features_schedule_upcoming",
@@ -11107,17 +11213,6 @@
       "source_location": "L1"
     },
     {
-      "id": "frontend_src_components_ui_sheet",
-      "label": "sheet.tsx",
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "sheet.tsx",
-      "source_file": "frontend/src/components/ui/sheet.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "frontend_src_features_schedule_components_special_date_form",
       "label": "special-date-form.tsx",
       "_origin": "ast",
@@ -11237,6 +11332,28 @@
       "norm_label": "root",
       "source_file": "frontend/src/main.tsx",
       "source_location": "L6"
+    },
+    {
+      "id": "frontend_src_pages_ring_index",
+      "label": "ring/index.tsx",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "ring/index.tsx",
+      "source_file": "frontend/src/pages/ring/index.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "frontend_src_pages_special_dates_detail",
+      "label": "detail.tsx",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "detail.tsx",
+      "source_file": "frontend/src/pages/special-dates/detail.tsx",
+      "source_location": "L1"
     },
     {
       "id": "frontend_src_pages_special_dates_index",
@@ -13747,6 +13864,17 @@
       "source_location": "L1"
     },
     {
+      "id": "frontend_src_features_schedule_components_ring_fields_time",
+      "label": "time",
+      "_origin": "ast",
+      "community": 79,
+      "community_name": "ring-fields.tsx",
+      "file_type": "code",
+      "norm_label": "time",
+      "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
+      "source_location": "L24"
+    },
+    {
       "id": "frontend_src_features_schedule_format",
       "label": "format.ts",
       "_origin": "ast",
@@ -14239,6 +14367,17 @@
       "norm_label": "stepper.tsx",
       "source_file": "frontend/src/components/ui/stepper.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "frontend_src_components_ui_stepper_tones",
+      "label": "tones",
+      "_origin": "ast",
+      "community": 90,
+      "community_name": "stepper.tsx",
+      "file_type": "code",
+      "norm_label": "tones",
+      "source_file": "frontend/src/components/ui/stepper.tsx",
+      "source_location": "L24"
     },
     {
       "id": "frontend_src_components_ui_switch",
@@ -14911,7 +15050,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L76",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -14923,7 +15062,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L79",
+      "source_location": "L85",
       "weight": 1.0
     },
     {
@@ -14935,7 +15074,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L70",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -14947,7 +15086,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L103",
+      "source_location": "L109",
       "weight": 1.0
     },
     {
@@ -14959,7 +15098,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L105",
+      "source_location": "L111",
       "weight": 1.0
     },
     {
@@ -14971,7 +15110,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L110",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -14983,23 +15122,35 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L112",
+      "source_location": "L118",
       "weight": 1.0
     },
     {
       "source": "frontend_src_features_schedule_bell_bellsummary",
-      "target": "frontend_src_features_schedule_bell_totalseconds",
+      "target": "frontend_src_features_schedule_bell_formatseconds",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L47",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
-      "source": "frontend_src_features_schedule_bell_totalseconds",
+      "source": "frontend_src_features_schedule_bell_bellsummary",
+      "target": "frontend_src_features_schedule_bell_totalms",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_bell_totalms",
       "target": "frontend_src_features_schedule_bell_ringdurations",
       "relation": "calls",
       "_origin": "ast",
@@ -15007,7 +15158,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L26",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_bell_totalms",
+      "target": "frontend_src_features_schedule_bell_ringpauses",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L36",
       "weight": 1.0
     },
     {
@@ -15031,7 +15194,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L33",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -18175,7 +18338,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L64",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -18187,7 +18350,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L74",
+      "source_location": "L75",
       "weight": 1.0
     },
     {
@@ -18199,7 +18362,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/pages/device/index.tsx",
-      "source_location": "L52",
+      "source_location": "L53",
       "weight": 1.0
     },
     {
@@ -18260,6 +18423,18 @@
       "context": "call",
       "source_file": "frontend/src/scripts/cojeev-materialize-fonts.mjs",
       "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_vite_config_deviceproxy",
+      "target": "frontend_vite_config_away",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -19139,6 +19314,18 @@
       "weight": 1.0
     },
     {
+      "source": "frontend_src_components_ui_stepper",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "frontend/src/components/ui/stepper.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "frontend_src_components_ui_toast",
       "target": "ref_react",
       "relation": "imports_from",
@@ -19207,7 +19394,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -19232,6 +19419,30 @@
       "context": "import",
       "source_file": "frontend/src/features/schedule/components/bell-list.tsx",
       "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_components_ring_fields",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_components_ring_pattern",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -19919,7 +20130,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "ESP32/README.md",
-      "source_location": "L71",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -22531,13 +22742,24 @@
     },
     {
       "source": "frontend_src_components_ui_stepper",
+      "target": "frontend_src_components_ui_stepper_tones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/components/ui/stepper.tsx",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_components_ui_stepper",
       "target": "frontend_src_components_ui_stepper_stepper",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/components/ui/stepper.tsx",
-      "source_location": "L17",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -22548,7 +22770,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/components/ui/stepper.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -23070,167 +23292,13 @@
     },
     {
       "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_stopring",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L109",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_ringrun",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L12",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_load",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L23",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_config",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L33",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_listeners",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L36",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_emit",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L38",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_subscribe",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L42",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_torun",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L49",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_setrun",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L65",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_applydevicerun",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L74",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_getconfig",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L84",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_getrun",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L85",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_useringconfig",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L87",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
       "target": "frontend_src_features_ring_store_default_config",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_ring_store",
-      "target": "frontend_src_features_ring_store_useringrun",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L91",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -23241,7 +23309,183 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L96",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_stopring",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_ringrun",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_load",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_config",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_listeners",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_emit",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_subscribe",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_torun",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_setrun",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_applydevicerun",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_getconfig",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_getrun",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_useringconfig",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_ring_store",
+      "target": "frontend_src_features_ring_store_useringrun",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/ring/store.ts",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_bell",
+      "target": "frontend_src_features_schedule_bell_time_default_ms",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_bell",
+      "target": "frontend_src_features_schedule_bell_createbell",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -23252,40 +23496,40 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L21",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
       "source": "frontend_src_features_schedule_bell",
-      "target": "frontend_src_features_schedule_bell_totalseconds",
+      "target": "frontend_src_features_schedule_bell_ringpauses",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L25",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
       "source": "frontend_src_features_schedule_bell",
-      "target": "frontend_src_features_schedule_bell_sortbells",
+      "target": "frontend_src_features_schedule_bell_totalms",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L29",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
       "source": "frontend_src_features_schedule_bell",
-      "target": "frontend_src_features_schedule_bell_clonebells",
+      "target": "frontend_src_features_schedule_bell_secondsformat",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L33",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -23301,24 +23545,24 @@
     },
     {
       "source": "frontend_src_features_schedule_bell",
-      "target": "frontend_src_features_schedule_bell_belllabel",
+      "target": "frontend_src_features_schedule_bell_formatseconds",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
       "source": "frontend_src_features_schedule_bell",
-      "target": "frontend_src_features_schedule_bell_bellsummary",
+      "target": "frontend_src_features_schedule_bell_sortbells",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L45",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -23334,18 +23578,40 @@
     },
     {
       "source": "frontend_src_features_schedule_bell",
-      "target": "frontend_src_features_schedule_bell_seconds_min",
+      "target": "frontend_src_features_schedule_bell_clonebells",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/bell.ts",
-      "source_location": "L6",
+      "source_location": "L50",
       "weight": 1.0
     },
     {
       "source": "frontend_src_features_schedule_bell",
-      "target": "frontend_src_features_schedule_bell_seconds_max",
+      "target": "frontend_src_features_schedule_bell_belllabel",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_bell",
+      "target": "frontend_src_features_schedule_bell_bellsummary",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_bell",
+      "target": "frontend_src_features_schedule_bell_time_min_ms",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23356,7 +23622,18 @@
     },
     {
       "source": "frontend_src_features_schedule_bell",
-      "target": "frontend_src_features_schedule_bell_createbell",
+      "target": "frontend_src_features_schedule_bell_time_max_ms",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/bell.ts",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_bell",
+      "target": "frontend_src_features_schedule_bell_time_step_ms",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23477,13 +23754,35 @@
     },
     {
       "source": "frontend_src_features_schedule_components_ring_fields",
+      "target": "frontend_src_features_schedule_components_ring_fields_settingrow",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_components_ring_fields",
       "target": "frontend_src_features_schedule_components_ring_fields_ringfieldsprops",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L15",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_components_ring_fields",
+      "target": "frontend_src_features_schedule_components_ring_fields_time",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -23494,7 +23793,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L20",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -23505,7 +23804,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/components/ring-fields.tsx",
-      "source_location": "L26",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -23516,7 +23815,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
-      "source_location": "L4",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_components_ring_pattern",
+      "target": "frontend_src_features_schedule_components_ring_pattern_ringpatternprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/components/ring-pattern.tsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -24154,7 +24464,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L13",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -24165,7 +24475,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L15",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -24176,7 +24486,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L21",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -24187,7 +24497,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L23",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -24198,7 +24508,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L32",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -24209,7 +24519,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/types.ts",
-      "source_location": "L37",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -29500,7 +29810,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L21",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -29511,7 +29821,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -29522,7 +29832,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -29533,7 +29843,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L51",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -29544,7 +29854,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L59",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -29555,7 +29865,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L61",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -29566,7 +29876,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L78",
+      "source_location": "L79",
       "weight": 1.0
     },
     {
@@ -29720,7 +30030,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/pages/device/index.tsx",
-      "source_location": "L84",
+      "source_location": "L85",
       "weight": 1.0
     },
     {
@@ -30417,6 +30727,39 @@
       "weight": 1.0
     },
     {
+      "source": "frontend_vite_config",
+      "target": "frontend_vite_config_target",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_vite_config",
+      "target": "frontend_vite_config_away",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_vite_config",
+      "target": "frontend_vite_config_deviceproxy",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/vite.config.ts",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
       "source": "frontend_android_gradlew",
       "target": "frontend_android_gradlew_warn",
       "relation": "defines",
@@ -30609,7 +30952,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -30801,7 +31144,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L88",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -30813,7 +31156,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L88",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -30825,7 +31168,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L92",
+      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -30837,7 +31180,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "frontend/src/features/ring/store.ts",
-      "source_location": "L92",
+      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -31106,5 +31449,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "94529546857d4a0b0a027c08f3174ebb9c20cc30"
+  "built_at_commit": "f18e284fe65c951160d2e7b6bdbe0c4c3da40053"
 }
