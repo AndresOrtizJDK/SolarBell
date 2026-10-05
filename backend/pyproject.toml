@@ -1,0 +1,32 @@
+[project]
+name = "solarbell-backend"
+version = "0.1.0"
+description = "API de SolarBell: horario, toques manuales y puente WebSocket al nodo ESP32."
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.14",
+    "asyncpg>=0.30",
+    "fastapi>=0.115",
+    "pwdlib[argon2]>=0.2.1",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "pyjwt>=2.10",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "uvicorn[standard]>=0.32",
+]
+
+[dependency-groups]
+dev = [
+    "aiosqlite>=0.20",
+    "httpx>=0.28",
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]

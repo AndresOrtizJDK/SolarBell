@@ -1,0 +1,30 @@
+import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vite'
+
+const API = process.env.SOLARBELL_API ?? 'http://localhost:8000'
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    tsconfigPaths: true,
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+  server: {
+    host: true,
+    port: 5173,
+    proxy: {
+      '/api': { target: API, changeOrigin: true },
+      '/ws': { target: API, ws: true, changeOrigin: true },
+    },
+  },
+  preview: {
+    proxy: {
+      '/api': { target: API, changeOrigin: true },
+      '/ws': { target: API, ws: true, changeOrigin: true },
+    },
+  },
+})

@@ -22,6 +22,24 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+ESP32/**/config.h
+ESP32/**/configuracion.h
+
 # Added by code-review-graph
 .code-review-graph/
 grapify-output/

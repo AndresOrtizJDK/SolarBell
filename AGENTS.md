@@ -1,13 +1,34 @@
-# SolarBell
+# SolarBell Proyect
 
-React 19 + Vite 8 + Bun. App web mobile-first.
+Monorepo de la campana solar SolarBell.
+
+- `frontend/` — React 19 + Vite 8 + Bun. App web mobile-first.
+- `backend/` — FastAPI + SQLAlchemy 2 (async) + Alembic + PostgreSQL. REST + WebSocket.
+- `ESP32/solarbell_node/` — sketch Arduino del nodo. Sin relé: el LED azul simula cada toque.
 
 ## Commands
 
-- `bun dev` — servidor en `0.0.0.0:5173` para probar en el teléfono
+Local (Podman):
+
+- `podman-compose -f compose.dev.yaml up -d` — PostgreSQL + API con recarga en `:8000`
+- `cd frontend && bun dev` — servidor en `0.0.0.0:5173`; `/api` y `/ws` van por proxy a `:8000`
+
+Frontend (`cd frontend`):
+
 - `bun run build`
 - `bun run lint`
 - `bun run preview`
+
+Backend (`cd backend`):
+
+- `uv run pytest`
+- `uv run alembic upgrade head`
+- `uv run alembic revision --autogenerate -m "..."`
+- `uv run uvicorn app.principal:app --reload` (sin contenedor; necesita `DATABASE_URL`)
+
+Producción (Docker):
+
+- `docker compose up -d --build` — `db` + `api` + `web` (nginx en `:80`)
 
 ## Skills
 
@@ -28,16 +49,24 @@ Project skills viven en `.agents/skills/` (Cursor las carga). `find-skills` est�
 
 ## Rules
 
-Ver `.cursor/rules/`. No inventar producto: `PRODUCT.md` marca lo abierto.
+Ver `.cursor/rules/`. No inventar producto: `frontend/PRODUCT.md` marca lo abierto.
 
 ## Structure
 
 ```
-src/app          providers + router
-src/pages        rutas
-src/features     dominios (vacío hasta que exista producto)
-src/components   ui + layout
-src/hooks lib styles
+frontend/src/app          providers + router
+frontend/src/pages        rutas
+frontend/src/features     dominios (schedule, ring, session, theme, feedback)
+frontend/src/components   ui + layout
+frontend/src/hooks lib styles
+backend/app/api           rutas REST + WebSocket
+backend/app/models        SQLAlchemy
+backend/app/schemas       Pydantic (camelCase)
+backend/app/services      toque, programador, concentrador (WebSocket)
+backend/alembic           migraciones
+ESP32/solarbell_node      firmware del nodo
+compose.yaml              producción (docker compose)
+compose.dev.yaml          local (podman-compose)
 ```
 
 <!-- code-review-graph MCP tools -->

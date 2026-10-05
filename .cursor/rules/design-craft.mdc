@@ -1,6 +1,7 @@
 ---
 description: Craft UI — Emil, Impeccable, frontend-design
-alwaysApply: true
+globs: frontend/**
+alwaysApply: false
 ---
 
 # Design craft
@@ -17,6 +18,6 @@ Antes de UI o motion, leer la skill que aplica:
 Reglas cortas:
 
 - UI < 300ms. Press 100–160ms. Ease-out custom. Nunca `ease-in`.
-- Seguir `DESIGN.md`. No Inter, no púrpura, no glass como default.
+- Seguir `frontend/DESIGN.md`. No Inter, no púrpura, no glass como default.
 - `prefers-reduced-motion` siempre.
 - Verificar en browser (móvil y desktop) si el cambio es visible.

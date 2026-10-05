@@ -1,6 +1,6 @@
 ---
 description: Convenciones React y TypeScript
-globs: **/*.{ts,tsx}
+globs: frontend/**/*.{ts,tsx}
 alwaysApply: false
 ---
 

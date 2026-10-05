@@ -1,0 +1,22 @@
+---
+description: Convenciones FastAPI + SQLAlchemy + Alembic (backend/)
+globs: backend/**
+alwaysApply: false
+---
+
+# Backend
+
+- Python 3.13 con `uv`. Dependencias en `backend/pyproject.toml`; nunca `pip install` suelto.
+- Idioma: ficheros, clases, funciones, variables, comentarios y logs en español (sin tildes ni ñ en los nombres). Carpetas en inglés (`api`, `core`, `db`, `models`, `schemas`, `services`, `routes`).
+- El contrato queda en inglés: rutas URL, claves JSON, mensajes WebSocket, tablas/columnas y variables de entorno. Se mapea con alias, nunca renombrando el contrato:
+  - Modelos: `mapped_column("nombre_columna", ...)` con el atributo en español.
+  - Schemas: `Field(alias="claveCamel")` sobre `EsquemaBase`.
+  - Configuración: `Field(alias="VARIABLE_ENTORNO")`.
+- FastAPI async. Rutas en `backend/app/api/routes/<dominio>.py`, montadas en `app/api/enrutador.py`. Arranque en `app/principal.py` (`app.principal:app`).
+- SQLAlchemy 2 (`Mapped`, `mapped_column`) con `asyncpg`. Modelos en `app/models`, uno por archivo.
+- Todo cambio de esquema pasa por Alembic: `uv run alembic revision --autogenerate -m "..."` y revisar el archivo generado.
+- Schemas Pydantic en `app/schemas`: el JSON coincide con `frontend/src/features/schedule/types.ts`.
+- Lógica fuera de las rutas: `app/services`. Las rutas validan, llaman al servicio y responden.
+- Config solo vía `app/core/configuracion.py` (`Configuracion`, variables de entorno). Sin secretos en código.
+- El concentrador de WebSocket vive en memoria: uvicorn corre con 1 worker.
+- Tests: `uv run pytest` desde `backend/`.

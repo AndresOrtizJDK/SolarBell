@@ -1,6 +1,6 @@
 ---
 description: Reglas mobile-first y touch nativo
-globs: **/*.{tsx,css,html}
+globs: frontend/**/*.{tsx,css,html}
 alwaysApply: false
 ---
 
