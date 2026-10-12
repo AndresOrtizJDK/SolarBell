@@ -615,19 +615,6 @@
       "source_location": "L45"
     },
     {
-      "id": "frontend_src_features_schedule_components_bell_form_bellformprops",
-      "label": "BellFormProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 153,
-      "community_name": "bell-form.tsx",
-      "file_type": "code",
-      "norm_label": "bellformprops",
-      "source_file": "frontend/src/features/schedule/components/bell-form.tsx",
-      "source_location": "L6"
-    },
-    {
       "id": "frontend_src_features_ring_store_ringrun",
       "label": "RingRun",
       "_callable": true,
@@ -873,6 +860,19 @@
       "norm_label": "morphhost",
       "source_file": "frontend/src/lib/cojeev-motion/category.ts",
       "source_location": "L17"
+    },
+    {
+      "id": "frontend_src_features_schedule_components_bell_form_bellformprops",
+      "label": "BellFormProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "bellformprops",
+      "source_file": "frontend/src/features/schedule/components/bell-form.tsx",
+      "source_location": "L6"
     },
     {
       "id": "frontend_src_lib_cojeev_motion_scroll_thumb_scrollroot",
@@ -1535,7 +1535,7 @@
       "file_type": "code",
       "norm_label": "deviceerror",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L32"
+      "source_location": "L34"
     },
     {
       "id": "frontend_src_lib_device_devicerun",
@@ -1574,7 +1574,7 @@
       "file_type": "code",
       "norm_label": "requestoptions",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L60"
+      "source_location": "L62"
     },
     {
       "id": "frontend_src_lib_cojeev_number_motion_numberpart",
@@ -3409,6 +3409,30 @@
       "source_location": "L21"
     },
     {
+      "id": "frontend_src_pages_ring_index_ringpage",
+      "label": "RingPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "ring/index.tsx",
+      "file_type": "code",
+      "norm_label": "ringpage()",
+      "source_file": "frontend/src/pages/ring/index.tsx",
+      "source_location": "L14"
+    },
+    {
+      "id": "frontend_src_pages_ring_index_ringstatus",
+      "label": "RingStatus()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "ring/index.tsx",
+      "file_type": "code",
+      "norm_label": "ringstatus()",
+      "source_file": "frontend/src/pages/ring/index.tsx",
+      "source_location": "L62"
+    },
+    {
       "id": "frontend_src_features_ring_components_bell_push_bellpush",
       "label": "BellPush()",
       "_callable": true,
@@ -3599,18 +3623,6 @@
       "norm_label": "spinnerlabel()",
       "source_file": "frontend/@/components/ui/spinner.tsx",
       "source_location": "L227"
-    },
-    {
-      "id": "frontend_src_features_schedule_components_bell_form_bellform",
-      "label": "BellForm()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 153,
-      "community_name": "bell-form.tsx",
-      "file_type": "code",
-      "norm_label": "bellform()",
-      "source_file": "frontend/src/features/schedule/components/bell-form.tsx",
-      "source_location": "L12"
     },
     {
       "id": "frontend_src_features_ring_store_applydevicerun",
@@ -4753,6 +4765,18 @@
       "source_location": "L12"
     },
     {
+      "id": "frontend_src_features_schedule_components_bell_form_bellform",
+      "label": "BellForm()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "bellform()",
+      "source_file": "frontend/src/features/schedule/components/bell-form.tsx",
+      "source_location": "L12"
+    },
+    {
       "id": "frontend_src_features_schedule_components_special_date_form_specialdateform",
       "label": "SpecialDateForm()",
       "_callable": true,
@@ -4859,30 +4883,6 @@
       "norm_label": "usereferenceref()",
       "source_file": "frontend/src/lib/cojeev/reference-ref.ts",
       "source_location": "L6"
-    },
-    {
-      "id": "frontend_src_pages_ring_index_ringpage",
-      "label": "RingPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "ringpage()",
-      "source_file": "frontend/src/pages/ring/index.tsx",
-      "source_location": "L14"
-    },
-    {
-      "id": "frontend_src_pages_ring_index_ringstatus",
-      "label": "RingStatus()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "ringstatus()",
-      "source_file": "frontend/src/pages/ring/index.tsx",
-      "source_location": "L62"
     },
     {
       "id": "frontend_src_pages_special_dates_detail_specialdatedetailpage",
@@ -5122,7 +5122,7 @@
       "file_type": "code",
       "norm_label": "onvisibility()",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L100"
+      "source_location": "L115"
     },
     {
       "id": "frontend_src_features_device_store_poll",
@@ -5134,7 +5134,19 @@
       "file_type": "code",
       "norm_label": "poll()",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L83"
+      "source_location": "L97"
+    },
+    {
+      "id": "frontend_src_features_device_store_pullscheduleifchanged",
+      "label": "pullScheduleIfChanged()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "device/store.ts",
+      "file_type": "code",
+      "norm_label": "pullscheduleifchanged()",
+      "source_file": "frontend/src/features/device/store.ts",
+      "source_location": "L79"
     },
     {
       "id": "frontend_src_features_device_store_schedulenext",
@@ -5146,7 +5158,7 @@
       "file_type": "code",
       "norm_label": "schedulenext()",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L77"
+      "source_location": "L91"
     },
     {
       "id": "frontend_src_features_device_store_startdevicesync",
@@ -5158,7 +5170,7 @@
       "file_type": "code",
       "norm_label": "startdevicesync()",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L105"
+      "source_location": "L120"
     },
     {
       "id": "frontend_src_features_device_store_stopdevicesync",
@@ -5170,7 +5182,7 @@
       "file_type": "code",
       "norm_label": "stopdevicesync()",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L112"
+      "source_location": "L127"
     },
     {
       "id": "frontend_src_features_device_store_subscribe",
@@ -6358,7 +6370,7 @@
       "file_type": "code",
       "norm_label": "device()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L62"
+      "source_location": "L64"
     },
     {
       "id": "frontend_src_lib_device_deviceerror_constructor",
@@ -6370,7 +6382,7 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L35"
+      "source_location": "L37"
     },
     {
       "id": "frontend_src_lib_device_errormessage",
@@ -6382,7 +6394,7 @@
       "file_type": "code",
       "norm_label": "errormessage()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L42"
+      "source_location": "L44"
     },
     {
       "id": "frontend_src_lib_device_errortext",
@@ -6394,7 +6406,7 @@
       "file_type": "code",
       "norm_label": "errortext()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L79"
+      "source_location": "L81"
     },
     {
       "id": "frontend_src_lib_device_withtimeout",
@@ -6406,7 +6418,7 @@
       "file_type": "code",
       "norm_label": "withtimeout()",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L52"
+      "source_location": "L54"
     },
     {
       "id": "frontend_src_lib_cojeev_number_motion_mixnumber",
@@ -7462,7 +7474,7 @@
       "file_type": "code",
       "norm_label": "copyweeklyinto()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L192"
+      "source_location": "L196"
     },
     {
       "id": "frontend_src_features_schedule_store_createspecial",
@@ -7474,7 +7486,7 @@
       "file_type": "code",
       "norm_label": "createspecial()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L153"
+      "source_location": "L157"
     },
     {
       "id": "frontend_src_features_schedule_store_deletebell",
@@ -7486,7 +7498,7 @@
       "file_type": "code",
       "norm_label": "deletebell()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L140"
+      "source_location": "L144"
     },
     {
       "id": "frontend_src_features_schedule_store_deletespecial",
@@ -7498,7 +7510,7 @@
       "file_type": "code",
       "norm_label": "deletespecial()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L196"
+      "source_location": "L200"
     },
     {
       "id": "frontend_src_features_schedule_store_emit",
@@ -7534,7 +7546,7 @@
       "file_type": "code",
       "norm_label": "findspecialbydate()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L149"
+      "source_location": "L153"
     },
     {
       "id": "frontend_src_features_schedule_store_getbells",
@@ -7546,7 +7558,7 @@
       "file_type": "code",
       "norm_label": "getbells()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L113"
+      "source_location": "L117"
     },
     {
       "id": "frontend_src_features_schedule_store_getsnapshot",
@@ -7559,6 +7571,18 @@
       "norm_label": "getsnapshot()",
       "source_file": "frontend/src/features/schedule/store.ts",
       "source_location": "L62"
+    },
+    {
+      "id": "frontend_src_features_schedule_store_isscheduleidle",
+      "label": "isScheduleIdle()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "schedule/store.ts",
+      "file_type": "code",
+      "norm_label": "isscheduleidle()",
+      "source_file": "frontend/src/features/schedule/store.ts",
+      "source_location": "L103"
     },
     {
       "id": "frontend_src_features_schedule_store_load",
@@ -7594,7 +7618,7 @@
       "file_type": "code",
       "norm_label": "refreshschedule()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L103"
+      "source_location": "L107"
     },
     {
       "id": "frontend_src_features_schedule_store_savebell",
@@ -7606,7 +7630,7 @@
       "file_type": "code",
       "norm_label": "savebell()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L130"
+      "source_location": "L134"
     },
     {
       "id": "frontend_src_features_schedule_store_saveondevice",
@@ -7630,7 +7654,7 @@
       "file_type": "code",
       "norm_label": "setweekdays()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L144"
+      "source_location": "L148"
     },
     {
       "id": "frontend_src_features_schedule_store_subscribe",
@@ -7654,7 +7678,7 @@
       "file_type": "code",
       "norm_label": "updatespecial()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L165"
+      "source_location": "L169"
     },
     {
       "id": "frontend_src_features_schedule_store_useschedule",
@@ -7678,7 +7702,7 @@
       "file_type": "code",
       "norm_label": "withbells()",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L118"
+      "source_location": "L122"
     },
     {
       "id": "frontend_src_lib_cojeev_reference_layouts_reconcileswaporder",
@@ -8979,6 +9003,114 @@
       "source_location": "L1"
     },
     {
+      "id": "esp32_prueba_rapida_rele",
+      "label": "PRUEBA_RAPIDA_RELE.md",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "prueba_rapida_rele.md",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "esp32_prueba_rapida_rele_1_cambio_hecho_en_el_firmware",
+      "label": "1. Cambio hecho en el firmware",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. cambio hecho en el firmware",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L8"
+    },
+    {
+      "id": "esp32_prueba_rapida_rele_2_esquema",
+      "label": "2. Esquema",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. esquema",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L21"
+    },
+    {
+      "id": "esp32_prueba_rapida_rele_3_conexiones",
+      "label": "3. Conexiones",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. conexiones",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L36"
+    },
+    {
+      "id": "esp32_prueba_rapida_rele_4_procedimiento",
+      "label": "4. Procedimiento",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. procedimiento",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L53"
+    },
+    {
+      "id": "esp32_prueba_rapida_rele_5_precauciones",
+      "label": "5. Precauciones",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "5. precauciones",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L64"
+    },
+    {
+      "id": "esp32_prueba_rapida_rele_6_si_algo_falla",
+      "label": "6. Si algo falla",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "6. si algo falla",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L71"
+    },
+    {
+      "id": "esp32_prueba_rapida_rele_7_siguiente_paso",
+      "label": "7. Siguiente paso",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "7. siguiente paso",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L81"
+    },
+    {
+      "id": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "label": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "_origin": "ast",
+      "community": 104,
+      "community_name": "SolarBell \u00b7 Prueba r\u00e1pida: bater\u00eda \u2192 ESP32 \u2192 rel\u00e9 \u2192 LED",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "solarbell \u00b7 prueba rapida: bateria \u2192 esp32 \u2192 rele \u2192 led",
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L1"
+    },
+    {
       "id": "frontend_tsconfig",
       "label": "tsconfig.json",
       "_origin": "ast",
@@ -9386,6 +9518,17 @@
       "source_location": "L1"
     },
     {
+      "id": "frontend_src_pages_ring_index",
+      "label": "ring/index.tsx",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "ring/index.tsx",
+      "file_type": "code",
+      "norm_label": "ring/index.tsx",
+      "source_file": "frontend/src/pages/ring/index.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "frontend_docs_md_contexto",
       "label": "contexto.md",
       "_origin": "ast",
@@ -9576,6 +9719,17 @@
       "norm_label": "que no cuadra (listing / sticker vs pieza)",
       "source_file": "frontend/docs/md/contexto.md",
       "source_location": "L136"
+    },
+    {
+      "id": "frontend_src_lib_lottie",
+      "label": "lottie.ts",
+      "_origin": "ast",
+      "community": 130,
+      "community_name": "lottie.ts",
+      "file_type": "code",
+      "norm_label": "lottie.ts",
+      "source_file": "frontend/src/lib/lottie.ts",
+      "source_location": "L1"
     },
     {
       "id": "esp32_readme",
@@ -10288,17 +10442,6 @@
       "norm_label": "star",
       "source_file": "frontend/@/components/ui/spinner.tsx",
       "source_location": "L34"
-    },
-    {
-      "id": "frontend_src_features_schedule_components_bell_form",
-      "label": "bell-form.tsx",
-      "_origin": "ast",
-      "community": 153,
-      "community_name": "bell-form.tsx",
-      "file_type": "code",
-      "norm_label": "bell-form.tsx",
-      "source_file": "frontend/src/features/schedule/components/bell-form.tsx",
-      "source_location": "L1"
     },
     {
       "id": "frontend_src_features_ring_store",
@@ -11260,6 +11403,17 @@
       "source_location": "L1"
     },
     {
+      "id": "frontend_src_features_schedule_components_bell_form",
+      "label": "bell-form.tsx",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "bell-form.tsx",
+      "source_file": "frontend/src/features/schedule/components/bell-form.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "frontend_src_features_schedule_components_special_date_form",
       "label": "special-date-form.tsx",
       "_origin": "ast",
@@ -11378,18 +11532,7 @@
       "file_type": "code",
       "norm_label": "root",
       "source_file": "frontend/src/main.tsx",
-      "source_location": "L6"
-    },
-    {
-      "id": "frontend_src_pages_ring_index",
-      "label": "ring/index.tsx",
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "ring/index.tsx",
-      "source_file": "frontend/src/pages/ring/index.tsx",
-      "source_location": "L1"
+      "source_location": "L7"
     },
     {
       "id": "frontend_src_pages_special_dates_detail",
@@ -13721,7 +13864,7 @@
       "file_type": "code",
       "norm_label": "nametimers",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L163"
+      "source_location": "L167"
     },
     {
       "id": "frontend_src_features_schedule_store_queue",
@@ -15037,7 +15180,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L102",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -15049,7 +15192,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L87",
+      "source_location": "L101",
       "weight": 1.0
     },
     {
@@ -15061,7 +15204,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L90",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_device_store_poll",
+      "target": "frontend_src_features_device_store_pullscheduleifchanged",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "frontend/src/features/device/store.ts",
+      "source_location": "L105",
       "weight": 1.0
     },
     {
@@ -15073,7 +15228,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L109",
+      "source_location": "L124",
       "weight": 1.0
     },
     {
@@ -15421,7 +15576,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L193",
+      "source_location": "L197",
       "weight": 1.0
     },
     {
@@ -15433,7 +15588,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L159",
+      "source_location": "L163",
       "weight": 1.0
     },
     {
@@ -15445,7 +15600,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L141",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -15457,7 +15612,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L141",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -15469,7 +15624,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L197",
+      "source_location": "L201",
       "weight": 1.0
     },
     {
@@ -15517,7 +15672,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L105",
+      "source_location": "L109",
       "weight": 1.0
     },
     {
@@ -15529,7 +15684,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L107",
+      "source_location": "L111",
       "weight": 1.0
     },
     {
@@ -15541,7 +15696,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L131",
+      "source_location": "L135",
       "weight": 1.0
     },
     {
@@ -15553,7 +15708,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L132",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -15565,7 +15720,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L146",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -15601,7 +15756,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L173",
+      "source_location": "L177",
       "weight": 1.0
     },
     {
@@ -15613,7 +15768,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L176",
+      "source_location": "L180",
       "weight": 1.0
     },
     {
@@ -18421,7 +18576,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L65",
+      "source_location": "L67",
       "weight": 1.0
     },
     {
@@ -18433,7 +18588,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L75",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -19801,7 +19956,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "frontend/src/main.tsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -20115,6 +20270,94 @@
       "confidence_score": 1.0,
       "source_file": ".cursor/skills/find-skills/SKILL.md",
       "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "esp32_prueba_rapida_rele",
+      "target": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "target": "esp32_prueba_rapida_rele_2_esquema",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "target": "esp32_prueba_rapida_rele_3_conexiones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "target": "esp32_prueba_rapida_rele_4_procedimiento",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "target": "esp32_prueba_rapida_rele_5_precauciones",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "target": "esp32_prueba_rapida_rele_6_si_algo_falla",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "target": "esp32_prueba_rapida_rele_1_cambio_hecho_en_el_firmware",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "esp32_prueba_rapida_rele_solarbell_prueba_r\u00e1pida_bater\u00eda_esp32_rel\u00e9_led",
+      "target": "esp32_prueba_rapida_rele_7_siguiente_paso",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "ESP32/PRUEBA_RAPIDA_RELE.md",
+      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -23056,28 +23299,6 @@
     },
     {
       "source": "frontend_src_features_device_store",
-      "target": "frontend_src_features_device_store_onvisibility",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L100",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_device_store",
-      "target": "frontend_src_features_device_store_startdevicesync",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L105",
-      "weight": 1.0
-    },
-    {
-      "source": "frontend_src_features_device_store",
       "target": "frontend_src_features_device_store_devicelink",
       "relation": "contains",
       "_origin": "ast",
@@ -23089,13 +23310,35 @@
     },
     {
       "source": "frontend_src_features_device_store",
+      "target": "frontend_src_features_device_store_onvisibility",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/device/store.ts",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_device_store",
+      "target": "frontend_src_features_device_store_startdevicesync",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/device/store.ts",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_device_store",
       "target": "frontend_src_features_device_store_stopdevicesync",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L112",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
@@ -23199,13 +23442,24 @@
     },
     {
       "source": "frontend_src_features_device_store",
+      "target": "frontend_src_features_device_store_pullscheduleifchanged",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/device/store.ts",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_device_store",
       "target": "frontend_src_features_device_store_schedulenext",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L77",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -23216,7 +23470,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L83",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -24299,7 +24553,7 @@
     },
     {
       "source": "frontend_src_features_schedule_store",
-      "target": "frontend_src_features_schedule_store_refreshschedule",
+      "target": "frontend_src_features_schedule_store_isscheduleidle",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -24310,13 +24564,24 @@
     },
     {
       "source": "frontend_src_features_schedule_store",
+      "target": "frontend_src_features_schedule_store_refreshschedule",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/features/schedule/store.ts",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "frontend_src_features_schedule_store",
       "target": "frontend_src_features_schedule_store_getbells",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L113",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -24327,7 +24592,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L118",
+      "source_location": "L122",
       "weight": 1.0
     },
     {
@@ -24338,7 +24603,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L130",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -24349,7 +24614,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L140",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -24360,7 +24625,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L144",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
@@ -24371,7 +24636,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L149",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -24382,7 +24647,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L153",
+      "source_location": "L157",
       "weight": 1.0
     },
     {
@@ -24393,7 +24658,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L163",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
@@ -24404,7 +24669,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L165",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -24437,7 +24702,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L192",
+      "source_location": "L196",
       "weight": 1.0
     },
     {
@@ -24448,7 +24713,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/features/schedule/store.ts",
-      "source_location": "L196",
+      "source_location": "L200",
       "weight": 1.0
     },
     {
@@ -29948,7 +30213,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L32",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -29959,7 +30224,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L42",
+      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -29970,7 +30235,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L52",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -29981,7 +30246,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L60",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -29992,7 +30257,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L62",
+      "source_location": "L64",
       "weight": 1.0
     },
     {
@@ -30003,7 +30268,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L79",
+      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -30091,7 +30356,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/main.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -31079,7 +31344,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/lib/device.ts",
-      "source_location": "L35",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -31175,7 +31440,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L80",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -31187,7 +31452,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L108",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -31199,7 +31464,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "frontend/src/features/device/store.ts",
-      "source_location": "L115",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
@@ -31576,5 +31841,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "32ac6ea2c33e5d3d50496d460aefde06843e2cb1"
+  "built_at_commit": "ced0c878aa109aa9db6844d3fd5243048c083697"
 }

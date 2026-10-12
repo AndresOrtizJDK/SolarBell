@@ -100,6 +100,10 @@ async function mutate(next: ScheduleState) {
   }
 }
 
+export function isScheduleIdle() {
+  return pending === 0
+}
+
 export async function refreshSchedule() {
   try {
     const next = await enqueue(() => device<ScheduleState>('/schedule'))

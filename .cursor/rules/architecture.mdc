@@ -12,6 +12,6 @@ alwaysApply: false
 - UI primitiva en `frontend/src/components/ui`. Shell en `frontend/src/components/layout`.
 - Providers y router en `frontend/src/app`. No meter negocio en `main.tsx`.
 - Tokens de color/tipo en `frontend/src/styles/index.css`. Motion en `frontend/src/lib/motion.ts`.
-- Llamadas a la campana solo vía `frontend/src/lib/device.ts`. El estado vivo (conexión, reloj, toque en curso) sale de `features/device/store.ts`, que lee `/api/status`.
+- Llamadas a la campana solo vía `frontend/src/lib/device.ts`. El estado vivo (conexión, reloj, toque en curso, revisión del horario) sale de `features/device/store.ts`, que lee `/api/status`.
 - Sin login ni servidor: el horario se guarda completo en el ESP32 (`PUT /api/schedule`).
 - No inventar producto. Lo no confirmado vive en `frontend/PRODUCT.md` como abierto.

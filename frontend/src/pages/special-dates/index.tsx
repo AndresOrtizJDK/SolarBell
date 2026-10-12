@@ -50,7 +50,7 @@ export function SpecialDatesPage() {
           <div className="flex w-full flex-col items-center rounded-3xl border border-dashed border-line px-6 py-8 text-center">
             <div className="size-28" aria-hidden>
               <DotLottieReact
-                src="/Calendar Date.lottie"
+                src="/calendar-date.lottie"
                 autoplay={!reduceMotion}
                 loop={!reduceMotion}
                 className="size-full"

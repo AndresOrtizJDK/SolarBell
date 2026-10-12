@@ -34,7 +34,7 @@
 #include <RTClib.h>
 #endif
 
-#define VERSION_FIRMWARE "0.3.0"
+#define VERSION_FIRMWARE "0.3.1"
 
 static_assert(sizeof(RED_CLAVE) > 8, "RED_CLAVE necesita al menos 8 caracteres (WPA2)");
 
@@ -61,6 +61,9 @@ static const uint32_t REVISION_HORARIO_MS = 500;
 WebServer servidor(80);
 Preferences preferencias;
 JsonDocument horario;
+// Sube en cada PUT /api/schedule (semanal o fechas especiales). Vive en RAM: un reinicio
+// vuelve a 0 y la app pide el horario al reconectar.
+uint32_t revisionHorario = 0;
 int32_t zonaMinutos = ZONA_MINUTOS;
 volatile bool telefonoUnido = false;
 
@@ -489,6 +492,7 @@ void responderEstado() {
   if (horaValida()) doc["now"] = ahoraEpochMs();
   else doc["now"] = nullptr;
   doc["offsetMinutes"] = zonaMinutos;
+  doc["scheduleRevision"] = revisionHorario;
   if (!toque.activa) {
     doc["run"] = nullptr;
   } else {
@@ -518,6 +522,7 @@ void alGuardarHorario() {
     return;
   }
   horario = std::move(nuevo);
+  revisionHorario++;
   iniciarDestellos();
   Serial.println("[horario] guardado");
   responder(200, horario);

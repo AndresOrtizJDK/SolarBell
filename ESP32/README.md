@@ -61,9 +61,9 @@ van los dos o ninguno. Un horario guardado por la 0.2 (en segundos) se pasa a ms
 
 | Ruta | Qué hace |
 | --- | --- |
-| `GET /api/status` | `firmware`, `clockSet`, `now`, `offsetMinutes` y `run` (toque en curso con `durations`, `pauses` y `elapsedMs`) |
+| `GET /api/status` | `firmware`, `clockSet`, `now`, `offsetMinutes`, `scheduleRevision` y `run` (toque en curso con `durations`, `pauses` y `elapsedMs`) |
 | `GET /api/schedule` | Horario guardado (`weekly`, `specials`) |
-| `PUT /api/schedule` | Reemplaza el horario completo; responde lo guardado |
+| `PUT /api/schedule` | Reemplaza el horario completo (semanal o fechas especiales); sube `scheduleRevision` y responde lo guardado |
 | `POST /api/clock` | `{ "now": <ms epoch>, "offsetMinutes": -300 }` |
 | `POST /api/ring` | `{ "rings": 3, "ringMs": 1000, "pauseMs": 1000, "customDurations": null, "customPauses": null }` toca ahora |
 | `POST /api/ring/stop` | Corta el toque en curso |

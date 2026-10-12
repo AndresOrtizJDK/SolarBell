@@ -103,6 +103,7 @@
   "101": "device/index.tsx",
   "102": "gradlew",
   "103": "schedule/index.tsx",
+  "104": "SolarBell · Prueba rápida: batería → ESP32 → relé → LED",
   "105": "tsconfig.json",
   "106": "providers.tsx",
   "107": "router.tsx",
@@ -127,10 +128,11 @@
   "126": "capacitor.settings.gradle",
   "127": "settings.gradle",
   "128": "variables.gradle",
+  "129": "ring/index.tsx",
+  "130": "lottie.ts",
   "131": "ESP32 — campana SolarBell (local, sin internet)",
   "135": "bell-push.tsx",
   "136": "dependencies",
   "137": "src/components/ui/button.tsx",
-  "146": "code-review-graph",
-  "153": "bell-form.tsx"
+  "146": "code-review-graph"
 }

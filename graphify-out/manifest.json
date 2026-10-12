@@ -270,9 +270,9 @@
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/store.ts": {
-    "mtime": 1791241320.0029304,
-    "seen": 1791241387.5834234,
-    "ast_hash": "2dacdad9aecf7d245d1588ef1369a9e6",
+    "mtime": 1791596331.3600957,
+    "seen": 1791596348.3053627,
+    "ast_hash": "6f84b2335d05239b4a41c6a4285ab8bb",
     "semantic_hash": ""
   },
   "frontend/src/features/schedule/types.ts": {
@@ -702,9 +702,9 @@
     "semantic_hash": ""
   },
   "frontend/src/main.tsx": {
-    "mtime": 1791055221.8860772,
-    "seen": 1791227116.6563165,
-    "ast_hash": "af7f53226dc17a148a15d03f186bf995",
+    "mtime": 1791597157.635648,
+    "seen": 1791597193.246086,
+    "ast_hash": "27411b7f6c068108589a2056d5e44476",
     "semantic_hash": ""
   },
   "frontend/src/pages/home/index.tsx": {
@@ -738,9 +738,9 @@
     "semantic_hash": ""
   },
   "frontend/src/pages/special-dates/index.tsx": {
-    "mtime": 1791226039.9575553,
-    "seen": 1791227116.6563206,
-    "ast_hash": "874f47e74f452f99b13a849250b070a3",
+    "mtime": 1791597158.2186515,
+    "seen": 1791597193.2460938,
+    "ast_hash": "93c61c7951f089d40390e94bb19dd26e",
     "semantic_hash": ""
   },
   "frontend/src/scripts/cojeev-materialize-fonts.mjs": {
@@ -780,15 +780,15 @@
     "semantic_hash": ""
   },
   "frontend/PRODUCT.md": {
-    "mtime": 1791239403.9186645,
-    "seen": 1791239441.9277425,
-    "ast_hash": "0ccca800c2401ae8575edd5bf1cd3944",
+    "mtime": 1791596336.2275112,
+    "seen": 1791596348.3054278,
+    "ast_hash": "8597e1b5e97cf1d17ea6137ef64937c8",
     "semantic_hash": ""
   },
   "frontend/README.md": {
-    "mtime": 1791239357.5836272,
-    "seen": 1791239441.9277434,
-    "ast_hash": "7c915d72d68d90dc08f0918d89e13ed3",
+    "mtime": 1791596492.6275501,
+    "seen": 1791597193.2461097,
+    "ast_hash": "324387f391e1b54f1f3daf32fb3dc9c0",
     "semantic_hash": ""
   },
   "frontend/docs/md/contexto.md": {
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "ESP32/README.md": {
-    "mtime": 1791241373.9672456,
-    "seen": 1791241387.5834837,
-    "ast_hash": "036eaaddc9d8f68202137feb6bb193d5",
+    "mtime": 1791596335.2555046,
+    "seen": 1791596348.3054261,
+    "ast_hash": "867a0fd0902b4f0adecf68a12f646e07",
     "semantic_hash": ""
   },
   "ESP32/solarbell_local/configuracion.ejemplo.h": {
@@ -918,14 +918,14 @@
     "semantic_hash": ""
   },
   "frontend/android/app/build.gradle": {
-    "mtime": 1791239161.0438635,
-    "seen": 1791239441.9275835,
-    "ast_hash": "527b27c963f1a79b4ff57aa73cee4477",
+    "mtime": 1791596492.2392573,
+    "seen": 1791597193.2459252,
+    "ast_hash": "d6ce2c7657f04bb754efda748a65dbe7",
     "semantic_hash": ""
   },
   "frontend/android/app/capacitor.build.gradle": {
-    "mtime": 1791242330.7356076,
-    "seen": 1791243837.240495,
+    "mtime": 1791597182.0408823,
+    "seen": 1791597193.2459283,
     "ast_hash": "b863e425fbde80251bd3c68ac8ccba02",
     "semantic_hash": ""
   },
@@ -954,8 +954,8 @@
     "semantic_hash": ""
   },
   "frontend/android/capacitor.settings.gradle": {
-    "mtime": 1791242330.7356076,
-    "seen": 1791243837.2405002,
+    "mtime": 1791597182.0399854,
+    "seen": 1791597193.2459385,
     "ast_hash": "455ebb7f9fe84a6974da6bdae43097c2",
     "semantic_hash": ""
   },
@@ -984,15 +984,15 @@
     "semantic_hash": ""
   },
   "frontend/src/features/device/store.ts": {
-    "mtime": 1791239001.4794002,
-    "seen": 1791239441.9276214,
-    "ast_hash": "d8c8ffcb790ad9c4a377db7fb2907135",
+    "mtime": 1791596333.9827783,
+    "seen": 1791596348.3053493,
+    "ast_hash": "ead807fe676032e6436407bd48355ac0",
     "semantic_hash": ""
   },
   "frontend/src/lib/device.ts": {
-    "mtime": 1791241311.969883,
-    "seen": 1791241387.5834703,
-    "ast_hash": "545d273f859954feccc8b036732acec9",
+    "mtime": 1791596329.1934633,
+    "seen": 1791596348.3054118,
+    "ast_hash": "40991e7b482b7eec24afd61dd43483cf",
     "semantic_hash": ""
   },
   "frontend/src/pages/device/index.tsx": {
@@ -1155,6 +1155,24 @@
     "mtime": 1791242957.3943925,
     "seen": 1791243837.2406387,
     "ast_hash": "65db19e11a084923680d270e90d5025e",
+    "semantic_hash": ""
+  },
+  "ESP32/PRUEBA_RAPIDA_RELE.md": {
+    "mtime": 1791496779.1467643,
+    "seen": 1791596348.3054252,
+    "ast_hash": "d98c2db79c5510e0cac6157c3b343598",
+    "semantic_hash": ""
+  },
+  "ESP32/diagrama_prueba_rele.svg": {
+    "mtime": 1791500979.897976,
+    "seen": 1791596348.305433,
+    "ast_hash": "41325470eca54e8ee9409eac0cc0bd65",
+    "semantic_hash": ""
+  },
+  "frontend/src/lib/lottie.ts": {
+    "mtime": 1791597176.3267653,
+    "seen": 1791597193.246082,
+    "ast_hash": "586d7abd728ac89d231ae21a2a5df867",
     "semantic_hash": ""
   }
 }

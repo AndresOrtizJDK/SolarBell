@@ -1,5 +1,5 @@
 import { applyDeviceRun } from '@/features/ring/store'
-import { refreshSchedule } from '@/features/schedule/store'
+import { isScheduleIdle, refreshSchedule } from '@/features/schedule/store'
 import { device, type DeviceStatus } from '@/lib/device'
 import { useSyncExternalStore } from 'react'
 
@@ -73,6 +73,20 @@ async function syncClock(status: DeviceStatus) {
 let running = false
 let inFlight = false
 let timer = 0
+/** Última revisión vista en `/status`. `null` hasta el primer poll cerca. */
+let seenScheduleRevision: number | null = null
+
+function pullScheduleIfChanged(status: DeviceStatus, arrived: boolean) {
+  const revision = status.scheduleRevision
+  if (arrived) {
+    void refreshSchedule()
+    if (typeof revision === 'number') seenScheduleRevision = revision
+    return
+  }
+  if (typeof revision !== 'number' || revision === seenScheduleRevision || !isScheduleIdle()) return
+  seenScheduleRevision = revision
+  void refreshSchedule()
+}
 
 function scheduleNext() {
   window.clearTimeout(timer)
@@ -88,8 +102,9 @@ async function poll() {
     const arrived = state.link !== 'near'
     applyDeviceRun(status.run)
     commit({ link: 'near', status, lastSeen: Date.now() })
-    if (arrived) void refreshSchedule()
+    pullScheduleIfChanged(status, arrived)
   } catch {
+    seenScheduleRevision = null
     if (state.link !== 'away') commit({ link: 'away' })
   } finally {
     inFlight = false

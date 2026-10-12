@@ -26,7 +26,7 @@ export JAVA_HOME=$HOME/.local/share/mise/installs/java/21.0.2
 bun run apk
 ```
 
-Sale en `android/app/build/outputs/apk/debug/app-debug.apk`. Para abrir el proyecto en Android
+Sale en `android/app/build/outputs/apk/debug/SolarBell-APK.apk`. Para abrir el proyecto en Android
 Studio: `bun run sync && bunx cap open android`.
 
 En el APK, `fetch` va por el HTTP nativo de Capacitor, y `MainActivity` liga la app al Wi-Fi:

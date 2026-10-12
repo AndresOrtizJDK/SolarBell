@@ -26,6 +26,8 @@ export type DeviceStatus = {
   /** ms epoch del reloj de la campana; `null` si nunca se puso en hora. */
   now: number | null
   offsetMinutes: number
+  /** Sube en cada PUT /schedule. Ausente en firmware anterior a 0.3.1. */
+  scheduleRevision?: number
   run: DeviceRun | null
 }
 

@@ -66,7 +66,7 @@ Español claro y corto. Instrumento de campo, no marketing de vatios inflados.
 - **Sin internet ni servidor**: la versión con backend sigue en `main`.
 - **MCU**: ESP32 (`ESP32/solarbell_local`). Crea su propia red Wi-Fi `SolarBell`; la app le habla por HTTP en `192.168.4.1`. Por ahora sin relé: el LED azul integrado simula cada toque.
 - **App**: APK con Capacitor. Mismas pantallas que la web.
-- **Horario**: vive en la flash del ESP32 y lo toca la campana con su reloj, aunque el teléfono se vaya. La app manda el horario completo en cada cambio; si la campana no está al alcance, el cambio no se guarda y la app vuelve a la última copia.
+- **Horario**: vive en la flash del ESP32 y lo toca la campana con su reloj, aunque el teléfono se vaya. La app manda el horario completo en cada cambio (semanal y fechas especiales); si la campana no está al alcance, el cambio no se guarda y la app vuelve a la última copia. Otros teléfonos ya conectados recogen el cambio cuando `/api/status` sube `scheduleRevision`.
 - **Reloj**: la app pone la campana en la hora del teléfono al conectarse. Con DS3231 la hora aguanta cortes de luz; sin él, no toca el horario hasta la próxima conexión.
 - **Sin login**: la protección es la clave de la red Wi-Fi de la campana.
 - **Toque manual**: `POST /api/ring`; la campana lleva el tiempo y la app lo lee de `/api/status`.

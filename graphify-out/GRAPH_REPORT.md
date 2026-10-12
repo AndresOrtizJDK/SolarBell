@@ -1,16 +1,16 @@
-# Graph Report - SolarBell Proyect  (2026-10-05)
+# Graph Report - SolarBell Proyect  (2026-10-09)
 
 ## Corpus Check
-- 149 files · ~141,583 words
+- 151 files · ~142,919 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1234 nodes · 1503 edges · 134 communities (98 shown, 36 thin omitted)
+- 1246 nodes · 1514 edges · 136 communities (102 shown, 34 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 41 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `32ac6ea2`
+- Built from commit: `ced0c878`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -116,6 +116,7 @@
 - device/index.tsx
 - gradlew
 - schedule/index.tsx
+- SolarBell · Prueba rápida: batería → ESP32 → relé → LED
 - tsconfig.json
 - router.tsx
 - sheet.tsx
@@ -129,7 +130,6 @@
 - dependencies
 - src/components/ui/button.tsx
 - code-review-graph
-- bell-form.tsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `react` - 53 edges
@@ -152,7 +152,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (134 total, 36 thin omitted)
+## Communities (136 total, 34 thin omitted)
 
 ### Community 0 - "settings.ts"
 Cohesion: 0.06
@@ -183,7 +183,7 @@ Cohesion: 0.06
 Nodes (33): @capacitor/cli, devDependencies, @capacitor/cli, oxlint, tailwindcss, @tailwindcss/vite, @types/node, @types/react (+25 more)
 
 ### Community 7 - "schedule/store.ts"
-Cohesion: 0.14
+Cohesion: 0.13
 Nodes (23): commit(), copyWeeklyInto(), createSpecial(), deleteBell(), deleteSpecial(), emit(), EMPTY, enqueue() (+15 more)
 
 ### Community 8 - "format.ts"
@@ -262,6 +262,10 @@ Nodes (11): AppearanceSettings, appearanceTokens(), contrastRatio(), defaultAppe
 Cohesion: 0.17
 Nodes (6): CATS, FILL_SEL, hosts, MorphHost, NEVER_SEL, STROKE_SEL
 
+### Community 27 - "react"
+Cohesion: 0.06
+Nodes (3): BellFormProps, root, react
+
 ### Community 28 - "scroll-thumb.ts"
 Cohesion: 0.17
 Nodes (6): elementScrollRoots, pageScrollbarBootstrap, pageScrollbarPendingAttribute, pageScrollbarPendingTimeout, pageScrollRoots, ScrollRoot
@@ -275,8 +279,8 @@ Cohesion: 0.18
 Nodes (8): assemblyContour, AssemblyGeometry, AssemblyGeometryOptions, AssemblyPartId, AssemblyRect, organismChoices, OrganismKind, shapes
 
 ### Community 31 - "device/store.ts"
-Cohesion: 0.20
-Nodes (14): commit(), DeviceLink, DeviceState, getSnapshot(), listeners, onVisibility(), poll(), scheduleNext() (+6 more)
+Cohesion: 0.19
+Nodes (15): commit(), DeviceLink, DeviceState, getSnapshot(), listeners, onVisibility(), poll(), pullScheduleIfChanged() (+7 more)
 
 ### Community 32 - "theme-transition.ts"
 Cohesion: 0.27
@@ -458,6 +462,10 @@ Nodes (5): appearance, DevicePage(), linkText(), relative, sinceText()
 Cohesion: 0.83
 Nodes (3): gradlew script, die(), warn()
 
+### Community 104 - "SolarBell · Prueba rápida: batería → ESP32 → relé → LED"
+Cohesion: 0.22
+Nodes (8): 1. Cambio hecho en el firmware, 2. Esquema, 3. Conexiones, 4. Procedimiento, 5. Precauciones, 6. Si algo falla, 7. Siguiente paso, SolarBell · Prueba rápida: batería → ESP32 → relé → LED
+
 ### Community 120 - "vite.config.ts"
 Cohesion: 0.67
 Nodes (3): away(), deviceProxy(), TARGET
@@ -471,23 +479,23 @@ Cohesion: 0.05
 Nodes (39): @base-ui/react, @capacitor/android, @capacitor/core, class-variance-authority, clsx, cn, @fontsource/jetbrains-mono, @fontsource-variable/geist (+31 more)
 
 ## Knowledge Gaps
-- **477 isolated node(s):** `uvx`, `$schema`, `typescript`, `oxc`, `.agents/**` (+472 more)
+- **484 isolated node(s):** `uvx`, `$schema`, `typescript`, `oxc`, `.agents/**` (+479 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **36 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **34 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `createLivingShader`, `use-morph.ts`, `bell-push.tsx`, `schedule/store.ts`, `src/components/ui/button.tsx`, `@/components/ui/toast.tsx`, `src/components/ui/toast.tsx`, `spinner.tsx`, `ring/store.ts`, `theme/store.ts`, `bell-form.tsx`, `toast.ts`, `device/store.ts`, `icon.tsx`, `presence.tsx`, `hold-button.tsx`, `choreography.ts`, `page.tsx`, `field.tsx`, `ignorePatterns`, `@/components/ui/button.tsx`, `control-appearance.ts`, `reference-gallery-motion.ts`, `reference-text-motion.ts`, `HoldButton.jsx`, `segmented.tsx`, `bell-list.tsx`, `ring-fields.tsx`, `flow-press.ts`, `use-motion-visibility.ts`, `use-organic-value.ts`, `stepper.tsx`, `ring-sheet.tsx`, `use-reduced-motion.ts`, `use-flow.ts`, `device/index.tsx`, `sheet.tsx`, `ring-pattern.tsx`?**
-  _High betweenness centrality (0.136) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `ring/index.tsx`, `createLivingShader`, `use-morph.ts`, `bell-push.tsx`, `schedule/store.ts`, `src/components/ui/button.tsx`, `@/components/ui/toast.tsx`, `src/components/ui/toast.tsx`, `spinner.tsx`, `ring/store.ts`, `theme/store.ts`, `toast.ts`, `device/store.ts`, `icon.tsx`, `presence.tsx`, `hold-button.tsx`, `choreography.ts`, `page.tsx`, `field.tsx`, `ignorePatterns`, `@/components/ui/button.tsx`, `control-appearance.ts`, `reference-gallery-motion.ts`, `reference-text-motion.ts`, `HoldButton.jsx`, `segmented.tsx`, `bell-list.tsx`, `ring-fields.tsx`, `flow-press.ts`, `use-motion-visibility.ts`, `use-organic-value.ts`, `stepper.tsx`, `ring-sheet.tsx`, `use-reduced-motion.ts`, `use-flow.ts`, `device/index.tsx`, `sheet.tsx`, `ring-pattern.tsx`?**
+  _High betweenness centrality (0.124) - this node is a cross-community bridge._
 - **Why does `snapshot()` connect `use-reduced-motion.ts` to `settings.ts`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+  _High betweenness centrality (0.026) - this node is a cross-community bridge._
 - **Why does `publish()` connect `settings.ts` to `use-reduced-motion.ts`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+  _High betweenness centrality (0.026) - this node is a cross-community bridge._
 - **Are the 5 inferred relationships involving `createLivingShader()` (e.g. with `appearance()` and `onLost()`) actually correct?**
   _`createLivingShader()` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `uvx`, `$schema`, `typescript` to the rest of the system?**
-  _477 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _484 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `settings.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.061343204653622425 - nodes in this community are weakly interconnected._
 - **Should `flow.ts` be split into smaller, more focused modules?**
