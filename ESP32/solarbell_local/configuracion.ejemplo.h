@@ -17,5 +17,22 @@
 // #define USAR_DS3231 1
 
 // Relé real (opcional): descomenta cuando esté conectado. Sin esto, todo se simula con el LED.
-// #define PIN_RELE 26
+// #define PIN_RELE 27
 // #define RELE_ACTIVO_EN_BAJO 1
+
+// Relé R1 que enciende el inversor solo al timbrar (opcional). Primero lo enciende, espera
+// ARRANQUE_INVERSOR_MS y luego toca la campana con PIN_RELE; al terminar lo apaga.
+// #define PIN_INVERSOR 26
+// #define INVERSOR_ACTIVO_EN_BAJO 1
+// #define ARRANQUE_INVERSOR_MS 2000
+
+// Unirse también a la red Wi-Fi de casa/colegio (opcional, solo 2.4 GHz). La campana sigue
+// creando RED_NOMBRE; en el monitor serie aparece la IP que le da el router. Descomenta y completa.
+// #define WIFI_CASA_NOMBRE "mi-red"
+// #define WIFI_CASA_CLAVE "mi-clave"
+
+// Interruptor del Wi-Fi (opcional): un interruptor entre este GPIO y GND.
+// Por defecto contacto cerrado = Wi-Fi apagado; sin cable o abierto = encendido.
+// Descomenta la segunda línea para invertirlo (cerrado = encendido).
+// #define PIN_INTERRUPTOR_WIFI 33
+// #define INTERRUPTOR_WIFI_CERRADO_ENCIENDE 1

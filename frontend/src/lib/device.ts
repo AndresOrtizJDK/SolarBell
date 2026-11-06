@@ -3,10 +3,32 @@ import { Capacitor } from '@capacitor/core'
 /** IP fija de la red que crea la campana (`ESP32/solarbell_local`). */
 const NATIVE_BASE = 'http://192.168.4.1'
 /** En el navegador `/api` va por el proxy de Vite (`SOLARBELL_DEVICE`). */
-const BASE = import.meta.env.VITE_DEVICE_URL ?? (Capacitor.isNativePlatform() ? NATIVE_BASE : '')
+const DEFAULT_BASE = import.meta.env.VITE_DEVICE_URL ?? (Capacitor.isNativePlatform() ? NATIVE_BASE : '')
+const ADDRESS_KEY = 'solarbell:device:address:v1'
 const TIMEOUT_MS = 4000
 
 export const DEVICE_NETWORK = 'SolarBell'
+
+/** Dirección guardada en este teléfono (p. ej. la IP de la campana en el Wi-Fi de casa), o la de fábrica. */
+export function deviceAddress() {
+  try {
+    return localStorage.getItem(ADDRESS_KEY) || DEFAULT_BASE
+  } catch {
+    return DEFAULT_BASE
+  }
+}
+
+/** Acepta `192.168.1.81` o `http://192.168.1.81`. Vacío restablece la de fábrica. */
+export function setDeviceAddress(input: string) {
+  const raw = input.trim().replace(/\/+$/, '')
+  const value = raw && !/^https?:\/\//i.test(raw) ? `http://${raw}` : raw
+  try {
+    if (value) localStorage.setItem(ADDRESS_KEY, value)
+    else localStorage.removeItem(ADDRESS_KEY)
+  } catch {
+    // Sin storage la dirección vale solo hasta cerrar la app.
+  }
+}
 
 /** Toque en curso según la campana. Su reloj puede no estar en hora: cuenta en ms transcurridos. */
 export type DeviceRun = {
@@ -65,7 +87,7 @@ export async function device<T>(path: string, { method = 'GET', body }: RequestO
   let response: Response
   try {
     response = await withTimeout(
-      fetch(`${BASE}/api${path}`, {
+      fetch(`${deviceAddress()}/api${path}`, {
         method,
         headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
         body: body === undefined ? undefined : JSON.stringify(body),

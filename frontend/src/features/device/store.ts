@@ -117,6 +117,12 @@ function onVisibility() {
   else void poll()
 }
 
+/** Vuelve a buscar la campana ya (p. ej. tras cambiar su dirección). */
+export function recheckDevice() {
+  seenScheduleRevision = null
+  void poll()
+}
+
 export function startDeviceSync() {
   if (running) return
   running = true

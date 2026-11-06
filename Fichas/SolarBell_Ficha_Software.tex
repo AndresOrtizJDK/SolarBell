@@ -1,0 +1,72 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{mathptmx}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{empty}
+\color{black}
+\renewcommand{\arraystretch}{1.25}
+\definecolor{cab}{gray}{0.75}
+\newcolumntype{A}{>{\raggedright\arraybackslash}p{3.1cm}}
+\newcolumntype{B}{>{\raggedright\arraybackslash}p{7.4cm}}
+\newcolumntype{C}{>{\raggedright\arraybackslash}p{4.2cm}}
+\begin{document}
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+{\Large \textbf{UNIVERSIDAD DE CÓRDOBA}}\\[0.3cm]
+{\large FACULTAD DE INGENIERÍA}\\[0.2cm]
+{\large PROGRAMA DE INGENIERÍA DE SISTEMAS}\\[0.2cm]
+{\large SEDE MONTERÍA}\\[1.7cm]
+\rule{\textwidth}{0.5pt}\\[0.3cm]
+{\Huge \textbf{FICHA DE SOFTWARE}}\\[0.4cm]
+{\LARGE \textbf{SolarBell}}\\[0.3cm]
+\rule{\textwidth}{0.5pt}\\[0.5cm]
+{\large \textit{Ficha técnica de las funcionalidades de software del sistema SolarBell.}}\\[2.5cm]
+\begin{minipage}[t]{0.42\textwidth}
+\begin{flushleft}
+\textbf{Presentado por:}\\[0.2cm]
+Andrés Felipe Ortiz Rodríguez,\\
+Néstor Junior Hernández López,\\
+José Enrique Otero Pineda,\\
+Julián Camilo Doria Guevara
+\end{flushleft}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.52\textwidth}
+\begin{flushright}
+\textbf{Docentes:}\\[0.2cm]
+Antonio Fernando Movilla Quintero\\
+\textit{Sistemas Operativos}\\[0.3cm]
+Milton Eduardo Hernández Zakzuk\\
+\textit{Arquitectura del Computador}
+\end{flushright}
+\end{minipage}\\[2.5cm]
+\vfill
+Montería, Córdoba\\
+Octubre de 2026
+\end{titlepage}
+\newpage
+\noindent{\large \textbf{Ficha de Software}}\\[0.25cm]
+\noindent\begin{tabular}{|A|B|C|}
+\hline
+\rowcolor{cab}\multicolumn{2}{|l|}{\textbf{Nombre del Proyecto:}} & \textbf{Plataforma:} \\
+\hline
+\multicolumn{2}{|l|}{SolarBell: Sistema de timbre automatizado con energía solar} & Móvil (solo Android) \\
+\hline
+\rowcolor{cab}\textbf{Funcionalidad} & \multicolumn{2}{l|}{\textbf{Descripción}} \\
+\hline
+Conectividad & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{El software se comunica con el dispositivo de hardware (ESP32) a través de su API por Wi-Fi, ya sea en la red propia del dispositivo (SolarBell) o en la red local, para consultar su estado y enviarle órdenes.} \\
+\hline
+Gestión de Horarios & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{Permite consultar y modificar el horario de timbres, con la duración de los toques y las pausas. El horario se guarda en la memoria del dispositivo para que funcione sin conexión.} \\
+\hline
+Fechas Especiales & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{Permite configurar fechas especiales (como festivos o días sin clases) en las que el horario normal de timbres se modifica o no se aplica.} \\
+\hline
+Toque Manual & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{Permite hacer sonar la campana en el momento que el usuario lo requiera y detener el toque en curso.} \\
+\hline
+Estado del Dispositivo & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{Permite consultar desde la aplicación el estado actual del dispositivo.} \\
+\hline
+\end{tabular}
+\end{document}

@@ -34,9 +34,13 @@
 #include <RTClib.h>
 #endif
 
-#define VERSION_FIRMWARE "0.3.1"
+#define VERSION_FIRMWARE "0.5.0"
 
 static_assert(sizeof(RED_CLAVE) > 8, "RED_CLAVE necesita al menos 8 caracteres (WPA2)");
+
+#if defined(WIFI_CASA_NOMBRE) && !defined(WIFI_CASA_CLAVE)
+#error "Con WIFI_CASA_NOMBRE define también WIFI_CASA_CLAVE en configuracion.h"
+#endif
 
 // Mismos límites que `frontend/src/features/schedule/bell.ts`. Toques y pausas en ms.
 static const uint8_t MAX_TOQUES = 10;
@@ -81,12 +85,54 @@ void fijarRele(bool encender) {
   releEncendido = encender;
 #ifdef PIN_RELE
 #if RELE_ACTIVO_EN_BAJO
-  digitalWrite(PIN_RELE, encender ? LOW : HIGH);
+  // Módulos de nivel bajo (transistor PNP a 5 V): con 3,3 V en IN no se apagan del todo.
+  // Para apagar se suelta el pin y la resistencia del módulo lo sube a 5 V.
+  if (encender) {
+    digitalWrite(PIN_RELE, LOW);
+    pinMode(PIN_RELE, OUTPUT);
+  } else {
+    pinMode(PIN_RELE, INPUT);
+  }
 #else
   digitalWrite(PIN_RELE, encender ? HIGH : LOW);
 #endif
 #endif
   Serial.printf("[rele] %s\n", encender ? "ON  (campana sonando)" : "OFF");
+}
+
+// ---------- Inversor (relé R1) ----------
+
+// El relé R1 conecta los 12 V de la batería al inversor solo mientras dura un timbrado: el
+// inversor encendido en vacío gasta más de lo que el panel repone.
+#ifdef PIN_INVERSOR
+#ifndef ARRANQUE_INVERSOR_MS
+#define ARRANQUE_INVERSOR_MS 2000
+#endif
+static const uint32_t ARRANQUE_MS = ARRANQUE_INVERSOR_MS;
+#else
+static const uint32_t ARRANQUE_MS = 0;
+#endif
+
+bool inversorEncendido = false;
+
+void fijarInversor(bool encender) {
+#ifdef PIN_INVERSOR
+  if (encender == inversorEncendido) return;
+  inversorEncendido = encender;
+#if INVERSOR_ACTIVO_EN_BAJO
+  // Canal de nivel bajo con optoacoplador: se suelta el pin para apagar (con 3,3 V en alto
+  // el optoacoplador puede quedar a medio encender) y se baja a 0 V para encender.
+  if (encender) {
+    digitalWrite(PIN_INVERSOR, LOW);
+    pinMode(PIN_INVERSOR, OUTPUT);
+  } else {
+    pinMode(PIN_INVERSOR, INPUT);
+  }
+#else
+  digitalWrite(PIN_INVERSOR, encender ? HIGH : LOW);
+#endif
+  Serial.printf("[inversor] %s\n", encender ? "ON" : "OFF");
+#endif
 }
 
 // ---------- Destellos de aviso ----------
@@ -121,6 +167,9 @@ struct SecuenciaToque {
   uint16_t pausas[MAX_TOQUES - 1];
   uint8_t indice = 0;
   bool faseEncendida = false;
+  // Esperando a que el inversor arranque antes del primer toque.
+  bool arrancando = false;
+  // Momento del primer toque (tras el arranque del inversor).
   uint32_t inicio = 0;
   uint32_t finFase = 0;
 } toque;
@@ -141,12 +190,19 @@ void iniciarFase(bool encendida, uint32_t ahora) {
 
 void terminarToque(const char *motivo) {
   fijarRele(false);
+  fijarInversor(false);
   toque.activa = false;
+  toque.arrancando = false;
   Serial.printf("[toque] #%lu %s\n", (unsigned long)toque.id, motivo);
 }
 
 void actualizarToque(uint32_t ahora) {
   if (!toque.activa || (int32_t)(ahora - toque.finFase) < 0) return;
+  if (toque.arrancando) {
+    toque.arrancando = false;
+    iniciarFase(true, ahora);
+    return;
+  }
   if (toque.faseEncendida) {
     if (toque.indice + 1 >= toque.cantidad) {
       terminarToque("terminado");
@@ -218,10 +274,18 @@ bool iniciarToque(JsonVariantConst config, bool programado) {
   memcpy(toque.pausas, pausas, sizeof pausas);
   toque.indice = 0;
   toque.activa = true;
-  toque.inicio = millis();
+  uint32_t ahora = millis();
+  toque.inicio = ahora + ARRANQUE_MS;
   Serial.printf("[toque] #%lu %s: %u toques\n", (unsigned long)toque.id,
                 programado ? "programado" : "manual", cantidad);
-  iniciarFase(true, toque.inicio);
+  fijarInversor(true);
+  if (ARRANQUE_MS > 0) {
+    toque.arrancando = true;
+    toque.faseEncendida = false;
+    toque.finFase = toque.inicio;
+  } else {
+    iniciarFase(true, ahora);
+  }
   return true;
 }
 
@@ -505,7 +569,9 @@ void responderEstado() {
     JsonArray pausas = run["pauses"].to<JsonArray>();
     for (uint8_t i = 0; i + 1 < toque.cantidad; i++) pausas.add(toque.pausas[i]);
     // El reloj de la campana puede no estar en hora: la app calcula inicio y fin con el suyo.
-    run["elapsedMs"] = millis() - toque.inicio;
+    // Mientras arranca el inversor todavía no ha sonado nada: cuenta como 0.
+    int32_t transcurrido = (int32_t)(millis() - toque.inicio);
+    run["elapsedMs"] = transcurrido < 0 ? 0 : transcurrido;
   }
   responder(200, doc);
 }
@@ -578,17 +644,77 @@ void iniciarApi() {
 
 void alEventoWifi(arduino_event_id_t evento) {
   if (evento == ARDUINO_EVENT_WIFI_AP_STACONNECTED) telefonoUnido = true;
+#ifdef WIFI_CASA_NOMBRE
+  if (evento == ARDUINO_EVENT_WIFI_STA_GOT_IP) {
+    Serial.printf("[red] unida a la red de casa, IP http://%s\n", WiFi.localIP().toString().c_str());
+  }
+  if (evento == ARDUINO_EVENT_WIFI_STA_DISCONNECTED) Serial.println("[red] sin la red de casa (reintenta sola)");
+#endif
 }
 
 void iniciarRed() {
-  WiFi.mode(WIFI_AP);
   WiFi.onEvent(alEventoWifi);
+#ifdef WIFI_CASA_NOMBRE
+  // Modo mixto: sigue creando RED_NOMBRE y además se une a la red de casa (solo 2.4 GHz).
+  WiFi.mode(WIFI_AP_STA);
+#else
+  WiFi.mode(WIFI_AP);
+#endif
   if (!WiFi.softAP(RED_NOMBRE, RED_CLAVE)) {
     Serial.println("[red] no se pudo crear la red");
     return;
   }
   Serial.printf("[red] %s en http://%s\n", RED_NOMBRE, WiFi.softAPIP().toString().c_str());
+#ifdef WIFI_CASA_NOMBRE
+  WiFi.setHostname("solarbell");
+  WiFi.setAutoReconnect(true);
+  WiFi.begin(WIFI_CASA_NOMBRE, WIFI_CASA_CLAVE);
+  Serial.printf("[red] uniéndose a la red de casa \"%s\"...\n", WIFI_CASA_NOMBRE);
+#endif
 }
+
+// ---------- Interruptor del Wi-Fi ----------
+
+#ifdef PIN_INTERRUPTOR_WIFI
+// Sin cable en el pin, la entrada queda en reposo (pull-up) y el Wi-Fi sigue encendido.
+// Con el Wi-Fi apagado el horario sigue sonando: solo se pierde el acceso desde el teléfono.
+#ifdef INTERRUPTOR_WIFI_CERRADO_ENCIENDE
+constexpr int NIVEL_WIFI_ENCENDIDO = LOW;
+#else
+constexpr int NIVEL_WIFI_ENCENDIDO = HIGH;
+#endif
+constexpr uint32_t REBOTE_INTERRUPTOR_MS = 300;
+
+bool wifiEncendido = false;
+int nivelVisto = -1;
+uint32_t nivelDesde = 0;
+
+void fijarWifi(bool encender) {
+  if (encender == wifiEncendido) return;
+  wifiEncendido = encender;
+  if (encender) {
+    Serial.println("[red] interruptor: Wi-Fi encendido");
+    iniciarRed();
+    servidor.begin();
+  } else {
+    Serial.println("[red] interruptor: Wi-Fi apagado");
+    servidor.stop();
+    WiFi.disconnect(true);
+    WiFi.softAPdisconnect(true);
+    WiFi.mode(WIFI_OFF);
+  }
+}
+
+void revisarInterruptorWifi(uint32_t ahora) {
+  int nivel = digitalRead(PIN_INTERRUPTOR_WIFI);
+  if (nivel != nivelVisto) {
+    nivelVisto = nivel;
+    nivelDesde = ahora;
+    return;
+  }
+  if (ahora - nivelDesde >= REBOTE_INTERRUPTOR_MS) fijarWifi(nivel == NIVEL_WIFI_ENCENDIDO);
+}
+#endif
 
 // ---------- LED ----------
 
@@ -614,10 +740,19 @@ void setup() {
   pinMode(PIN_LED, OUTPUT);
   digitalWrite(PIN_LED, LOW);
 #ifdef PIN_RELE
+#if !RELE_ACTIVO_EN_BAJO
   pinMode(PIN_RELE, OUTPUT);
+#endif
   // Forzar el nivel de reposo sin pasar por ON (no hacer sonar la campana al arrancar).
   releEncendido = true;
   fijarRele(false);
+#endif
+#ifdef PIN_INVERSOR
+#if !INVERSOR_ACTIVO_EN_BAJO
+  pinMode(PIN_INVERSOR, OUTPUT);
+#endif
+  inversorEncendido = true;
+  fijarInversor(false);
 #endif
 
   preferencias.begin("solarbell", false);
@@ -629,13 +764,27 @@ void setup() {
   if (!LittleFS.begin(true)) Serial.println("[memoria] no se pudo montar LittleFS");
   cargarHorario();
   cargarHora();
+#ifdef PIN_INTERRUPTOR_WIFI
+  pinMode(PIN_INTERRUPTOR_WIFI, INPUT_PULLUP);
+  delay(20);
+  wifiEncendido = digitalRead(PIN_INTERRUPTOR_WIFI) == NIVEL_WIFI_ENCENDIDO;
+  Serial.printf("[red] interruptor Wi-Fi en GPIO%d: %s\n", PIN_INTERRUPTOR_WIFI, wifiEncendido ? "encendido" : "apagado");
+  if (wifiEncendido) iniciarRed();
+  else WiFi.mode(WIFI_OFF);
+#else
   iniciarRed();
+#endif
   iniciarApi();
 }
 
 void loop() {
   uint32_t ahora = millis();
+#ifdef PIN_INTERRUPTOR_WIFI
+  revisarInterruptorWifi(ahora);
+  if (wifiEncendido) servidor.handleClient();
+#else
   servidor.handleClient();
+#endif
   if (telefonoUnido) {
     telefonoUnido = false;
     Serial.println("[red] se unió un teléfono");

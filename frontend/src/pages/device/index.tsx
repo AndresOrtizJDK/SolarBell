@@ -1,11 +1,13 @@
 import { Page } from '@/components/layout/page'
+import { Button } from '@/components/ui/button'
+import { Field, TextInput } from '@/components/ui/field'
 import { Segmented } from '@/components/ui/segmented'
-import { useDevice, type DeviceState } from '@/features/device/store'
+import { recheckDevice, useDevice, type DeviceState } from '@/features/device/store'
 import { setTheme, useTheme } from '@/features/theme/store'
 import { useNow } from '@/hooks/use-now'
 import { cn } from '@/lib/cn'
-import { DEVICE_NETWORK } from '@/lib/device'
-import type { ReactNode } from 'react'
+import { DEVICE_NETWORK, deviceAddress, setDeviceAddress } from '@/lib/device'
+import { useState, type ReactNode } from 'react'
 
 const appearance = [
   { value: 'light', label: 'Claro' },
@@ -34,6 +36,13 @@ export function DevicePage() {
   const state = useDevice()
   const now = useNow().getTime()
   const status = state.link === 'near' ? state.status : null
+  const [address, setAddress] = useState(deviceAddress)
+
+  function saveAddress() {
+    setDeviceAddress(address)
+    setAddress(deviceAddress())
+    recheckDevice()
+  }
 
   return (
     <Page>
@@ -69,6 +78,27 @@ export function DevicePage() {
           El horario queda guardado en la campana y suena solo, aunque te vayas. Al conectarte, la app
           la pone en la hora del teléfono.
         </p>
+      </section>
+
+      <section className="mt-4 rounded-[1.75rem] bg-raised px-5 py-4 shadow-raised">
+        <Field
+          label="Dirección de la campana"
+          htmlFor="device-address"
+          hint="192.168.4.1 en su red SolarBell. Si la campana está en el Wi-Fi de casa, escribe su IP (la muestra el monitor serie)."
+        >
+          <TextInput
+            id="device-address"
+            inputMode="url"
+            autoCapitalize="none"
+            autoCorrect="off"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="http://192.168.4.1"
+          />
+        </Field>
+        <Button className="mt-3" variant="soft" onClick={saveAddress}>
+          Guardar y buscar
+        </Button>
       </section>
 
       <section className="mt-4 rounded-[1.75rem] bg-raised px-5 py-4 shadow-raised">

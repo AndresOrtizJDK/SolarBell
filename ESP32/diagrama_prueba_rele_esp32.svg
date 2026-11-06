@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1340 780" width="1340" height="780" font-family="Arial, Helvetica, sans-serif">
+<rect width="1340" height="780" fill="#ffffff"/>
+<text x="30" y="34" text-anchor="start" font-size="20" fill="#111" font-weight="700">SolarBell · Prueba: ESP32 + relé azul + interruptor de Wi-Fi (con LED)</text>
+<text x="30" y="58" text-anchor="start" font-size="12" fill="#555">Batería → controlador → interruptor/fusible → LM2596 (5,0 V) → ESP32 + relé → LED. Las líneas que se cruzan sin punto NO están conectadas.</text>
+<rect x="30" y="90" width="130" height="100" rx="8" fill="#fff" stroke="#b45309" stroke-width="2"/>
+<text x="95.0" y="112" text-anchor="middle" font-weight="700" font-size="14">Batería 12 V</text>
+<text x="95.0" y="130" text-anchor="middle" font-size="12" fill="#555">FL1275GS</text>
+<text x="95.0" y="145" text-anchor="middle" font-size="12" fill="#555">7,5 Ah</text>
+<path d="M160 120 H200" fill="none" stroke="#dc2626" stroke-width="3" stroke-linejoin="round"/>
+<path d="M160 160 H200" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round"/>
+<rect x="200" y="70" width="150" height="140" rx="8" fill="#fff" stroke="#4338ca" stroke-width="2"/>
+<text x="275.0" y="92" text-anchor="middle" font-weight="700" font-size="14">Controlador PWM</text>
+<text x="275.0" y="178" text-anchor="middle" font-size="12" fill="#555">10 A · 12 V</text>
+<text x="275.0" y="193" text-anchor="middle" font-size="12" fill="#555">con corte LVD</text>
+<text x="206" y="124" text-anchor="start" font-size="11" fill="#111">BAT +</text>
+<text x="206" y="164" text-anchor="start" font-size="11" fill="#111">BAT −</text>
+<text x="344" y="124" text-anchor="end" font-size="11" fill="#111">LOAD +</text>
+<text x="344" y="164" text-anchor="end" font-size="11" fill="#111">LOAD −</text>
+<text x="275" y="226" text-anchor="middle" font-size="11" fill="#555">PV + / PV − → panel solar 30 Wp</text>
+<path d="M350 120 H380" fill="none" stroke="#dc2626" stroke-width="3" stroke-linejoin="round"/>
+<rect x="380" y="106" width="80" height="28" rx="5" fill="#fff" stroke="#dc2626" stroke-width="2"/>
+<text x="420" y="125" text-anchor="middle" font-size="11" fill="#111">Interruptor</text>
+<text x="420" y="96" text-anchor="middle" font-size="11" fill="#dc2626">+ fusible 2 A</text>
+<path d="M460 120 H500" fill="none" stroke="#dc2626" stroke-width="3" stroke-linejoin="round"/>
+<path d="M350 160 H500" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round"/>
+<rect x="500" y="70" width="150" height="140" rx="8" fill="#fff" stroke="#1d4ed8" stroke-width="2"/>
+<text x="575.0" y="92" text-anchor="middle" font-weight="700" font-size="14">LM2596 (buck)</text>
+<text x="575.0" y="178" text-anchor="middle" font-size="12" fill="#555">ajustar a 5,0 V</text>
+<text x="575.0" y="193" text-anchor="middle" font-size="12" fill="#555">SIN carga</text>
+<text x="506" y="124" text-anchor="start" font-size="11" fill="#111">IN+</text>
+<text x="506" y="164" text-anchor="start" font-size="11" fill="#111">IN−</text>
+<text x="644" y="124" text-anchor="end" font-size="11" fill="#111">OUT+</text>
+<text x="644" y="164" text-anchor="end" font-size="11" fill="#111">OUT−</text>
+<path d="M650 120 H690 V250" fill="none" stroke="#ea580c" stroke-width="3" stroke-linejoin="round"/>
+<path d="M650 160 H670 V700" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round"/>
+<path d="M690 250 H1320" fill="none" stroke="#ea580c" stroke-width="4" stroke-linejoin="round"/>
+<text x="1318" y="240" text-anchor="end" font-size="12" fill="#ea580c" font-weight="700">Riel 5 V</text>
+<path d="M670 700 H1320" fill="none" stroke="#111827" stroke-width="4" stroke-linejoin="round"/>
+<text x="1318" y="722" text-anchor="end" font-size="12" fill="#111827" font-weight="700">GND común</text>
+<rect x="930" y="300" width="150" height="300" rx="8" fill="#fff" stroke="#15803d" stroke-width="2"/>
+<text x="1005.0" y="322" text-anchor="middle" font-weight="700" font-size="14">ESP32</text>
+<text x="1005.0" y="340" text-anchor="middle" font-size="12" fill="#555">DevKit v1</text>
+<text x="1005.0" y="355" text-anchor="middle" font-size="12" fill="#555">30 pines</text>
+<text x="938" y="504" text-anchor="start" font-size="11" fill="#111">D27</text>
+<text x="1074" y="424" text-anchor="end" font-size="11" fill="#111">D26</text>
+<text x="956" y="322" text-anchor="start" font-size="11" fill="#111">VIN</text>
+<text x="1004" y="592" text-anchor="start" font-size="11" fill="#111">GND</text>
+<path d="M950 300 V250" fill="none" stroke="#ea580c" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="950" cy="250" r="4.5" fill="#ea580c"/>
+<path d="M1000 600 V700" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="1000" cy="700" r="4.5" fill="#111827"/>
+<rect x="1130" y="300" width="130" height="170" rx="8" fill="#fff" stroke="#1d4ed8" stroke-width="2"/>
+<text x="1195.0" y="360" text-anchor="middle" font-weight="700" font-size="14">Relé azul</text>
+<text x="1195.0" y="377" text-anchor="middle" font-size="12" fill="#555">1 canal · 5 V</text>
+<text x="1195.0" y="392" text-anchor="middle" font-size="12" fill="#555">optoacoplado</text>
+<text x="1138" y="424" text-anchor="start" font-size="11" fill="#111">IN</text>
+<path d="M1080 420 H1130" fill="none" stroke="#16a34a" stroke-width="3" stroke-linejoin="round"/>
+<text x="1105" y="413" text-anchor="middle" font-size="10" fill="#16a34a">GPIO26</text>
+<text x="1148" y="322" text-anchor="start" font-size="11" fill="#111">VCC</text>
+<text x="1218" y="322" text-anchor="middle" font-size="11" fill="#111">COM</text>
+<path d="M1160 300 V250" fill="none" stroke="#ea580c" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="1160" cy="250" r="4.5" fill="#ea580c"/>
+<path d="M1230 300 V250" fill="none" stroke="#ea580c" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="1230" cy="250" r="4.5" fill="#ea580c"/>
+<text x="1160" y="486" text-anchor="middle" font-size="11" fill="#111">GND</text>
+<path d="M1160 470 V700" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="1160" cy="700" r="4.5" fill="#111827"/>
+<text x="1238" y="490" text-anchor="start" font-size="11" fill="#111">NO</text>
+<text x="1195" y="458" text-anchor="middle" font-size="10" fill="#777">NC: libre</text>
+<path d="M1230 470 V516" fill="none" stroke="#dc2626" stroke-width="3" stroke-linejoin="round"/>
+<rect x="1210" y="516" width="40" height="22" fill="#fff" stroke="#111827" stroke-width="2"/>
+<text x="1262" y="531" text-anchor="start" font-size="11" fill="#111">1 kΩ</text>
+<path d="M1230 538 V566" fill="none" stroke="#dc2626" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="1218,566 1242,566 1230,588" fill="#fff" stroke="#111827" stroke-width="2"/>
+<line x1="1216" y1="590" x2="1244" y2="590" stroke="#111827" stroke-width="2"/>
+<path d="M1230 590 V700" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="1230" cy="700" r="4.5" fill="#111827"/>
+<text x="1262" y="580" text-anchor="start" font-size="11" fill="#111">LED</text>
+<text x="1262" y="594" text-anchor="start" font-size="10" fill="#777">(pata larga</text>
+<text x="1262" y="606" text-anchor="start" font-size="10" fill="#777">arriba)</text>
+<path d="M930 500 H890 V565" fill="none" stroke="#d97706" stroke-width="3" stroke-linejoin="round"/>
+<text x="910" y="493" text-anchor="middle" font-size="10" fill="#d97706">GPIO27</text>
+<rect x="870" y="565" width="40" height="28" rx="5" fill="#fff" stroke="#d97706" stroke-width="2"/>
+<text x="890" y="583" text-anchor="middle" font-size="11" fill="#111">I / O</text>
+<text x="866" y="575" text-anchor="end" font-size="11" fill="#111">Interruptor</text>
+<text x="866" y="589" text-anchor="end" font-size="11" fill="#111">Wi-Fi</text>
+<path d="M890 593 V700" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="890" cy="700" r="4.5" fill="#111827"/>
+<rect x="30" y="250" width="620" height="460" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+<rect x="100" y="644" width="22" height="5" fill="#dc2626"/>
+<text x="128" y="650" text-anchor="start" font-size="12" fill="#111">12 V</text>
+<rect x="172" y="644" width="22" height="5" fill="#ea580c"/>
+<text x="200" y="650" text-anchor="start" font-size="12" fill="#111">5 V</text>
+<rect x="244" y="644" width="22" height="5" fill="#111827"/>
+<text x="272" y="650" text-anchor="start" font-size="12" fill="#111">GND</text>
+<rect x="316" y="644" width="22" height="5" fill="#d97706"/>
+<text x="344" y="650" text-anchor="start" font-size="12" fill="#111">GPIO27 (interruptor Wi-Fi)</text>
+<rect x="520" y="644" width="22" height="5" fill="#16a34a"/>
+<text x="548" y="650" text-anchor="start" font-size="12" fill="#111">GPIO26</text>
+<text x="46" y="276" text-anchor="start" font-size="14" fill="#111" font-weight="700">Notas de conexión</text>
+<text x="46" y="302" text-anchor="start" font-size="12" fill="#111">1. Ajusta el LM2596 a 5,0 V SIN carga (multímetro en OUT+/OUT−) antes de conectar el ESP32.</text>
+<text x="46" y="324" text-anchor="start" font-size="12" fill="#111">2. Relé: VCC y GND a 5 V / GND. IN al GPIO26. Si el relé actúa al revés, descomenta</text>
+<text x="46" y="346" text-anchor="start" font-size="12" fill="#111">    RELE_ACTIVO_EN_BAJO en configuracion.h. Firmware: descomenta  #define PIN_RELE 26.</text>
+<text x="46" y="368" text-anchor="start" font-size="12" fill="#111">3. LED con 1 kΩ desde 5 V ≈ 3 mA (tenue pero visible). Con 330 Ω ≈ 9 mA.</text>
+<text x="46" y="390" text-anchor="start" font-size="12" fill="#111">4. Todas las tierras unidas: batería, LM2596, ESP32, relé, LED e interruptor Wi-Fi.</text>
+<text x="46" y="412" text-anchor="start" font-size="12" fill="#111">5. Sin reloj DS3231: la app pone la hora al conectarse y un corte de luz la borra.</text>
+<text x="46" y="434" text-anchor="start" font-size="12" fill="#111">6. Sube el firmware por USB con la batería desconectada; nunca USB y VIN a la vez.</text>
+<text x="46" y="456" text-anchor="start" font-size="12" fill="#111">7. Interruptor del Wi-Fi: entre GPIO27 y GND (2 terminales, sin 5 V ni 12 V).</text>
+<text x="46" y="478" text-anchor="start" font-size="12" fill="#111">    Cerrado (I) = Wi-Fi apagado; abierto (O) o sin cable = encendido.</text>
+<text x="46" y="500" text-anchor="start" font-size="12" fill="#111">8. El inversor y la campana NO van en este circuito.</text>
+<text x="46" y="650" text-anchor="start" font-size="12" fill="#111" font-weight="700">Colores:</text>
+</svg>

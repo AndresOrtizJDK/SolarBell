@@ -1,0 +1,82 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{mathptmx}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{empty}
+\color{black}
+\renewcommand{\arraystretch}{1.25}
+\definecolor{cab}{gray}{0.75}
+\newcolumntype{A}{>{\raggedright\arraybackslash}p{3.1cm}}
+\newcolumntype{B}{>{\raggedright\arraybackslash}p{7.4cm}}
+\newcolumntype{C}{>{\raggedright\arraybackslash}p{4.2cm}}
+\begin{document}
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+{\Large \textbf{UNIVERSIDAD DE CÓRDOBA}}\\[0.3cm]
+{\large FACULTAD DE INGENIERÍA}\\[0.2cm]
+{\large PROGRAMA DE INGENIERÍA DE SISTEMAS}\\[0.2cm]
+{\large SEDE MONTERÍA}\\[1.7cm]
+\rule{\textwidth}{0.5pt}\\[0.3cm]
+{\Huge \textbf{FICHA DE HARDWARE}}\\[0.4cm]
+{\LARGE \textbf{SolarBell}}\\[0.3cm]
+\rule{\textwidth}{0.5pt}\\[0.5cm]
+{\large \textit{Ficha técnica de los componentes de hardware del sistema SolarBell.}}\\[2.5cm]
+\begin{minipage}[t]{0.42\textwidth}
+\begin{flushleft}
+\textbf{Presentado por:}\\[0.2cm]
+Andrés Felipe Ortiz Rodríguez,\\
+Néstor Junior Hernández López,\\
+José Enrique Otero Pineda,\\
+Julián Camilo Doria Guevara
+\end{flushleft}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.52\textwidth}
+\begin{flushright}
+\textbf{Docentes:}\\[0.2cm]
+Antonio Fernando Movilla Quintero\\
+\textit{Sistemas Operativos}\\[0.3cm]
+Milton Eduardo Hernández Zakzuk\\
+\textit{Arquitectura del Computador}
+\end{flushright}
+\end{minipage}\\[2.5cm]
+\vfill
+Montería, Córdoba\\
+Octubre de 2026
+\end{titlepage}
+\newpage
+\noindent{\large \textbf{Ficha de Hardware}}\\[0.25cm]
+\noindent\begin{tabular}{|A|B|C|}
+\hline
+\rowcolor{cab}\multicolumn{2}{|l|}{\textbf{Nombre del Proyecto:}} & \textbf{Plataforma:} \\
+\hline
+\multicolumn{2}{|l|}{SolarBell: Sistema de timbre automatizado con energía solar} & ESP32 (con conectividad Wi-Fi) \\
+\hline
+\rowcolor{cab}\textbf{Funcionalidad} & \textbf{Descripción} & \textbf{Dispositivo} \\
+\hline
+Conectividad & El dispositivo (ESP32) crea su propia red Wi-Fi y, de forma opcional, se une a la red Wi-Fi local para recibir los horarios y las órdenes de la aplicación. & ESP32 DevKit v1 (Wi-Fi integrado en la plataforma ESP32) \\
+\hline
+Control de Tiempo & Mantiene la fecha y la hora exactas, incluso sin internet o sin energía, para activar el timbre en los horarios programados y en las fechas especiales. & Módulo RTC DS3231 (HW-084) \\
+\hline
+Activación del Inversor & Conecta la alimentación de 12 V del inversor solo cuando va a sonar la campana, para evitar su consumo en vacío y cuidar la batería. & Módulo de relé de 1 canal, 5 V (azul) \\
+\hline
+Activación de la Campana & Interrumpe y cierra la línea de 110 VAC que va hacia la campana para que suene en los horarios programados o en un toque manual. & Relé Songle SRA-05VDC-CL, 5 V \\
+\hline
+Activación Manual & Permite que la campana suene directamente al oprimir un botón, sin depender de la aplicación. & Pulsador de pared para timbre (EXE) \\
+\hline
+Generación de Energía & Convierte la radiación solar en energía eléctrica para alimentar el sistema. & Panel solar Powest SZYL-P30-18C (30 Wp) \\
+\hline
+Regulación de Carga & Regula la carga de la batería desde el panel y la protege contra sobrecarga y descarga profunda. & Controlador de carga solar PWM de 10 A (12/24 V) \\
+\hline
+Almacenamiento de Energía & Almacena la energía para que el sistema funcione de noche y en días sin sol. & Batería VRLA 12 V / 7.5 Ah (FuliBattery FL1275GS) \\
+\hline
+Conversión de Voltaje (DC-AC) & Convierte los 12 VDC de la batería en 110 VAC para alimentar la campana. & Inversor CAR INVERTER LY-150 (150 W) \\
+\hline
+Reducción de Voltaje & Convierte la energía de la batería en una salida regulada de 5 V destinada al ESP32 y a los módulos de relé. & Convertidor reductor LM2596 \\
+\hline
+\end{tabular}
+\end{document}

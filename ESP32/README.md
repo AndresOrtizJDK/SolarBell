@@ -74,3 +74,34 @@ Errores: `{ "detail": "..." }` con 400, 413, 422 o 500.
 
 Descomenta `PIN_RELE` (y `RELE_ACTIVO_EN_BAJO` si el módulo se activa con LOW) en `configuracion.h`.
 `fijarRele()` ya conmuta ese pin junto con el LED.
+
+## Interruptor del Wi-Fi
+
+Un interruptor de 2 terminales entre `GPIO27` y `GND` (`PIN_INTERRUPTOR_WIFI` en `configuracion.h`).
+Cerrado apaga el Wi-Fi (la red `SolarBell` y la de casa); abierto o sin cable lo enciende.
+Con el Wi-Fi apagado el horario sigue sonando solo, pero la app no puede conectarse.
+Para invertir la lógica, define `INTERRUPTOR_WIFI_CERRADO_ENCIENDE`.
+Diagrama: `diagrama_circuito_rele_ds3231_interruptor_wifi.svg`.
+
+## Relé del inversor (R1)
+
+`PIN_INVERSOR` (GPIO25) cierra el relé Songle que conecta los 12 V de la batería al inversor.
+En cada timbrado (programado o manual) el firmware enciende el inversor, espera
+`ARRANQUE_INVERSOR_MS` (2000 por defecto), toca la campana con `PIN_RELE` (GPIO32) y al terminar
+apaga ambos. Mientras arranca, `/api/status` reporta `elapsedMs: 0`. El botón del inversor debe
+quedar en ON. Diagrama: `diagrama_completo_solarbell.svg`.
+
+## Módulo de relé azul (nivel bajo)
+
+El módulo azul se activa con señal **baja** y no se apaga con 3,3 V del ESP32: `RELE_ACTIVO_EN_BAJO`
+en `configuracion.h` hace que el firmware lo apague **soltando** el pin (entrada) y lo active
+bajándolo a 0 V. Con el pin conectado a D26 el relé quedaba siempre activado; en D32 (`PIN_RELE 32`)
+queda en reposo. Si el LED verde del módulo se ve tenue o parpadea con el Wi-Fi, es una fuga sin
+efecto sobre el relé; un diodo en serie con IN (raya hacia el ESP32) la elimina.
+
+## Módulo de 2 relés (diagrama vigente: `docs/Diagrama_Timbre_Escolar_Rele_Doble_3.pdf`)
+
+Módulo de 2 canales optoacoplado de 5 V (puente JD-VCC–VCC). Canal 1 = inversor (`PIN_INVERSOR` GPIO26,
+`INVERSOR_ACTIVO_EN_BAJO`), canal 2 = timbre (`PIN_RELE` GPIO27, `RELE_ACTIVO_EN_BAJO`). Ambos son de nivel bajo:
+el firmware apaga soltando el pin (entrada) y enciende bajándolo a 0 V. El interruptor de Wi-Fi va en GPIO33.
+Si en reposo algún canal queda activado, el módulo es de nivel alto: quita su `*_ACTIVO_EN_BAJO` y vuelve a subir.
