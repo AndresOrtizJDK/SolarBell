@@ -9,12 +9,47 @@ const TIMEOUT_MS = 4000
 
 export const DEVICE_NETWORK = 'SolarBell'
 
+/**
+ * Lo que tarda el inversor en arrancar antes del primer toque (`ARRANQUE_INVERSOR_MS` del
+ * firmware). Mientras arranca, `/status` reporta `elapsedMs: 0`. Si el firmware tarda más, la
+ * app lo nota porque `elapsedMs` sigue en 0 y espera, pero este valor es lo que muestra al inicio.
+ */
+export const INVERTER_WARMUP_MS = 2000
+
 /** Dirección guardada en este teléfono (p. ej. la IP de la campana en el Wi-Fi de casa), o la de fábrica. */
 export function deviceAddress() {
   try {
     return localStorage.getItem(ADDRESS_KEY) || DEFAULT_BASE
   } catch {
     return DEFAULT_BASE
+  }
+}
+
+/** IP de la red propia de la campana: no sirve como dirección en la red de casa. */
+export const AP_ADDRESS = 'http://192.168.4.1'
+/** Nombre que anuncia la campana por mDNS en cualquier red a la que se una. */
+export const MDNS_ADDRESS = 'http://solarbell.local'
+const LAN_KEY = 'solarbell:device:lan:v1'
+const IPV4_ADDRESS = /^http:\/\/\d{1,3}(?:\.\d{1,3}){3}(?::\d+)?$/
+
+/**
+ * Última IP conocida de la campana en una red de casa/colegio (no la de su Wi-Fi propio). Se usa
+ * para volver a encontrarla cuando el teléfono cambia de red.
+ */
+export function lanAddress() {
+  try {
+    return localStorage.getItem(LAN_KEY)
+  } catch {
+    return null
+  }
+}
+
+export function setLanAddress(address: string) {
+  if (!IPV4_ADDRESS.test(address) || address === AP_ADDRESS) return
+  try {
+    localStorage.setItem(LAN_KEY, address)
+  } catch {
+    // Sin storage solo se pierde la pista para encontrarla después.
   }
 }
 
@@ -28,6 +63,7 @@ export function setDeviceAddress(input: string) {
   } catch {
     // Sin storage la dirección vale solo hasta cerrar la app.
   }
+  if (value) setLanAddress(value)
 }
 
 /** Toque en curso según la campana. Su reloj puede no estar en hora: cuenta en ms transcurridos. */

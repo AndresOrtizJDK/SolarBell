@@ -36,6 +36,22 @@ arduino-cli upload  --fqbn esp32:esp32:esp32 -p /dev/ttyUSB0 solarbell_local
 arduino-cli monitor -p /dev/ttyUSB0 -c baudrate=115200
 ```
 
+## Wi-Fi de casa (se elige desde la app)
+
+En la app, **Campana → Wi-Fi de casa → Elegir red**: escanea, eliges la red, pones la clave y la
+campana se une sin recompilar. La red queda en la flash y se vuelve a unir sola en cada arranque.
+La campana sigue creando `SolarBell`, así que el teléfono no pierde el acceso; al unirse al router
+esa red cambia de canal y el teléfono puede perder la señal un par de segundos. Solo 2,4 GHz.
+
+Para no escribir la IP:
+
+- La campana se anuncia como `http://solarbell.local` (mDNS) en la red a la que se una.
+- La app guarda la IP que le dio el router. Si deja de contestar (cambió de red o de IP), prueba
+  esa IP, `192.168.4.1` y `solarbell.local`, y cada 2 minutos recorre la subred de la última IP.
+  El botón **Buscar campana** lo hace al momento. Solo funciona en el APK.
+- `WIFI_CASA_NOMBRE` / `WIFI_CASA_CLAVE` en `configuracion.h` ya son opcionales: solo siembran la
+  red la primera vez que cambian. Después manda lo que se elija en la app.
+
 ## Reloj
 
 Sin internet no hay hora de red. Cada vez que la app se conecta, pone la campana en la hora del
@@ -67,6 +83,10 @@ van los dos o ninguno. Un horario guardado por la 0.2 (en segundos) se pasa a ms
 | `POST /api/clock` | `{ "now": <ms epoch>, "offsetMinutes": -300 }` |
 | `POST /api/ring` | `{ "rings": 3, "ringMs": 1000, "pauseMs": 1000, "customDurations": null, "customPauses": null }` toca ahora |
 | `POST /api/ring/stop` | Corta el toque en curso |
+| `GET /api/wifi` | Wi-Fi de casa: `state` (`none`, `connecting`, `connected`, `failed`), `ssid`, `ip`, `rssi`, `hostname` y `error` si falló |
+| `GET /api/wifi/scan` | Redes cercanas `{ scanning, networks: [{ssid, rssi, secure}] }`. El primer pedido arranca el escaneo (`scanning: true`); repetir hasta que sea `false` |
+| `PUT /api/wifi` | `{ "ssid": "...", "password": "..." }` empieza a unirse (202). La red solo se guarda en la flash cuando obtiene IP; si falla en 20 s vuelve a la anterior |
+| `POST /api/wifi/forget` | Olvida la red guardada |
 
 Errores: `{ "detail": "..." }` con 400, 413, 422 o 500.
 

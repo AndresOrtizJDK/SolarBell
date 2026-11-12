@@ -23,24 +23,31 @@
 #endif
 
 #include <ArduinoJson.h>
+#include <ESPmDNS.h>
 #include <LittleFS.h>
 #include <Preferences.h>
 #include <WebServer.h>
 #include <WiFi.h>
+#include <esp_wifi.h>
+#include <algorithm>
 #include <sys/time.h>
 #include <time.h>
+#include <vector>
 
 #ifdef USAR_DS3231
 #include <RTClib.h>
 #endif
 
-#define VERSION_FIRMWARE "0.5.0"
+#define VERSION_FIRMWARE "0.6.0"
 
 static_assert(sizeof(RED_CLAVE) > 8, "RED_CLAVE necesita al menos 8 caracteres (WPA2)");
 
 #if defined(WIFI_CASA_NOMBRE) && !defined(WIFI_CASA_CLAVE)
 #error "Con WIFI_CASA_NOMBRE define también WIFI_CASA_CLAVE en configuracion.h"
 #endif
+
+// Nombre en la red local: la app encuentra la campana en http://solarbell.local sin saber su IP.
+#define NOMBRE_MDNS "solarbell"
 
 // Mismos límites que `frontend/src/features/schedule/bell.ts`. Toques y pausas en ms.
 static const uint8_t MAX_TOQUES = 10;
@@ -50,6 +57,10 @@ static const int MS_MAX = 30000;
 static const uint16_t PAUSA_ANTERIOR_MS = 1000;
 
 static const size_t MAX_HORARIO_BYTES = 24 * 1024;
+// Wi-Fi de casa: tiempo máximo para unirse antes de dar la red por fallida, y redes que muestra el escaneo.
+static const uint32_t UNIRSE_MAX_MS = 30000;
+static const uint32_t ESCANEO_VIGENTE_MS = 30000;
+static const size_t MAX_REDES_ESCANEO = 24;
 // El reloj arranca en 1970: antes de esta fecha nadie lo ha puesto en hora.
 static const time_t HORA_MINIMA_VALIDA = 1704067200;  // 2024-01-01
 static const char *RUTA_HORARIO = "/horario.json";
@@ -629,6 +640,280 @@ void alDetener() {
   responderEstado();
 }
 
+// ---------- Wi-Fi de casa (elegida desde la app) ----------
+
+// La campana sigue creando RED_NOMBRE y además se une a una red del router. La red se elige
+// desde la app (escaneo + clave) y queda en la flash. WIFI_CASA_NOMBRE/CLAVE de configuracion.h
+// solo la siembra la primera vez que cambia; después manda lo que diga la app.
+enum EstadoCasa : uint8_t { CASA_SIN_RED, CASA_CONECTANDO, CASA_CONECTADA, CASA_FALLO };
+
+char casaSsid[33] = "";    // red guardada en la flash
+char casaClave[64] = "";
+char intentoSsid[33] = "";  // red que se está probando (o que falló)
+char intentoClave[64] = "";
+bool intentoNuevo = false;  // true mientras se prueba una red que aún no se guardó
+EstadoCasa estadoCasa = CASA_SIN_RED;
+uint32_t casaDesde = 0;
+String casaError = "";
+uint32_t escaneoDesde = 0;
+// El escaneo falla mientras la STA reintenta unirse a una red que no responde: se pausa el intento.
+bool redPausada = false;
+volatile bool casaObtuvoIp = false;
+volatile uint8_t ultimoMotivoCaida = 0;
+// Diagnóstico del último intento: se asoció al router (sin IP aún) o ni siquiera arrancó.
+volatile bool casaAsociada = false;
+bool inicioFallido = false;
+
+void cargarRedCasa() {
+#ifdef WIFI_CASA_NOMBRE
+  if (preferencias.getString("wsembrada", "") != WIFI_CASA_NOMBRE) {
+    preferencias.putString("wssid", WIFI_CASA_NOMBRE);
+    preferencias.putString("wclave", WIFI_CASA_CLAVE);
+    preferencias.putString("wsembrada", WIFI_CASA_NOMBRE);
+  }
+#else
+  // Se quitó la red de configuracion.h: si la guardada sigue siendo esa misma, se borra de la flash.
+  if (preferencias.isKey("wsembrada")) {
+    if (preferencias.getString("wssid", "") == preferencias.getString("wsembrada", "")) {
+      preferencias.remove("wssid");
+      preferencias.remove("wclave");
+    }
+    preferencias.remove("wsembrada");
+  }
+#endif
+  preferencias.getString("wssid", casaSsid, sizeof casaSsid);
+  preferencias.getString("wclave", casaClave, sizeof casaClave);
+}
+
+void unirseARed(const char *ssid, const char *clave) {
+  strlcpy(intentoSsid, ssid, sizeof intentoSsid);
+  casaError = "";
+  estadoCasa = CASA_CONECTANDO;
+  casaDesde = millis();
+  ultimoMotivoCaida = 0;
+  casaAsociada = false;
+  inicioFallido = false;
+  // Un escaneo en curso o un intento anterior a medias hacen que el ESP32 rechace el nuevo.
+  if (WiFi.scanComplete() == WIFI_SCAN_RUNNING) esp_wifi_scan_stop();
+  WiFi.scanDelete();
+  WiFi.disconnect(false, false);
+  delay(100);
+  wl_status_t inicio = WiFi.begin(ssid, clave[0] ? clave : nullptr);
+  if (inicio == WL_CONNECT_FAILED) {
+    delay(500);
+    inicio = WiFi.begin(ssid, clave[0] ? clave : nullptr);
+  }
+  Serial.printf("[red] uniéndose a \"%s\" (clave de %u caracteres, begin=%d)...\n", ssid,
+                (unsigned)strlen(clave), (int)inicio);
+  if (inicio == WL_CONNECT_FAILED) {
+    // Sin intento en marcha no llegará ningún evento: se da por fallido en el próximo loop.
+    inicioFallido = true;
+    casaDesde = millis() - UNIRSE_MAX_MS;
+  }
+}
+
+void reanudarRedCasa() {
+  if (!redPausada) return;
+  redPausada = false;
+  if (!intentoNuevo && casaSsid[0] && !WiFi.isConnected()) unirseARed(casaSsid, casaClave);
+}
+
+const char *textoMotivo(uint8_t motivo) {
+  switch (motivo) {
+    case WIFI_REASON_NO_AP_FOUND:
+      return "No se encontró la red (¿está lejos o es de 5 GHz?)";
+    case WIFI_REASON_NO_AP_FOUND_W_COMPATIBLE_SECURITY:
+    case WIFI_REASON_NO_AP_FOUND_IN_AUTHMODE_THRESHOLD:
+      return "La seguridad de la red no es compatible";
+    case WIFI_REASON_NO_AP_FOUND_IN_RSSI_THRESHOLD:
+    case WIFI_REASON_BEACON_TIMEOUT:
+      return "La señal de la red es muy débil";
+    case WIFI_REASON_AUTH_FAIL:
+    case WIFI_REASON_AUTH_EXPIRE:
+    case WIFI_REASON_HANDSHAKE_TIMEOUT:
+    case WIFI_REASON_4WAY_HANDSHAKE_TIMEOUT:
+      return "Clave incorrecta";
+    default:
+      return "No se pudo unir a la red";
+  }
+}
+
+void revisarRedCasa() {
+  // Hora fresca: el `ahora` del loop es anterior a los pedidos HTTP de esta vuelta, y un intento
+  // empezado en esa misma vuelta daría una resta negativa (enorme en uint32_t) y fallaría al acto.
+  uint32_t ahora = millis();
+  // Si nadie recogió el escaneo, no se deja la campana sin intentar su red para siempre.
+  if (redPausada && ahora - escaneoDesde > ESCANEO_VIGENTE_MS && WiFi.scanComplete() != WIFI_SCAN_RUNNING) {
+    WiFi.scanDelete();
+    reanudarRedCasa();
+  }
+  if (casaObtuvoIp) {
+    casaObtuvoIp = false;
+    if (intentoNuevo) {
+      // Recién ahora la red es buena: se guarda para los próximos arranques.
+      strlcpy(casaSsid, intentoSsid, sizeof casaSsid);
+      strlcpy(casaClave, intentoClave, sizeof casaClave);
+      preferencias.putString("wssid", casaSsid);
+      preferencias.putString("wclave", casaClave);
+      intentoNuevo = false;
+    }
+    strlcpy(intentoSsid, casaSsid, sizeof intentoSsid);
+    estadoCasa = CASA_CONECTADA;
+    casaError = "";
+    Serial.printf("[red] unida a \"%s\", IP http://%s (o http://%s.local)\n", casaSsid,
+                  WiFi.localIP().toString().c_str(), NOMBRE_MDNS);
+  }
+  if (estadoCasa == CASA_CONECTANDO && ahora - casaDesde >= UNIRSE_MAX_MS) {
+    estadoCasa = CASA_FALLO;
+    // El detalle exacto ayuda a diagnosticar desde la app sin el monitor serie.
+    if (inicioFallido) {
+      casaError = "La campana no pudo iniciar la conexión";
+    } else if (ultimoMotivoCaida) {
+      casaError = textoMotivo(ultimoMotivoCaida);
+      casaError += " (código " + String(ultimoMotivoCaida) + ")";
+    } else if (casaAsociada) {
+      casaError = "Se unió a la red, pero no recibió dirección IP";
+    } else {
+      casaError = "No se pudo unir a la red (sin respuesta de la red)";
+    }
+    Serial.printf("[red] no se pudo unir a \"%s\": %s\n", intentoSsid, casaError.c_str());
+    if (intentoNuevo) {
+      // La red nueva no sirvió: se vuelve a la anterior, si había.
+      intentoNuevo = false;
+      if (casaSsid[0]) WiFi.begin(casaSsid, casaClave[0] ? casaClave : nullptr);
+      else WiFi.disconnect(false, true);
+    }
+  }
+}
+
+const char *nombreEstadoCasa() {
+  // Si el router se cae después de unida, vuelve a "connecting" mientras reintenta sola.
+  if (estadoCasa == CASA_CONECTADA && !WiFi.isConnected()) return "connecting";
+  switch (estadoCasa) {
+    case CASA_CONECTANDO: return "connecting";
+    case CASA_CONECTADA: return "connected";
+    case CASA_FALLO: return "failed";
+    default: return "none";
+  }
+}
+
+void responderRed() {
+  JsonDocument doc;
+  doc["state"] = nombreEstadoCasa();
+  doc["ssid"] = estadoCasa == CASA_SIN_RED ? "" : intentoSsid;
+  if (estadoCasa == CASA_CONECTADA && WiFi.isConnected()) {
+    doc["ip"] = WiFi.localIP().toString();
+    doc["rssi"] = WiFi.RSSI();
+  } else {
+    doc["ip"] = nullptr;
+  }
+  doc["hostname"] = NOMBRE_MDNS ".local";
+  if (estadoCasa == CASA_FALLO) doc["error"] = casaError;
+  responder(200, doc);
+}
+
+struct RedEscaneada {
+  String ssid;
+  int32_t rssi;
+  bool segura;
+};
+
+void alBuscarRedes() {
+  int16_t n = WiFi.scanComplete();
+  if (n >= 0 && millis() - escaneoDesde > ESCANEO_VIGENTE_MS) {
+    // Resultado viejo que nadie recogió: se descarta y se escanea de nuevo.
+    WiFi.scanDelete();
+    n = WIFI_SCAN_FAILED;
+  }
+  JsonDocument doc;
+  if (n == WIFI_SCAN_RUNNING || n < 0) {
+    if (n != WIFI_SCAN_RUNNING) {
+      if (!WiFi.isConnected() && !intentoNuevo) {
+        // Sin red unida, la STA queda reintentando y el escaneo falla: se corta el intento un momento.
+        WiFi.disconnect(false, false);
+        redPausada = true;
+        delay(300);
+      }
+      escaneoDesde = millis();
+      if (WiFi.scanNetworks(true) == WIFI_SCAN_FAILED) {
+        reanudarRedCasa();
+        responderError(500, "No se pudo buscar redes");
+        return;
+      }
+    }
+    doc["scanning"] = true;
+    doc["networks"].to<JsonArray>();
+    responder(200, doc);
+    return;
+  }
+
+  std::vector<RedEscaneada> redes;
+  for (int16_t i = 0; i < n; i++) {
+    String ssid = WiFi.SSID(i);
+    if (ssid.isEmpty()) continue;
+    int32_t rssi = WiFi.RSSI(i);
+    bool segura = WiFi.encryptionType(i) != WIFI_AUTH_OPEN;
+    auto repetida = std::find_if(redes.begin(), redes.end(), [&](const RedEscaneada &r) { return r.ssid == ssid; });
+    if (repetida == redes.end()) redes.push_back({ssid, rssi, segura});
+    else if (rssi > repetida->rssi) repetida->rssi = rssi;
+  }
+  WiFi.scanDelete();
+  reanudarRedCasa();
+  std::sort(redes.begin(), redes.end(), [](const RedEscaneada &a, const RedEscaneada &b) { return a.rssi > b.rssi; });
+  if (redes.size() > MAX_REDES_ESCANEO) redes.resize(MAX_REDES_ESCANEO);
+
+  doc["scanning"] = false;
+  JsonArray lista = doc["networks"].to<JsonArray>();
+  for (const RedEscaneada &r : redes) {
+    JsonObject red = lista.add<JsonObject>();
+    red["ssid"] = r.ssid;
+    red["rssi"] = r.rssi;
+    red["secure"] = r.segura;
+  }
+  responder(200, doc);
+}
+
+void alGuardarRed() {
+  JsonDocument doc;
+  if (!leerCuerpo(doc)) return;
+  const char *ssid = doc["ssid"].is<const char *>() ? doc["ssid"].as<const char *>() : "";
+  const char *clave = doc["password"].is<const char *>() ? doc["password"].as<const char *>() : "";
+  size_t largoSsid = strlen(ssid);
+  size_t largoClave = strlen(clave);
+  // WPA2: la clave mide de 8 a 63; una red abierta no lleva clave.
+  if (largoSsid < 1 || largoSsid > 32 || (largoClave != 0 && (largoClave < 8 || largoClave > 63))) {
+    responderError(422, "Nombre o clave de red inválidos");
+    return;
+  }
+  WiFi.scanDelete();
+  redPausada = false;
+  strlcpy(intentoClave, clave, sizeof intentoClave);
+  intentoNuevo = true;
+  unirseARed(ssid, intentoClave);
+  Serial.println("[red] red nueva pedida desde la app");
+  JsonDocument respuesta;
+  respuesta["state"] = "connecting";
+  respuesta["ssid"] = ssid;
+  respuesta["ip"] = nullptr;
+  respuesta["hostname"] = NOMBRE_MDNS ".local";
+  responder(202, respuesta);
+}
+
+void alOlvidarRed() {
+  preferencias.remove("wssid");
+  preferencias.remove("wclave");
+  casaSsid[0] = '\0';
+  casaClave[0] = '\0';
+  intentoSsid[0] = '\0';
+  intentoNuevo = false;
+  redPausada = false;
+  estadoCasa = CASA_SIN_RED;
+  casaError = "";
+  WiFi.disconnect(false, true);
+  Serial.println("[red] red de casa olvidada");
+  responderRed();
+}
+
 void iniciarApi() {
   servidor.on("/api/status", HTTP_GET, responderEstado);
   servidor.on("/api/schedule", HTTP_GET, [] { responder(200, horario); });
@@ -636,41 +921,75 @@ void iniciarApi() {
   servidor.on("/api/clock", HTTP_POST, alFijarHora);
   servidor.on("/api/ring", HTTP_POST, alTocar);
   servidor.on("/api/ring/stop", HTTP_POST, alDetener);
+  servidor.on("/api/wifi", HTTP_GET, responderRed);
+  servidor.on("/api/wifi", HTTP_PUT, alGuardarRed);
+  servidor.on("/api/wifi/scan", HTTP_GET, alBuscarRedes);
+  servidor.on("/api/wifi/forget", HTTP_POST, alOlvidarRed);
   servidor.onNotFound([] { responderError(404, "No existe"); });
   servidor.begin();
 }
 
 // ---------- Red ----------
 
-void alEventoWifi(arduino_event_id_t evento) {
-  if (evento == ARDUINO_EVENT_WIFI_AP_STACONNECTED) telefonoUnido = true;
-#ifdef WIFI_CASA_NOMBRE
-  if (evento == ARDUINO_EVENT_WIFI_STA_GOT_IP) {
-    Serial.printf("[red] unida a la red de casa, IP http://%s\n", WiFi.localIP().toString().c_str());
+bool mdnsActivo = false;
+
+void alEventoWifi(arduino_event_id_t evento, arduino_event_info_t info) {
+  switch (evento) {
+    case ARDUINO_EVENT_WIFI_AP_STACONNECTED:
+      telefonoUnido = true;
+      break;
+    case ARDUINO_EVENT_WIFI_STA_CONNECTED:
+      casaAsociada = true;
+      break;
+    case ARDUINO_EVENT_WIFI_STA_GOT_IP:
+      casaObtuvoIp = true;
+      break;
+    case ARDUINO_EVENT_WIFI_STA_DISCONNECTED: {
+      uint8_t motivo = info.wifi_sta_disconnected.reason;
+      // ASSOC_LEAVE y STA_LEAVING son cortes que pide el propio ESP32 (escaneo, red nueva,
+      // reintento del núcleo): no son el motivo del fallo.
+      if (motivo != WIFI_REASON_ASSOC_LEAVE && motivo != WIFI_REASON_STA_LEAVING) ultimoMotivoCaida = motivo;
+      Serial.printf("[red] desconectada de la red de casa, motivo %u (%s)\n", motivo,
+                    WiFi.STA.disconnectReasonName((wifi_err_reason_t)motivo));
+      break;
+    }
+    default:
+      break;
   }
-  if (evento == ARDUINO_EVENT_WIFI_STA_DISCONNECTED) Serial.println("[red] sin la red de casa (reintenta sola)");
-#endif
+  // Diagnóstico: todo evento del Wi-Fi menos las sondas, que llegan a cada rato.
+  if (evento != ARDUINO_EVENT_WIFI_AP_PROBEREQRECVED) {
+    Serial.printf("[red] evento %d: %s\n", (int)evento, Network.eventName(evento));
+  }
 }
 
 void iniciarRed() {
-  WiFi.onEvent(alEventoWifi);
-#ifdef WIFI_CASA_NOMBRE
-  // Modo mixto: sigue creando RED_NOMBRE y además se une a la red de casa (solo 2.4 GHz).
+  static bool eventosRegistrados = false;
+  if (!eventosRegistrados) {
+    eventosRegistrados = true;
+    WiFi.onEvent(alEventoWifi);
+  }
+  // Modo mixto: crea RED_NOMBRE y puede unirse a la red de casa (solo 2.4 GHz).
+  WiFi.persistent(false);  // las credenciales las guarda este firmware, no el núcleo del ESP32
+  WiFi.setHostname(NOMBRE_MDNS);
   WiFi.mode(WIFI_AP_STA);
-#else
-  WiFi.mode(WIFI_AP);
-#endif
   if (!WiFi.softAP(RED_NOMBRE, RED_CLAVE)) {
     Serial.println("[red] no se pudo crear la red");
     return;
   }
   Serial.printf("[red] %s en http://%s\n", RED_NOMBRE, WiFi.softAPIP().toString().c_str());
-#ifdef WIFI_CASA_NOMBRE
-  WiFi.setHostname("solarbell");
   WiFi.setAutoReconnect(true);
-  WiFi.begin(WIFI_CASA_NOMBRE, WIFI_CASA_CLAVE);
-  Serial.printf("[red] uniéndose a la red de casa \"%s\"...\n", WIFI_CASA_NOMBRE);
-#endif
+
+  mdnsActivo = MDNS.begin(NOMBRE_MDNS);
+  if (mdnsActivo) {
+    MDNS.addService("http", "tcp", 80);
+    MDNS.addService("solarbell", "tcp", 80);
+    Serial.printf("[red] nombre local http://%s.local\n", NOMBRE_MDNS);
+  }
+
+  intentoNuevo = false;
+  casaObtuvoIp = false;
+  if (casaSsid[0]) unirseARed(casaSsid, casaClave);
+  else estadoCasa = CASA_SIN_RED;
 }
 
 // ---------- Interruptor del Wi-Fi ----------
@@ -699,6 +1018,8 @@ void fijarWifi(bool encender) {
   } else {
     Serial.println("[red] interruptor: Wi-Fi apagado");
     servidor.stop();
+    if (mdnsActivo) MDNS.end();
+    mdnsActivo = false;
     WiFi.disconnect(true);
     WiFi.softAPdisconnect(true);
     WiFi.mode(WIFI_OFF);
@@ -730,6 +1051,33 @@ void actualizarLed(uint32_t ahora) {
     encendido = false;
   }
   digitalWrite(PIN_LED, encendido ? HIGH : LOW);
+}
+
+// Diagnóstico por el monitor serie (sin clave, para no pasar claves por el cable):
+//   unir <red>   intenta unirse a <red> como red abierta
+//   estado       modo, canal y estado de la STA
+void atenderSerie() {
+  static String linea;
+  while (Serial.available()) {
+    char c = (char)Serial.read();
+    if (c != '\n' && c != '\r') {
+      if (linea.length() < 64) linea += c;
+      continue;
+    }
+    linea.trim();
+    if (linea.startsWith("unir ")) {
+      String red = linea.substring(5);
+      intentoClave[0] = '\0';
+      intentoNuevo = true;
+      redPausada = false;
+      unirseARed(red.c_str(), intentoClave);
+    } else if (linea == "estado") {
+      Serial.printf("[diag] modo=%d canal=%d sta=%d estadoCasa=%d ip=%s\n", (int)WiFi.getMode(),
+                    (int)WiFi.channel(), (int)WiFi.status(), (int)estadoCasa,
+                    WiFi.localIP().toString().c_str());
+    }
+    linea = "";
+  }
 }
 
 void setup() {
@@ -764,6 +1112,7 @@ void setup() {
   if (!LittleFS.begin(true)) Serial.println("[memoria] no se pudo montar LittleFS");
   cargarHorario();
   cargarHora();
+  cargarRedCasa();
 #ifdef PIN_INTERRUPTOR_WIFI
   pinMode(PIN_INTERRUPTOR_WIFI, INPUT_PULLUP);
   delay(20);
@@ -779,11 +1128,16 @@ void setup() {
 
 void loop() {
   uint32_t ahora = millis();
+  atenderSerie();
 #ifdef PIN_INTERRUPTOR_WIFI
   revisarInterruptorWifi(ahora);
-  if (wifiEncendido) servidor.handleClient();
+  if (wifiEncendido) {
+    servidor.handleClient();
+    revisarRedCasa();
+  }
 #else
   servidor.handleClient();
+  revisarRedCasa();
 #endif
   if (telefonoUnido) {
     telefonoUnido = false;

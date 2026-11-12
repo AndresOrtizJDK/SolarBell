@@ -326,6 +326,63 @@ html:has(dialog[open]) {
   }
 }
 
+/* Modal flotante centrado (p. ej. la clave del Wi-Fi), por encima de una `.sheet`. */
+.modal {
+  margin: auto;
+  width: calc(100% - 2rem);
+  max-width: 24rem;
+  padding: 0;
+  border: 0;
+  border-radius: 1.75rem;
+  background: var(--raised);
+  color: var(--ink);
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    transform 220ms var(--ease-out),
+    opacity 180ms var(--ease-out),
+    overlay 220ms allow-discrete,
+    display 220ms allow-discrete;
+}
+
+.modal:not([open]) {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+@starting-style {
+  .modal[open] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.modal::backdrop {
+  background: rgb(16 21 28 / 0.48);
+  opacity: 1;
+  transition:
+    opacity 180ms var(--ease-out),
+    overlay 220ms allow-discrete,
+    display 220ms allow-discrete;
+}
+
+.modal:not([open])::backdrop {
+  opacity: 0;
+}
+
+@starting-style {
+  .modal[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal,
+  .modal::backdrop {
+    transition: none;
+  }
+}
+
 input[type='time']::-webkit-calendar-picker-indicator,
 input[type='date']::-webkit-calendar-picker-indicator {
   opacity: 0.55;

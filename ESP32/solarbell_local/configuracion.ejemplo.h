@@ -26,8 +26,9 @@
 // #define INVERSOR_ACTIVO_EN_BAJO 1
 // #define ARRANQUE_INVERSOR_MS 2000
 
-// Unirse también a la red Wi-Fi de casa/colegio (opcional, solo 2.4 GHz). La campana sigue
-// creando RED_NOMBRE; en el monitor serie aparece la IP que le da el router. Descomenta y completa.
+// Red Wi-Fi de casa/colegio inicial (opcional, solo 2.4 GHz). Normalmente se elige desde la app
+// (Campana → Wi-Fi de casa) y esto no hace falta: solo siembra la red la primera vez que cambia.
+// La campana sigue creando RED_NOMBRE y se anuncia como http://solarbell.local.
 // #define WIFI_CASA_NOMBRE "mi-red"
 // #define WIFI_CASA_CLAVE "mi-clave"
 
