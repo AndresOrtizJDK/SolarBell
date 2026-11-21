@@ -8,11 +8,11 @@
 \usepackage[hidelinks]{hyperref}
 \pagestyle{empty}
 \color{black}
-\renewcommand{\arraystretch}{1.25}
+\renewcommand{\arraystretch}{1.12}
 \definecolor{cab}{gray}{0.75}
-\newcolumntype{A}{>{\raggedright\arraybackslash}p{3.1cm}}
-\newcolumntype{B}{>{\raggedright\arraybackslash}p{7.4cm}}
-\newcolumntype{C}{>{\raggedright\arraybackslash}p{4.2cm}}
+\newcolumntype{A}{>{\raggedright\arraybackslash}p{3.15cm}}
+\newcolumntype{B}{>{\raggedright\arraybackslash}p{7.65cm}}
+\newcolumntype{C}{>{\raggedright\arraybackslash}p{4.35cm}}
 \begin{document}
 \begin{titlepage}
 \centering
@@ -46,10 +46,11 @@ Milton Eduardo Hernández Zakzuk\\
 \end{minipage}\\[2.5cm]
 \vfill
 Montería, Córdoba\\
-Octubre de 2026
+Noviembre de 2026
 \end{titlepage}
 \newpage
-\noindent{\large \textbf{Ficha de Hardware}}\\[0.25cm]
+\noindent{\large \textbf{Ficha de Hardware}}\\[0.2cm]
+{\renewcommand{\arraystretch}{1.05}\small
 \noindent\begin{tabular}{|A|B|C|}
 \hline
 \rowcolor{cab}\multicolumn{2}{|l|}{\textbf{Nombre del Proyecto:}} & \textbf{Plataforma:} \\
@@ -58,25 +59,29 @@ Octubre de 2026
 \hline
 \rowcolor{cab}\textbf{Funcionalidad} & \textbf{Descripción} & \textbf{Dispositivo} \\
 \hline
-Conectividad & El dispositivo (ESP32) crea su propia red Wi-Fi y, de forma opcional, se une a la red Wi-Fi local para recibir los horarios y las órdenes de la aplicación. & ESP32 DevKit v1 (Wi-Fi integrado en la plataforma ESP32) \\
+Conectividad & El dispositivo crea la red Wi-Fi SolarBell y se une a la red Wi-Fi del colegio. El teléfono usa una de las dos para enviarle el horario y las órdenes, sin internet y sin servidor. & ESP32 DevKit v1 (Wi-Fi integrado) \\
 \hline
-Control de Tiempo & Mantiene la fecha y la hora exactas, incluso sin internet o sin energía, para activar el timbre en los horarios programados y en las fechas especiales. & Módulo RTC DS3231 (HW-084) \\
+Control de Tiempo & Conserva la fecha y la hora aunque se corte la energía, y con ellas dispara el horario y las fechas especiales. La aplicación la pone en hora al conectarse. & Módulo RTC HW-084 (DS3231SN) \\
 \hline
-Activación del Inversor & Conecta la alimentación de 12 V del inversor solo cuando va a sonar la campana, para evitar su consumo en vacío y cuidar la batería. & Módulo de relé de 1 canal, 5 V (azul) \\
+Activación del Inversor & Conecta los 12 V de la salida de carga del controlador al inversor solo durante un timbrado, y lo desconecta al terminar para evitar el consumo en vacío. & Canal 1 del módulo de 2 relés, optoacoplado, 5 V / 10 A \\
 \hline
-Activación de la Campana & Interrumpe y cierra la línea de 110 VAC que va hacia la campana para que suene en los horarios programados o en un toque manual. & Relé Songle SRA-05VDC-CL, 5 V \\
+Activación de la Campana & Durante el timbrado envía los 110 V del inversor a la campana, toque por toque. En reposo deja la campana en la red eléctrica del colegio, sin unir esa red con la salida del inversor. & Canal 2 del mismo módulo (contactos COM, NO y NC) \\
 \hline
-Activación Manual & Permite que la campana suene directamente al oprimir un botón, sin depender de la aplicación. & Pulsador de pared para timbre (EXE) \\
+Activación Manual & Hace sonar la campana al oprimir el pulsador, sin la aplicación y aunque el control esté apagado, mientras haya red eléctrica del colegio. & Pulsador de pared para timbre (EXE), 110 V \\
 \hline
-Generación de Energía & Convierte la radiación solar en energía eléctrica para alimentar el sistema. & Panel solar Powest SZYL-P30-18C (30 Wp) \\
+Ahorro del Wi-Fi & Apaga la radio para reducir el consumo de la batería. Con la radio apagada el horario sigue sonando y la aplicación no puede conectarse. & Interruptor basculante de 2 terminales \\
 \hline
-Regulación de Carga & Regula la carga de la batería desde el panel y la protege contra sobrecarga y descarga profunda. & Controlador de carga solar PWM de 10 A (12/24 V) \\
+Generación de Energía & Convierte la radiación solar en energía eléctrica para cargar la batería. & Panel solar Powest SZYL-P30-18C (30 Wp) \\
+\hline
+Regulación de Carga & Carga la batería desde el panel, la protege de sobrecarga y de descarga profunda, y entrega 12 V por la salida de carga al resto del sistema. & Controlador de carga solar PWM de 10 A (12 V) \\
 \hline
 Almacenamiento de Energía & Almacena la energía para que el sistema funcione de noche y en días sin sol. & Batería VRLA 12 V / 7.5 Ah (FuliBattery FL1275GS) \\
 \hline
-Conversión de Voltaje (DC-AC) & Convierte los 12 VDC de la batería en 110 VAC para alimentar la campana. & Inversor CAR INVERTER LY-150 (150 W) \\
+Conversión de Voltaje (DC-AC) & Convierte los 12 V en 110 V a 60 Hz para alimentar la campana. Solo recibe energía mientras el canal 1 está cerrado. & Inversor CAR INVERTER LY-150 (150 W) \\
 \hline
-Reducción de Voltaje & Convierte la energía de la batería en una salida regulada de 5 V destinada al ESP32 y a los módulos de relé. & Convertidor reductor LM2596 \\
+Reducción de Voltaje & Reduce los 12 V de la salida de carga a 5 V regulados para el ESP32, el reloj y las bobinas de los relés. & Convertidor reductor LM2596S \\
 \hline
-\end{tabular}
+Estabilidad y Protección & El condensador sostiene los 5 V cuando los relés conmutan. El diodo y el varistor absorben los picos de las bobinas y de la línea de 110 V. & Condensador 1000 $\mu$F / 16 V, diodo 1N4007 y varistor 14D241K \\
+\hline
+\end{tabular}}
 \end{document}

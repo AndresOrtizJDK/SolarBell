@@ -1,0 +1,297 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{setspace}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage{hanging}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, shapes}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+
+\pagestyle{plain}
+\color{black}
+
+\renewcommand{\contentsname}{Índice}
+\renewcommand{\listtablename}{Índice de tablas}
+\renewcommand{\listfigurename}{Índice de figuras}
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\figurename}{Figura}
+
+\begin{document}
+
+\begin{titlepage}
+\singlespacing
+\centering
+\vspace*{1cm}
+{\Large \textbf{UNIVERSIDAD DE CÓRDOBA}}\\[0.3cm]
+{\large FACULTAD DE INGENIERÍA}\\[0.2cm]
+{\large PROGRAMA DE INGENIERÍA DE SISTEMAS}\\[0.2cm]
+{\large SEDE MONTERÍA}\\[1.7cm]
+\rule{\textwidth}{0.5pt}\\[0.3cm]
+{\Huge \textbf{IDEA DE PROYECTO DE AULA}}\\[0.35cm]
+{\LARGE \textbf{SolarBell}}\\[0.3cm]
+\rule{\textwidth}{0.5pt}\\[0.5cm]
+{\large \textit{Idea aprobada de un timbre escolar automatizado con energía solar.}}\\[2.2cm]
+\begin{minipage}[t]{0.42\textwidth}
+\begin{flushleft}
+\textbf{Presentado por:}\\[0.2cm]
+Andrés Felipe Ortiz Rodríguez,\\
+Néstor Junior Hernández López,\\
+José Enrique Otero Pineda,\\
+Julián Camilo Doria Guevara
+\end{flushleft}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.52\textwidth}
+\begin{flushright}
+\textbf{Docentes:}\\[0.2cm]
+Antonio Fernando Movilla Quintero\\
+\textit{Sistemas Operativos}\\[0.3cm]
+Milton Eduardo Hernández Zakzuk\\
+\textit{Arquitectura del Computador}
+\end{flushright}
+\end{minipage}\\[2.2cm]
+\vfill
+Montería, Córdoba\\
+Noviembre de 2026
+\end{titlepage}
+\newpage
+
+\doublespacing
+\setcounter{tocdepth}{3}
+\tableofcontents
+\listoftables
+\listoffigures
+\newpage
+
+\section*{Introducción}
+\addcontentsline{toc}{section}{Introducción}
+
+En un colegio el timbre ordena la jornada. Avisa el inicio, el descanso y la salida. Cuando ese aviso depende de una persona junto al pulsador, o de un temporizador que no se adapta al calendario escolar, cualquier cambio de horario se vuelve una tarea manual. Si además el aparato solo vive de la red eléctrica, un corte lo deja en silencio aunque el plantel siga en clase.
+
+SolarBell es la idea aprobada como proyecto de aula semestral para Sistemas Operativos y Arquitectura del Computador. Propone una campana que suene sola según un horario, alimentada por un kit solar, y que se programe desde un teléfono sin internet y sin servidor. Este documento fija el problema, la ayuda que se espera y el flujo de trabajo con el que se piensa construir el sistema. No reporta un montaje terminado ni mediciones de campo. Eso quedará para el informe final, cuando la implementación se contraste con lo que aquí se plantea.
+
+\section*{Objetivos}
+\addcontentsline{toc}{section}{Objetivos}
+
+\subsection*{Objetivo general}
+\addcontentsline{toc}{subsection}{Objetivo general}
+
+Plantear un timbre escolar que suene en el horario previsto, con energía solar y batería, programable desde un teléfono y capaz de seguir funcionando sin internet ni un servidor propio.
+
+\subsection*{Objetivos específicos}
+\addcontentsline{toc}{subsection}{Objetivos específicos}
+
+\begin{itemize}
+    \item Describir el problema del timbre escolar que depende de una persona o de la red eléctrica del plantel.
+    \item Explicar de qué manera la idea reduce esa dependencia sin quitar el aviso manual.
+    \item Definir el flujo previsto entre la energía, el control, la campana y la aplicación.
+    \item Delimitar esta entrega frente al informe final.
+\end{itemize}
+
+\section*{Marco conceptual}
+\addcontentsline{toc}{section}{Marco conceptual}
+
+Un sistema fotovoltaico pequeño convierte radiación en electricidad, la guarda y la entrega cuando hace falta. El Departamento Nacional de Planeación (2016) describe esa cadena en una instalación aislada: panel, controlador de carga, batería y, si la carga pide corriente alterna, un inversor. La Unidad de Planeación Minero Energética (2024) considera la solución fotovoltaica aislada como una alternativa cuando no conviene depender solo de extender la red. SolarBell no pretende electrificar el colegio. El plantel ya tiene red de 110~V. La parte solar cubre el timbre programado, de modo que un corte no lo silencie, y la red del colegio queda reservada para el aviso manual.
+
+El control previsto es un ESP32. El fabricante indica que el circuito integra Wi-Fi 802.11 b/g/n en 2,4~GHz y puede operar a la vez como estación y como punto de acceso (Espressif Systems, 2026). Esa doble función es la que permite crear una red propia, para el teléfono que está junto a la campana, y unirse también a la red Wi-Fi del colegio.
+
+La hora no puede vivir solo en la memoria volátil del microcontrolador. El DS3231 es un reloj de tiempo real con oscilador compensado por temperatura y entrada para pila de respaldo. Sigue contando segundos, minutos, horas y fecha aunque se interrumpa la alimentación principal, e incluye compensación de año bisiesto (Analog Devices, 2015). Un horario escolar necesita justamente eso: no perder el día ni la hora cada vez que se va la luz.
+
+La campana trabaja a 110~V y el inversor se alimenta a 12~V. Ninguna de esas líneas debe llegar a un pin del microcontrolador. El relé hace de separación: una señal de baja tensión cierra o abre un contacto de potencia. Con dos canales se pueden manejar dos acciones distintas, encender el inversor y conectar la campana, sin unir la salida del inversor con la red del colegio.
+
+\section*{El problema}
+\addcontentsline{toc}{section}{El problema}
+
+El timbre de un colegio parece un detalle hasta que falla. El aviso tiene que llegar a la misma hora todos los días de clase, cambiar cuando hay un festivo o una jornada distinta, y seguir disponible si alguien necesita sonar fuera del horario. Hoy ese conjunto se resuelve mal por varias razones que se refuerzan.
+
+La primera es la presencia. Si el toque lo hace una persona, el horario queda atado a que alguien esté, recuerde la hora y pueda llegar al pulsador. Un temporizador fijo alivia eso solo en la semana tipo. En cuanto aparece un sábado de nivelación, un día sin clase o un cambio de la hora de salida, hay que reprogramarlo en el sitio.
+
+La segunda es la energía. Una campana de 110~V conectada solo a la red del plantel se apaga con el corte. El descanso o el cambio de clase no esperan a que vuelva la luz. A la vez, dejar un inversor encendido todo el día para ``tener la campana lista'' gasta batería en vacío, y un panel pequeño no repone ese gasto.
+
+La tercera es el acceso. Programar el control no debería exigir abrir una caja ni subir a donde está el equipo. Quien organiza la jornada lo hace desde el teléfono, a veces junto a la campana y a veces ya conectado a la red del colegio. Tampoco se puede contar con internet estable ni con un servidor que haya que mantener.
+
+La cuarta es el aviso de emergencia o fuera de horario. El pulsador de pared ya existe y la gente lo conoce. Si el control electrónico se apaga, ese botón tiene que seguir sonando con la red del colegio. Lo que no puede ocurrir es cruzar esa red con la salida del inversor: las dos fuentes de 110~V no deben quedar en paralelo.
+
+\section*{Cómo ayudará la idea}
+\addcontentsline{toc}{section}{Cómo ayudará la idea}
+
+SolarBell responde a cada uno de esos puntos sin convertir el colegio en una planta solar. La ayuda prevista es concreta.
+
+El horario dejará de vivir en la memoria de quien toca el botón. Quedará guardado en la propia campana, con los días de lunes a viernes, la hora, el nombre del timbre, cuántas veces suena y cuánto dura cada toque y cada pausa. Una fecha especial reemplazará el horario solo ese día: puede traer timbres propios o no traer ninguno, como en un festivo. La campana lo ejecutará sola, aunque el teléfono ya se haya ido.
+
+La energía del timbre programado saldrá del panel y de la batería. El inversor solo recibirá 12~V durante el toque y se desconectará al terminar, para no consumir en vacío entre clase y clase. Si se corta la red del colegio, el horario puede seguir. Si se corta el sol durante varios días, el diseño deberá medirse en el informe final. Esta idea solo deja sentado que el inversor no permanece encendido.
+
+La programación y el toque inmediato se harán desde una aplicación Android. El teléfono podrá usar la red Wi-Fi que crea la campana o la red Wi-Fi del colegio, porque el ESP32 estará en las dos. No habrá cuenta de usuario ni servidor: la protección será la clave de la red. Si la campana está fuera de alcance, el cambio de horario no se guardará, para no dejar en el teléfono una copia que la campana nunca recibió.
+
+El pulsador de pared se conserva. En reposo, la campana queda unida a la red eléctrica del colegio a través de ese botón. Durante el timbre programado o el pedido desde la aplicación, el contacto conmuta hacia el inversor. Las dos fuentes no se unen. Así el aviso manual no depende de que el microcontrolador esté vivo, siempre que haya red en el plantel.
+
+Por último, la radio se podrá apagar con un interruptor. El Wi-Fi encendido todo el día pesa sobre una batería de pocos amperios-hora. Con la radio apagada el horario seguiría sonando por el reloj, y la aplicación no podría conectarse hasta que alguien vuelva a encenderla. Esa decisión se deja en quien opera el equipo, no en un servidor remoto.
+
+\section*{Flujo de trabajo previsto}
+\addcontentsline{toc}{section}{Flujo de trabajo previsto}
+
+El flujo que se implementará tiene tres capas. La de abajo genera y guarda energía. La del medio decide cuándo sonar y conmuta las cargas. La de arriba es el uso: programar, consultar y tocar. La Figura~\ref{fig:capas} las separa para que no se lean como un solo circuito.
+
+\begin{figure}[H]
+\centering
+\singlespacing
+\begin{tikzpicture}[
+    every node/.style={font=\small, align=center},
+    capa/.style={draw, rounded corners, minimum height=1.55cm, inner sep=6pt}
+]
+\node[capa, fill=gray!12, minimum width=14.2cm] at (0,3.8)
+    {\textbf{Uso}\\Aplicación Android: horario, fechas especiales, toque manual y estado de la campana};
+\node[capa, fill=gray!30, minimum width=12.2cm] at (0,1.9)
+    {\textbf{Control}\\ESP32, reloj DS3231 y módulo de dos relés. Red SolarBell y red del colegio};
+\node[capa, fill=gray!40, minimum width=10.2cm] at (0,0)
+    {\textbf{Energía}\\Panel, controlador, batería, reductor a 5~V e inversor de 12~V a 110~V};
+\end{tikzpicture}
+\caption{Capas previstas del sistema SolarBell}
+\label{fig:capas}
+\end{figure}
+
+\subsection*{Energía}
+\addcontentsline{toc}{subsection}{Energía}
+
+El panel cargará la batería a través del controlador PWM. Ese controlador protege la batería de la sobrecarga y de la descarga profunda, y entrega 12~V por su salida de carga. De ahí salen dos caminos. El reductor LM2596 baja esos 12~V a 5~V regulados para el ESP32, el reloj y las bobinas de los relés. Un condensador en ese riel de 5~V sostendrá la tensión cuando los relés conmuten, para que el control no se reinicie. El otro camino pasa por el canal~1 del módulo de relés y solo entonces llega al inversor, que produce 110~V a 60~Hz. El canal~2 lleva esa salida a la campana durante el toque.
+
+En reposo, el contacto cerrado del canal~2 deja la campana en la red de 110~V del colegio, en el circuito del pulsador de pared. Un diodo y un varistor absorberán los picos de las bobinas y de la línea de alterna. La Tabla~\ref{tab:piezas} resume qué pieza cumple cada función. No es un inventario de compra: es el papel que cada bloque tendrá en el flujo.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.24\textwidth} >{\raggedright\arraybackslash}p{0.38\textwidth} >{\raggedright\arraybackslash}p{0.28\textwidth}}
+\caption{Función prevista de cada bloque de hardware}\label{tab:piezas}\\
+\toprule
+\textbf{Bloque} & \textbf{Qué hará} & \textbf{Pieza} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\small\textit{Continuación de la Tabla \ref{tab:piezas}}}\\
+\toprule
+\textbf{Bloque} & \textbf{Qué hará} & \textbf{Pieza} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Generación & Convertirá la radiación en electricidad para cargar la batería. & Panel solar de 30~Wp \\
+\addlinespace
+Regulación & Cuidará la carga y entregará 12~V al resto del sistema. & Controlador PWM de 10~A \\
+\addlinespace
+Almacenamiento & Sostendrá el sistema de noche y en días sin sol. & Batería VRLA de 12~V \\
+\addlinespace
+Reducción & Alimentará a 5~V el control, el reloj y las bobinas. & Convertidor LM2596 \\
+\addlinespace
+Conversión & Pasará de 12~V a 110~V solo mientras dura un timbre. & Inversor de 150~W \\
+\addlinespace
+Conmutación & Encenderá el inversor y conectará la campana, sin cruzar las dos fuentes de 110~V. & Módulo de 2 relés, 5~V \\
+\addlinespace
+Tiempo & Conservará fecha y hora si se corta la energía. & Reloj DS3231 \\
+\addlinespace
+Control y radio & Guardará el horario, creará la red SolarBell y se unirá a la red del colegio. & ESP32 \\
+\addlinespace
+Aviso manual & Sonará con la red del colegio aunque el control esté apagado. & Pulsador de pared \\
+\end{longtable}
+
+\subsection*{Tiempo, horario y aplicación}
+\addcontentsline{toc}{subsection}{Tiempo, horario y aplicación}
+
+Sin internet no hay hora de red. Cada vez que la aplicación logre hablar con la campana, le pondrá la hora y la zona del teléfono. El DS3231 conservará ese dato si después se corta la energía. Mientras el reloj no haya sido puesto en hora, el horario automático no debe dispararse: sonar a una hora falsa sería peor que no sonar.
+
+El horario semanal se enviará completo en cada cambio. Incluirá los días activos de lunes a viernes y, para cada timbre, el nombre, la hora, la cantidad de toques y la duración y la pausa de cada uno. El sábado y el domingo, o un festivo, no se fuerzan dentro de esa semana: se cubren con una fecha especial que ese día reemplaza el horario, con timbres propios o en silencio.
+
+La aplicación mostrará el día en curso: la fecha, el tiempo que falta para el próximo timbre, los timbres de esa jornada y las fechas especiales próximas. También permitirá tocar en el momento, eligiendo el mismo tipo de patrón, y detener el toque en curso. El tiempo del toque lo llevará la campana, no el teléfono. Otra pantalla mostrará si la campana está al alcance, si su reloj está en hora y qué versión del programa ejecuta.
+
+\subsection*{Conectividad}
+\addcontentsline{toc}{subsection}{Conectividad}
+
+La campana creará su red Wi-Fi, de nombre SolarBell, y además se unirá a la red Wi-Fi del colegio. Las dos vías sirven al mismo fin: que el teléfono consulte el estado y envíe el horario o la orden de tocar. Quien esté junto al equipo usa la red propia, sin router de por medio. Quien ya está en la red del plantel no tiene que cambiarse de red. En ninguno de los dos casos hace falta internet ni un computador servidor.
+
+La clave de esas redes será la única protección prevista. Quien la tenga podrá modificar el horario o tocar. Un interruptor físico podrá apagar la radio. Con el Wi-Fi apagado el horario sigue, porque quien decide es el reloj de la campana, no la aplicación.
+
+\subsection*{Secuencia de un timbre}
+\addcontentsline{toc}{subsection}{Secuencia de un timbre}
+
+Tanto el timbre de horario como el pedido desde el teléfono seguirán la misma secuencia. La Figura~\ref{fig:secuencia} la resume y la Tabla~\ref{tab:secuencia} precisa cada paso.
+
+\begin{figure}[H]
+\centering
+\singlespacing
+\begin{tikzpicture}[
+    box/.style={draw, rounded corners, align=center, text width=7.4cm, minimum height=0.95cm, font=\small},
+    arrow/.style={-{Stealth[length=2.2mm]}, thick}
+]
+\node[box] (a) {Llega la hora, o llega la orden desde el teléfono};
+\node[box, below=0.55cm of a] (b) {El canal 1 enciende el inversor};
+\node[box, below=0.55cm of b] (c) {El canal 2 hace cada toque y cada pausa};
+\node[box, below=0.55cm of c] (d) {Se apagan el inversor y la campana};
+\draw[arrow] (a) -- (b);
+\draw[arrow] (b) -- (c);
+\draw[arrow] (c) -- (d);
+\end{tikzpicture}
+\caption{Secuencia prevista de un timbre, programado o manual}
+\label{fig:secuencia}
+\end{figure}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.22\textwidth} >{\raggedright\arraybackslash}p{0.68\textwidth}}
+\caption{Pasos previstos de un timbre}\label{tab:secuencia}\\
+\toprule
+\textbf{Paso} & \textbf{Qué ocurrirá} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\small\textit{Continuación de la Tabla \ref{tab:secuencia}}}\\
+\toprule
+\textbf{Paso} & \textbf{Qué ocurrirá} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Revisión & El control comparará su reloj con el horario semanal y con las fechas especiales. \\
+\addlinespace
+Arranque & El canal 1 conectará los 12~V al inversor y esperará a que la salida de 110~V se estabilice. \\
+\addlinespace
+Toques & El canal 2 enviará esos 110~V a la campana, toque por toque, con la pausa definida entre ellos. \\
+\addlinespace
+Cierre & Al terminar se abrirán los dos canales. El inversor dejará de consumir. \\
+\addlinespace
+Reintento & Si el equipo se reinicia dentro del minuto de un timbre que ya sonó, no lo repetirá. Si la energía vuelve después de la hora, tampoco tocará tarde. \\
+\end{longtable}
+
+\subsection*{Qué queda fuera de esta entrega}
+\addcontentsline{toc}{subsection}{Qué queda fuera de esta entrega}
+
+Esta idea no sustituye el informe final. Aquí no se miden el consumo del inversor en vacío, la corriente de la campana ni la autonomía de la batería en días nublados. Tampoco se documenta el montaje en el sitio, el ajuste del controlador de carga ni las pruebas con la campana real. El informe final deberá decir qué de este flujo se conservó, qué hubo que cambiar y con qué evidencia.
+
+\section*{Conclusiones}
+\addcontentsline{toc}{section}{Conclusiones}
+
+\begin{itemize}
+    \item El problema no se resuelve solo con automatizar una hora. El aviso tiene que sobrevivir a un corte de la red del colegio y, a la vez, alguien debe poder tocarlo a mano si el control está apagado.
+    \item Por eso el flujo separa dos caminos de 110~V que no se unen: el inversor para el horario y para el toque desde el teléfono, y la red del colegio para el pulsador de pared.
+    \item Guardar el horario en la campana, y no en el teléfono, es lo que permite que suene cuando ya no hay nadie conectado. El reloj con pila es la condición para que ese horario no se pierda con la energía.
+    \item Crear una red propia y unirse a la red del colegio cubre dos situaciones de uso sin montar un servidor ni depender de internet.
+    \item Este documento deja aprobada la idea y el flujo con el que se va a construir. El informe final tendrá que medirlo contra el equipo instalado, no repetir esta propuesta.
+\end{itemize}
+
+\newpage
+\section*{Referencias}
+\addcontentsline{toc}{section}{Referencias}
+
+\begin{hangparas}{0.5in}{1}
+
+Analog Devices. (2015). \textit{DS3231: Extremely accurate I\textsuperscript{2}C-integrated RTC/TCXO/crystal}\\
+(Rev.~10). \url{https://www.analog.com/media/en/technical-documentation/data-sheets/ds3231.pdf}
+
+Departamento Nacional de Planeación. (2016). \textit{Instalación de sistemas solares fotovoltaicos individuales en zonas no interconectadas}. \url{https://proyectostipo.dnp.gov.co/images/pdf/Celdas/ptceldas.pdf}
+
+Espressif Systems. (2026). \textit{ESP32 series datasheet} (Version 5.3). \url{https://documentation.espressif.com/esp32_datasheet_en.pdf}
+
+Unidad de Planeación Minero Energética. (2024). \textit{Plan indicativo de expansión de cobertura de energía eléctrica 2024-2028}. \url{https://docs.upme.gov.co/SIMEC/Energia%20Electrica/PIEC/2024-2028/PIEC_2024-2028_Vfinal.pdf}
+
+\end{hangparas}
+
+\end{document}

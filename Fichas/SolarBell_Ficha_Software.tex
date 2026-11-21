@@ -8,11 +8,11 @@
 \usepackage[hidelinks]{hyperref}
 \pagestyle{empty}
 \color{black}
-\renewcommand{\arraystretch}{1.25}
+\renewcommand{\arraystretch}{1.12}
 \definecolor{cab}{gray}{0.75}
-\newcolumntype{A}{>{\raggedright\arraybackslash}p{3.1cm}}
-\newcolumntype{B}{>{\raggedright\arraybackslash}p{7.4cm}}
-\newcolumntype{C}{>{\raggedright\arraybackslash}p{4.2cm}}
+\newcolumntype{A}{>{\raggedright\arraybackslash}p{3.15cm}}
+\newcolumntype{B}{>{\raggedright\arraybackslash}p{7.65cm}}
+\newcolumntype{C}{>{\raggedright\arraybackslash}p{4.35cm}}
 \begin{document}
 \begin{titlepage}
 \centering
@@ -46,7 +46,7 @@ Milton Eduardo Hernández Zakzuk\\
 \end{minipage}\\[2.5cm]
 \vfill
 Montería, Córdoba\\
-Octubre de 2026
+Noviembre de 2026
 \end{titlepage}
 \newpage
 \noindent{\large \textbf{Ficha de Software}}\\[0.25cm]
@@ -58,15 +58,19 @@ Octubre de 2026
 \hline
 \rowcolor{cab}\textbf{Funcionalidad} & \multicolumn{2}{l|}{\textbf{Descripción}} \\
 \hline
-Conectividad & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{El software se comunica con el dispositivo de hardware (ESP32) a través de su API por Wi-Fi, ya sea en la red propia del dispositivo (SolarBell) o en la red local, para consultar su estado y enviarle órdenes.} \\
+Conectividad & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.55cm}|}{La aplicación habla con la campana por HTTP, en la red Wi-Fi SolarBell o en la red Wi-Fi del colegio, sin internet y sin servidor. Consulta su estado y le envía el horario y las órdenes.} \\
 \hline
-Gestión de Horarios & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{Permite consultar y modificar el horario de timbres, con la duración de los toques y las pausas. El horario se guarda en la memoria del dispositivo para que funcione sin conexión.} \\
+Puesta en Hora & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.55cm}|}{Al conectarse, pone la campana en la hora y la zona horaria del teléfono. El reloj del dispositivo conserva esa hora si se corta la energía.} \\
 \hline
-Fechas Especiales & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{Permite configurar fechas especiales (como festivos o días sin clases) en las que el horario normal de timbres se modifica o no se aplica.} \\
+Gestión de Horarios & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.55cm}|}{Permite consultar y modificar el horario semanal: nombre, hora, cantidad de toques, duración y pausa de cada toque, y los días activos de lunes a viernes. El horario completo queda en la memoria de la campana y ella lo ejecuta sola. Si está fuera de alcance, el cambio no se guarda.} \\
 \hline
-Toque Manual & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{Permite hacer sonar la campana en el momento que el usuario lo requiera y detener el toque en curso.} \\
+Fechas Especiales & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.55cm}|}{Permite definir una fecha que ese día reemplaza el horario semanal, con timbres propios o sin ninguno.} \\
 \hline
-Estado del Dispositivo & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.3cm}|}{Permite consultar desde la aplicación el estado actual del dispositivo.} \\
+Consulta del Día & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.55cm}|}{Muestra la fecha de hoy, el tiempo que falta para el próximo timbre, los timbres del día y las fechas especiales próximas.} \\
+\hline
+Toque Manual & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.55cm}|}{Permite hacer sonar la campana en el momento, eligiendo las veces, la duración y la pausa de cada toque, y detener el toque en curso. El tiempo lo lleva la campana.} \\
+\hline
+Estado de la Campana & \multicolumn{2}{>{\raggedright\arraybackslash}p{11.55cm}|}{Muestra si la campana está al alcance, si su reloj está en hora y la versión del programa que ejecuta.} \\
 \hline
 \end{tabular}
 \end{document}
