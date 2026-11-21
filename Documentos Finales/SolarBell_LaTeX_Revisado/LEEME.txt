@@ -1,0 +1,13 @@
+SolarBell — Informe final del Proyecto de Aula Semestral
+
+El archivo principal es SolarBell.tex. Las fotografías y el esquema vectorial
+que utiliza se encuentran en la carpeta figuras/.
+
+En Overleaf, importa el ZIP como proyecto y selecciona pdfLaTeX. Para compilar
+localmente con TeX Live o MiKTeX, descomprime el ZIP y ejecuta, desde la carpeta
+que contiene SolarBell.tex:
+
+    latexmk -pdf SolarBell.tex
+
+También puedes ejecutar pdflatex SolarBell.tex dos veces para generar el
+índice y resolver las referencias cruzadas.

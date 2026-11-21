@@ -44,3 +44,4 @@ ESP32/**/configuracion.h
 .code-review-graph/
 grapify-output/
 .agents/
+simulador/

@@ -1,7 +1,6 @@
 # SolarBell Proyect
 
-Monorepo de la campana solar SolarBell. Rama `offline-local`: sin internet, sin servidor, sin login.
-La versión con backend (FastAPI + PostgreSQL) sigue en `main`.
+Monorepo de la campana solar SolarBell, en `main`: sin internet, sin servidor, sin login.
 
 - `frontend/` — React 19 + Vite 8 + Bun, empaquetada como APK con Capacitor (`frontend/android/`).
 - `ESP32/solarbell_local/` — sketch Arduino. Crea la red Wi-Fi `SolarBell`, guarda el horario en

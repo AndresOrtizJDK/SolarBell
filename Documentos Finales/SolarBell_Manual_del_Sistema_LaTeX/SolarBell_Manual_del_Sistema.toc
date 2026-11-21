@@ -1,0 +1,17 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Alcance y responsabilidades}{1}{section.1}%
+\contentsline {section}{\numberline {2}Arquitectura y modos de operación}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Recorrido de la energía y del control}{2}{subsection.2.1}%
+\contentsline {section}{\numberline {3}Hardware y señales documentadas}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Identificación de componentes}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Mapa de señales del ESP32}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Esquema eléctrico de referencia}{5}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Puesta en servicio y configuración}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Condiciones previas}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Configuración y carga del firmware}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Conexión y comprobación del reloj}{6}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Programación, consulta y orden inmediata}{7}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Comprobaciones de funcionamiento}{8}{section.5}%
+\contentsline {section}{\numberline {6}Diagnóstico}{10}{section.6}%
+\contentsline {section}{\numberline {7}Mantenimiento y entrega técnica}{11}{section.7}%
+\contentsline {section}{\numberline {8}Fuentes}{11}{section.8}%

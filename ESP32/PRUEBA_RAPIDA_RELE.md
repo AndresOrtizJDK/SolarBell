@@ -1,6 +1,6 @@
 # SolarBell · Prueba rápida: batería → ESP32 → relé → LED
 
-Rama: `offline-local`. Objetivo: comprobar que la batería alimenta el ESP32 a través del regulador
+Rama: `main`. Objetivo: comprobar que la batería alimenta el ESP32 a través del regulador
 (LM2596) y que el ESP32 activa un relé real que enciende un LED.
 
 Diagrama de cableado: [`diagrama_prueba_rele.svg`](diagrama_prueba_rele.svg)

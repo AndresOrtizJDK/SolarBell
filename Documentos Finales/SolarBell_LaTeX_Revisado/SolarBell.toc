@@ -1,0 +1,52 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{Introducción}{2}{section*.3}%
+\contentsline {section}{Resumen ejecutivo}{2}{section*.5}%
+\contentsline {section}{\numberline {1}Planteamiento del problema}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Descripción del problema}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Justificación}{4}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Objetivos}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}General}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Específicos}{4}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Antecedentes}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Contexto internacional}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Contexto nacional}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Contexto regional}{5}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Metodología}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Tipo de trabajo}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Estrategias de recolección de la información}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Proceso de la investigación}{7}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Fase I. Estudio, análisis e interpretación del sistema}{7}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Fase II. Caracterización del sistema}{8}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Fase III. Diseño e implementación del sistema}{8}{subsubsection.4.3.3}%
+\contentsline {section}{\numberline {5}Diseño arquitectónico}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Especificación y modelos}{9}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Requerimientos funcionales}{9}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}Requerimientos no funcionales}{10}{subsubsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.3}Diagramas de caso de uso}{10}{subsubsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.4}Diagramas de clase}{11}{subsubsection.5.1.4}%
+\contentsline {subsubsection}{\numberline {5.1.5}Diagramas de secuencia}{12}{subsubsection.5.1.5}%
+\contentsline {subsubsection}{\numberline {5.1.6}Diagramas de actividades}{14}{subsubsection.5.1.6}%
+\contentsline {subsubsection}{\numberline {5.1.7}Diseño de la base de datos}{16}{subsubsection.5.1.7}%
+\contentsline {paragraph}{Almacenamiento y actualización.}{17}{section*.22}%
+\contentsline {paragraph}{Fechas y listas vacías.}{17}{section*.23}%
+\contentsline {paragraph}{Datos calculados y estado temporal.}{17}{section*.24}%
+\contentsline {subsection}{\numberline {5.2}Desarrollo}{18}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Integración del hardware}{18}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Señales, potencia y software embebido}{20}{subsubsection.5.2.2}%
+\contentsline {paragraph}{Secuencia eléctrica.}{20}{section*.28}%
+\contentsline {paragraph}{Firmware del ESP32.}{20}{section*.29}%
+\contentsline {paragraph}{Interfaz HTTP del equipo.}{21}{section*.31}%
+\contentsline {paragraph}{Aplicación Android.}{21}{section*.33}%
+\contentsline {subsection}{\numberline {5.3}Pruebas del sistema}{22}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Prueba 1. Fallo del LED que simulaba el timbre}{22}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Prueba 2. Accionamiento del pulsador de pared}{23}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Prueba 3. Integración del módulo de relés y del inversor}{24}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}Prueba 4. Timbrado a la hora programada en sitio}{25}{subsubsection.5.3.4}%
+\contentsline {section}{\numberline {6}Conclusiones}{26}{section.6}%
+\contentsline {section}{\numberline {7}Recomendaciones}{26}{section.7}%
+\contentsline {section}{\numberline {8}Trabajos futuros}{27}{section.8}%
+\contentsline {paragraph}{Confirmación de carga y registro de avisos.}{27}{section*.39}%
+\contentsline {paragraph}{Validación de autonomía y manejo de eventos.}{27}{section*.40}%
+\contentsline {paragraph}{Gestión y supervisión.}{27}{section*.41}%
+\contentsline {section}{\numberline {9}Bibliografía}{27}{section.9}%
+\contentsline {section}{Anexos}{28}{section*.43}%

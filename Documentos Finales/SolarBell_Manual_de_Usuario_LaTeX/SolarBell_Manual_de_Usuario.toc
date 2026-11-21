@@ -1,0 +1,46 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Alcance, acceso y responsabilidades}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Quién puede usar la campana}{3}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Conozca la aplicación}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Las seis pestañas}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Controles que se repiten}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Pantalla de Inicio}{4}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Instalación y conexión}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Instalar y abrir la aplicación}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Primera conexión a la red SolarBell}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Unir la campana al Wi-Fi del colegio}{7}{subsection.3.3}%
+\contentsline {paragraph}{Si no se une.}{8}{section*.9}%
+\contentsline {paragraph}{Red oculta.}{9}{section*.12}%
+\contentsline {paragraph}{Olvidar la red.}{9}{section*.13}%
+\contentsline {subsection}{\numberline {3.4}Estado de la campana y cómo recuperarla}{9}{subsection.3.4}%
+\contentsline {paragraph}{Búsqueda automática.}{10}{section*.16}%
+\contentsline {paragraph}{Apariencia.}{11}{section*.17}%
+\contentsline {section}{\numberline {4}Horario habitual}{12}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Consultar el horario}{12}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Agregar un timbrado}{12}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Editar un timbrado}{13}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Eliminar un timbrado}{14}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Ajustar el patrón de toques}{15}{subsection.4.5}%
+\contentsline {paragraph}{Ejemplo simple.}{15}{section*.24}%
+\contentsline {paragraph}{Ejemplo avanzado.}{16}{section*.25}%
+\contentsline {section}{\numberline {5}Fechas especiales}{17}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Crear una fecha especial}{17}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Ajustar los timbrados de ese día}{18}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Cambiar el nombre, la fecha o la modalidad}{18}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Consultar las fechas}{19}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Eliminar una fecha especial}{19}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Tocar la campana en el momento}{21}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Detener un toque}{22}{subsection.6.1}%
+\contentsline {section}{\numberline {7}Historial de toques}{23}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Consultar el historial}{23}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Buscar por nombre}{24}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Filtrar por fecha}{25}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Eliminar un toque del historial}{26}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Cuando la lista no muestra toques}{27}{subsection.7.5}%
+\contentsline {section}{\numberline {8}Energía y mandos físicos}{29}{section.8}%
+\contentsline {subsection}{\numberline {8.1}De dónde sale la energía de cada aviso}{29}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}El pulsador de pared}{29}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}El interruptor del Wi-Fi}{29}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Comprobar que funciona}{31}{section.9}%
+\contentsline {section}{\numberline {10}Diagnóstico}{32}{section.10}%
+\contentsline {section}{\numberline {11}Fuentes}{33}{section.11}%

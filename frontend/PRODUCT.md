@@ -62,9 +62,9 @@ Español claro y corto. Instrumento de campo, no marketing de vatios inflados.
 - **Historial**: tabla de los toques que ya sonaron (nombre, hora, duración real y un botón de info que abre la configuración detallada del toque), sin título ni descripción. Botón de búsqueda por nombre y botón de filtro con fecha inicial y final. Vive en la flash de la campana (máximo 1.000 registros; al llenarse borra los más viejos): `GET /api/history`, cuentas en `ESP32/README.md`.
 - **Campana** (reemplaza a Perfil en esta rama): conexión, reloj y firmware de la campana, cómo unirse a su red y apariencia (claro u oscuro).
 
-## Decided (rama `offline-local`)
+## Decided (rama `main`)
 
-- **Sin internet ni servidor**: la versión con backend sigue en `main`.
+- **Sin internet ni servidor.** La app habla solo con la campana.
 - **MCU**: ESP32 (`ESP32/solarbell_local`). Crea su propia red Wi-Fi `SolarBell`; la app le habla por HTTP en `192.168.4.1`. Por ahora sin relé: el LED azul integrado simula cada toque.
 - **App**: APK con Capacitor. Mismas pantallas que la web.
 - **Horario**: vive en la flash del ESP32 y lo toca la campana con su reloj, aunque el teléfono se vaya. La app manda el horario completo en cada cambio (semanal y fechas especiales); si la campana no está al alcance, el cambio no se guarda y la app vuelve a la última copia. Otros teléfonos ya conectados recogen el cambio cuando `/api/status` sube `scheduleRevision`.

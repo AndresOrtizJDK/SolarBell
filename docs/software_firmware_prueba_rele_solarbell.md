@@ -11,7 +11,7 @@ El proyecto no es solo hardware: es un repositorio git con tres partes.
 - `ESP32/`: firmware (`solarbell_local/solarbell_local.ino`, `configuracion.h`), `README.md`, `PRUEBA_RAPIDA_RELE.md`, `diagrama_prueba_rele.svg` (versión antigua, sin relé) y **`diagrama_circuito_rele_ds3231.svg`** (versión nueva, con relé y reloj). También existe `solarbell_node/` (otra variante).
 - `backend/`: API (carpetas `app/api`, `core`, `db`, `models`, `schemas`, `services`, `tests`).
 - `frontend/`: app web/móvil (Vite + React, Capacitor para Android/APK), con `DESIGN.md` y `PRODUCT.md`.
-- Rama actual del firmware de prueba: `offline-local`.
+- Rama actual del firmware de prueba: `main`.
 
 ## 2. Firmware ESP32 `solarbell_local` (sin internet)
 
@@ -75,7 +75,7 @@ Notas: SQW y 32K del DS3231 sin conectar; NC del relé libre; pila del DS3231 re
 
 Motivo: ampliar el alcance usando un router existente. Se probará primero con la red de casa del equipo; con la del colegio habría que pedir permiso al administrador (2.4 GHz, sin portal de inicio de sesión, sin aislamiento de clientes, IP reservada).
 
-**Cambio hecho en el firmware** (`solarbell_local.ino` v0.3.1; rama `offline-local`, reversible con `git checkout`):
+**Cambio hecho en el firmware** (`solarbell_local.ino` v0.3.1; rama `main`, reversible con `git checkout`):
 
 - Si `configuracion.h` define `WIFI_CASA_NOMBRE` y `WIFI_CASA_CLAVE`, el ESP32 pasa a modo **AP + estación**: sigue creando `SolarBell` y además se une al router. Hostname `solarbell`, reconexión automática, y el monitor serie imprime `[red] unida a la red de casa, IP http://...`.
 - Si no se definen, el comportamiento es idéntico al anterior.

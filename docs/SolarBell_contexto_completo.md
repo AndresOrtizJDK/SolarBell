@@ -60,8 +60,8 @@ panel y la batería, con horarios que se guardan en el propio aparato.
 Quien programa o dispara una campana física (escolar, de patio o de taller) desde el teléfono, sin estar junto
 al pulsador. El perfil demográfico y el lugar exacto de instalación no están confirmados.
 
-### 1.5 Alcance de la rama `offline-local`
-Sin internet, sin servidor, sin login. La versión con backend (FastAPI + PostgreSQL) sigue en la rama `main`. La
+### 1.5 Alcance de la rama `main`
+Sin internet, sin servidor, sin login. La app habla solo con la campana. La
 protección es la clave de la red Wi-Fi de la campana: quien la tenga puede tocarla.
 
 ---
@@ -448,4 +448,4 @@ dos a la vez.
 - App: `frontend/src/lib/device.ts`, `frontend/src/features/device/store.ts`, `frontend/src/pages/device/index.tsx`,
   `frontend/PRODUCT.md`, `frontend/DESIGN.md`.
 - Docs: carpeta `docs/` (este archivo, inventario, contexto y decisiones, software y firmware).
-- Repositorio: rama `offline-local`; la versión con backend sigue en `main`.
+- Repositorio: rama `main`.
