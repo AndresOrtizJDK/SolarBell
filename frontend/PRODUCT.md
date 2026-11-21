@@ -59,6 +59,7 @@ Español claro y corto. Instrumento de campo, no marketing de vatios inflados.
 - **Horario**: horario global (por defecto lunes a viernes, 8:00, 10:00 y 12:00). CRUD de timbrados con nombre, hora, veces que suena y duración por toque; opciones avanzadas para duración por toque individual. Días activos editables de lunes a viernes. Sábado y domingo se cubren con una fecha especial.
 - **Tocar**: botón de campana dibujado; al presionarlo abre un bottom sheet para elegir veces que suena, duración por toque y opciones avanzadas (duración por toque individual), y lo ejecuta enseguida. Recuerda la última configuración y muestra el toque en curso con opción de detener.
 - **Fechas especiales**: una fecha reemplaza el horario solo ese día, con horario especial propio o sin timbrado.
+- **Historial**: tabla de los toques que ya sonaron (nombre, hora, duración real y un botón de info que abre la configuración detallada del toque), sin título ni descripción. Botón de búsqueda por nombre y botón de filtro con fecha inicial y final. Vive en la flash de la campana (máximo 1.000 registros; al llenarse borra los más viejos): `GET /api/history`, cuentas en `ESP32/README.md`.
 - **Campana** (reemplaza a Perfil en esta rama): conexión, reloj y firmware de la campana, cómo unirse a su red y apariencia (claro u oscuro).
 
 ## Decided (rama `offline-local`)
@@ -77,5 +78,5 @@ Español claro y corto. Instrumento de campo, no marketing de vatios inflados.
 - Consumo del Wi-Fi siempre encendido (~100 mA) sobre la VRLA del kit; quizá encenderlo solo con un botón.
 - DS3231: no aparece en las fotos del kit.
 - Pausa entre toques consecutivos de un mismo timbrado: provisional `PAUSA_TOQUE_MS=1000`, no confirmada.
-- Historial de toques y batería.
+- Historial de la batería (el de toques ya existe).
 - Ah exactos de la VRLA y watts reales de inversor/campana

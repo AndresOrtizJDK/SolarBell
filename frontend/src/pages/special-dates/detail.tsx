@@ -1,7 +1,7 @@
 import { Page, PageHeader, Section } from '@/components/layout/page'
 import { Button } from '@/components/ui/button'
 import { DateInput, Field, TextInput } from '@/components/ui/field'
-import { DeleteHoldButton } from '@/components/ui/hold-button'
+import { DeleteButton } from '@/components/ui/delete-button'
 import { toast } from '@/features/feedback/toast'
 import { BellList } from '@/features/schedule/components/bell-list'
 import { ModePicker } from '@/features/schedule/components/mode-picker'
@@ -61,9 +61,11 @@ function SpecialDateEditor({ special }: { special: SpecialDate }) {
             <p className="truncate text-[0.88rem] text-muted">{formatDateKey(special.date)}</p>
           }
           action={
-            <DeleteHoldButton
+            <DeleteButton
               label="Eliminar fecha especial"
-              onHold={() => {
+              title="¿Eliminar fecha especial?"
+              description={`Se quitará «${special.name || formatDateKey(special.date)}» y ese día vuelve al horario habitual.`}
+              onConfirm={() => {
                 deleteSpecial(special.id)
                 toast('Fecha eliminada')
                 navigate('/fechas', { replace: true })

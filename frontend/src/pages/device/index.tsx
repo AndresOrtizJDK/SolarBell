@@ -1,15 +1,12 @@
 import { Page } from '@/components/layout/page'
-import { Button } from '@/components/ui/button'
-import { Field, TextInput } from '@/components/ui/field'
 import { Segmented } from '@/components/ui/segmented'
 import { WifiCard } from '@/features/device/components/wifi-card'
-import { recheckDevice, searchDevice, useDevice, type DeviceState } from '@/features/device/store'
-import { toast } from '@/features/feedback/toast'
+import { useDevice, type DeviceState } from '@/features/device/store'
 import { setTheme, useTheme } from '@/features/theme/store'
 import { useNow } from '@/hooks/use-now'
 import { cn } from '@/lib/cn'
-import { DEVICE_NETWORK, deviceAddress, setDeviceAddress } from '@/lib/device'
-import { useState, type ReactNode } from 'react'
+import { DEVICE_NETWORK } from '@/lib/device'
+import type { ReactNode } from 'react'
 
 const appearance = [
   { value: 'light', label: 'Claro' },
@@ -38,25 +35,6 @@ export function DevicePage() {
   const state = useDevice()
   const now = useNow().getTime()
   const status = state.link === 'near' ? state.status : null
-  const [address, setAddress] = useState(deviceAddress)
-  const [searching, setSearching] = useState(false)
-
-  function saveAddress() {
-    setDeviceAddress(address)
-    setAddress(deviceAddress())
-    recheckDevice()
-  }
-
-  async function search() {
-    setSearching(true)
-    try {
-      const found = await searchDevice()
-      setAddress(deviceAddress())
-      toast(found ? 'Campana encontrada' : 'No se encontró la campana', found ? 'ok' : 'danger')
-    } finally {
-      setSearching(false)
-    }
-  }
 
   return (
     <Page>
@@ -95,32 +73,6 @@ export function DevicePage() {
       </section>
 
       <WifiCard />
-
-      <section className="mt-4 rounded-[1.75rem] bg-raised px-5 py-4 shadow-raised">
-        <Field
-          label="Dirección de la campana"
-          htmlFor="device-address"
-          hint="La app la busca sola (192.168.4.1 en su red SolarBell, o la IP/solarbell.local en tu Wi-Fi). Escríbela solo si no la encuentra."
-        >
-          <TextInput
-            id="device-address"
-            inputMode="url"
-            autoCapitalize="none"
-            autoCorrect="off"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="http://192.168.4.1"
-          />
-        </Field>
-        <div className="mt-3 flex gap-2">
-          <Button variant="soft" onClick={saveAddress}>
-            Guardar y buscar
-          </Button>
-          <Button variant="ghost" disabled={searching} onClick={() => void search()}>
-            {searching ? 'Buscando…' : 'Buscar campana'}
-          </Button>
-        </div>
-      </section>
 
       <section className="mt-4 rounded-[1.75rem] bg-raised px-5 py-4 shadow-raised">
         <p className="text-[0.98rem] font-medium">Apariencia</p>

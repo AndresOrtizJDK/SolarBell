@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { WifiSheet } from '@/features/device/components/wifi-sheet'
-import { useDevice } from '@/features/device/store'
+import { searchDevice, useDevice } from '@/features/device/store'
 import { forgetWifi, getWifi, type WifiStatus } from '@/features/device/wifi'
 import { toast } from '@/features/feedback/toast'
 import { DeviceError, errorText } from '@/lib/device'
@@ -28,6 +28,7 @@ export function WifiCard() {
   const [wifi, setWifi] = useState<WifiStatus | null>(null)
   const [unsupported, setUnsupported] = useState(false)
   const [open, setOpen] = useState(false)
+  const [searching, setSearching] = useState(false)
 
   const refresh = useCallback(async () => {
     try {
@@ -59,6 +60,16 @@ export function WifiCard() {
     }
   }
 
+  async function search() {
+    setSearching(true)
+    try {
+      const found = await searchDevice()
+      toast(found ? 'Campana encontrada' : 'No se encontró la campana', found ? 'ok' : 'danger')
+    } finally {
+      setSearching(false)
+    }
+  }
+
   return (
     <section className="mt-4 rounded-[1.75rem] bg-raised px-5 py-4 shadow-raised">
       <p className="text-[0.98rem] font-medium">Wi-Fi de casa</p>
@@ -79,7 +90,11 @@ export function WifiCard() {
             Con una red guardada, la app encuentra la campana sola en esa red (también como{' '}
             {wifi?.hostname ?? 'solarbell.local'}).
           </p>
-          <div className="mt-3 flex gap-2">
+        </>
+      )}
+      <div className="mt-3 flex gap-2">
+        {near && !unsupported ? (
+          <>
             <Button variant="soft" onClick={() => setOpen(true)}>
               {wifi && wifi.state !== 'none' ? 'Cambiar red' : 'Elegir red'}
             </Button>
@@ -88,9 +103,12 @@ export function WifiCard() {
                 Olvidar
               </Button>
             ) : null}
-          </div>
-        </>
-      )}
+          </>
+        ) : null}
+        <Button variant="ghost" disabled={searching} onClick={() => void search()}>
+          {searching ? 'Buscando…' : 'Buscar campana'}
+        </Button>
+      </div>
       <WifiSheet
         open={open}
         onClose={() => {

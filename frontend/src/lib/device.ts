@@ -86,6 +86,8 @@ export type DeviceStatus = {
   offsetMinutes: number
   /** Sube en cada PUT /schedule. Ausente en firmware anterior a 0.3.1. */
   scheduleRevision?: number
+  /** Id que tendrá el próximo registro del historial; sube con cada toque terminado. Ausente antes de 0.7. */
+  historyHead?: number
   run: DeviceRun | null
 }
 

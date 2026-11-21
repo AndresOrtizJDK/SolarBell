@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { DeleteHoldButton } from '@/components/ui/hold-button'
+import { DeleteButton } from '@/components/ui/delete-button'
+import type { ReactNode } from 'react'
 
 type FormActionsProps = {
   submitLabel: string
@@ -7,6 +8,8 @@ type FormActionsProps = {
   submitDisabled?: boolean
   onDelete?: () => void
   deleteLabel?: string
+  /** Qué se va a borrar, para el modal de confirmación. */
+  deleteDescription?: ReactNode
 }
 
 export function FormActions({
@@ -15,6 +18,7 @@ export function FormActions({
   submitDisabled,
   onDelete,
   deleteLabel = 'Eliminar',
+  deleteDescription,
 }: FormActionsProps) {
   return (
     <div className="flex items-center gap-2.5">
@@ -26,7 +30,14 @@ export function FormActions({
       >
         {submitLabel}
       </Button>
-      {onDelete ? <DeleteHoldButton label={deleteLabel} onHold={onDelete} /> : null}
+      {onDelete ? (
+        <DeleteButton
+          label={deleteLabel}
+          title={`¿${deleteLabel}?`}
+          description={deleteDescription}
+          onConfirm={onDelete}
+        />
+      ) : null}
     </div>
   )
 }

@@ -38,7 +38,7 @@
 #include <RTClib.h>
 #endif
 
-#define VERSION_FIRMWARE "0.6.0"
+#define VERSION_FIRMWARE "0.8.0"
 
 static_assert(sizeof(RED_CLAVE) > 8, "RED_CLAVE necesita al menos 8 caracteres (WPA2)");
 
@@ -65,6 +65,33 @@ static const size_t MAX_REDES_ESCANEO = 24;
 static const time_t HORA_MINIMA_VALIDA = 1704067200;  // 2024-01-01
 static const char *RUTA_HORARIO = "/horario.json";
 static const char *RUTA_HORARIO_TEMPORAL = "/horario.tmp";
+
+// Tipos del historial de toques (sección "Historial de toques"). Van aquí arriba: Arduino genera
+// los prototipos de las funciones antes de la primera definición y necesita ya conocer los tipos.
+enum ResultadoToque : uint8_t { TOQUE_TERMINADO = 0, TOQUE_DETENIDO = 1, TOQUE_REEMPLAZADO = 2 };
+
+struct __attribute__((packed)) RegistroToque {
+  uint32_t inicio;                 // epoch en segundos (UTC) en que se pidió el toque; 0 sin hora
+  uint32_t sonoMs;                 // ms que estuvo sonando (sin el arranque del inversor)
+  uint8_t origen;                  // 0 manual, 1 programado
+  uint8_t resultado;               // ResultadoToque; el bit REGISTRO_BORRADO lo da por eliminado
+  uint8_t cantidad;                // toques del patrón
+  uint16_t duraciones[MAX_TOQUES];
+  uint16_t pausas[MAX_TOQUES - 1];
+  char etiqueta[47];               // 46 bytes útiles: se corta sin partir un carácter UTF-8
+};
+static_assert(sizeof(RegistroToque) == 96, "RegistroToque debe medir 96 bytes");
+// Borrar un registro solo levanta este bit (un byte reescrito): los ids de los demás no cambian.
+// El espacio vuelve cuando el segmento entero sale por ser el más viejo.
+static const uint8_t REGISTRO_BORRADO = 0x80;
+static const size_t DESPLAZAMIENTO_RESULTADO = offsetof(RegistroToque, resultado);
+
+struct Segmento {
+  uint32_t numero;
+  uint8_t registros;  // registros completos que tiene el archivo (incluye los borrados)
+  uint8_t vivos;      // los que no están borrados
+  bool cerrado;       // lleno, o con bytes sueltos al final (corte a mitad de escritura)
+};
 
 static const uint32_t DESTELLO_ENCENDIDO_MS = 80;
 static const uint32_t DESTELLO_APAGADO_MS = 120;
@@ -166,12 +193,187 @@ void actualizarDestellos(uint32_t ahora) {
   finPasoDestello = ahora + (ledDestelloEncendido() ? DESTELLO_ENCENDIDO_MS : DESTELLO_APAGADO_MS);
 }
 
+// ---------- Historial de toques ----------
+
+// Un registro por toque terminado, en archivos de solo-agregar (`/hist/<n>`). Cada archivo
+// ("segmento") cabe justo en un bloque de LittleFS (4096 B): al llenarse se abre otro y, al
+// llegar al máximo, se borra el más viejo. Así nunca se reescribe una zona ya escrita y la
+// memoria usada tiene techo fijo. Cuentas en `ESP32/README.md`.
+static const char *DIR_HISTORIAL = "/hist";
+static const uint16_t BLOQUE_FLASH = 4096;
+static const uint8_t REGISTROS_POR_SEGMENTO = 40;  // 40 × 96 = 3840 B ≤ un bloque
+static_assert(REGISTROS_POR_SEGMENTO * sizeof(RegistroToque) <= BLOQUE_FLASH, "un segmento debe caber en un bloque");
+static const size_t MAX_SEGMENTOS = 25;            // 1000 registros ≈ 100 KB (7 % de la partición)
+static const uint32_t FLASH_LIBRE_MINIMA = 64 * 1024;  // si queda menos, se borra lo más viejo
+// Un pedido no examina más que esto: el servidor es el mismo que lleva la cuenta de los toques.
+static const uint16_t MAX_EXAMINADOS = 500;
+static const uint8_t PAGINA_HISTORIAL = 25;
+static const uint8_t PAGINA_HISTORIAL_MAX = 40;
+
+std::vector<Segmento> segmentos;
+
+void rutaSegmento(uint32_t numero, char *ruta, size_t largo) {
+  snprintf(ruta, largo, "%s/%08lu", DIR_HISTORIAL, (unsigned long)numero);
+}
+
+// Id de un registro: estable aunque se borren los segmentos viejos.
+uint32_t idRegistro(const Segmento &segmento, uint8_t indice) {
+  return segmento.numero * REGISTROS_POR_SEGMENTO + indice;
+}
+
+uint32_t cabezaHistorial() {
+  if (segmentos.empty()) return 0;
+  return idRegistro(segmentos.back(), segmentos.back().registros);
+}
+
+uint32_t totalHistorial() {
+  uint32_t total = 0;
+  for (const Segmento &segmento : segmentos) total += segmento.vivos;
+  return total;
+}
+
+// Como máximo la cuarta parte de la partición, aunque la placa traiga una más pequeña.
+size_t limiteSegmentos() {
+  size_t porParticion = LittleFS.totalBytes() / 4 / BLOQUE_FLASH;
+  return std::min(MAX_SEGMENTOS, std::max((size_t)2, porParticion));
+}
+
+void borrarSegmentoMasViejo() {
+  char ruta[24];
+  rutaSegmento(segmentos.front().numero, ruta, sizeof ruta);
+  LittleFS.remove(ruta);
+  segmentos.erase(segmentos.begin());
+}
+
+void iniciarHistorial() {
+  segmentos.clear();
+  if (!LittleFS.exists(DIR_HISTORIAL)) LittleFS.mkdir(DIR_HISTORIAL);
+  File dir = LittleFS.open(DIR_HISTORIAL);
+  if (!dir || !dir.isDirectory()) return;
+  for (File archivo = dir.openNextFile(); archivo; archivo = dir.openNextFile()) {
+    const char *nombre = strrchr(archivo.name(), '/');
+    nombre = nombre ? nombre + 1 : archivo.name();
+    char *fin;
+    unsigned long numero = strtoul(nombre, &fin, 10);
+    if (*nombre == '\0' || *fin != '\0') continue;
+    size_t completos = std::min((size_t)REGISTROS_POR_SEGMENTO, archivo.size() / sizeof(RegistroToque));
+    bool suelto = archivo.size() % sizeof(RegistroToque) != 0;
+    uint8_t vivos = 0;
+    for (size_t i = 0; i < completos; i++) {
+      uint8_t resultado;
+      if (archivo.seek(i * sizeof(RegistroToque) + DESPLAZAMIENTO_RESULTADO) && archivo.read(&resultado, 1) == 1 &&
+          !(resultado & REGISTRO_BORRADO)) {
+        vivos++;
+      }
+    }
+    segmentos.push_back({(uint32_t)numero, (uint8_t)completos, vivos, suelto || completos >= REGISTROS_POR_SEGMENTO});
+  }
+  std::sort(segmentos.begin(), segmentos.end(),
+            [](const Segmento &a, const Segmento &b) { return a.numero < b.numero; });
+  while (segmentos.size() > limiteSegmentos()) borrarSegmentoMasViejo();
+  Serial.printf("[historial] %lu registros en %u segmentos (máximo %u)\n", (unsigned long)totalHistorial(),
+                (unsigned)segmentos.size(), (unsigned)(limiteSegmentos() * REGISTROS_POR_SEGMENTO));
+}
+
+bool escribirRegistro(const RegistroToque &registro) {
+  char ruta[24];
+  rutaSegmento(segmentos.back().numero, ruta, sizeof ruta);
+  File archivo = LittleFS.open(ruta, FILE_APPEND);
+  if (!archivo) return false;
+  size_t escritos = archivo.write((const uint8_t *)&registro, sizeof registro);
+  archivo.close();
+  return escritos == sizeof registro;
+}
+
+void agregarRegistro(const RegistroToque &registro) {
+  if (segmentos.empty() || segmentos.back().cerrado) {
+    uint32_t numero = segmentos.empty() ? 1 : segmentos.back().numero + 1;
+    while (segmentos.size() >= limiteSegmentos()) borrarSegmentoMasViejo();
+    while (segmentos.size() > 1 && LittleFS.totalBytes() - LittleFS.usedBytes() < FLASH_LIBRE_MINIMA) {
+      borrarSegmentoMasViejo();
+    }
+    segmentos.push_back({numero, 0, 0, false});
+  }
+  bool escrito = escribirRegistro(registro);
+  if (!escrito && segmentos.size() > 1) {
+    // Sin sitio: se sacrifica lo más viejo antes que perder el toque que acaba de pasar.
+    borrarSegmentoMasViejo();
+    escrito = escribirRegistro(registro);
+  }
+  Segmento &actual = segmentos.back();
+  if (!escrito) {
+    actual.cerrado = true;  // puede haber quedado a medias: el siguiente va a otro archivo
+    Serial.println("[historial] no se pudo guardar el registro");
+    return;
+  }
+  actual.registros++;
+  actual.vivos++;
+  if (actual.registros >= REGISTROS_POR_SEGMENTO) actual.cerrado = true;
+}
+
+bool borrarRegistro(uint32_t id) {
+  uint32_t numero = id / REGISTROS_POR_SEGMENTO;
+  uint8_t indice = id % REGISTROS_POR_SEGMENTO;
+  for (Segmento &segmento : segmentos) {
+    if (segmento.numero != numero) continue;
+    if (indice >= segmento.registros) return false;
+    char ruta[24];
+    rutaSegmento(segmento.numero, ruta, sizeof ruta);
+    File archivo = LittleFS.open(ruta, "r+");
+    if (!archivo) return false;
+    size_t posicion = indice * sizeof(RegistroToque) + DESPLAZAMIENTO_RESULTADO;
+    uint8_t resultado = 0;
+    bool listo = archivo.seek(posicion) && archivo.read(&resultado, 1) == 1 && !(resultado & REGISTRO_BORRADO);
+    if (listo) {
+      resultado |= REGISTRO_BORRADO;
+      listo = archivo.seek(posicion) && archivo.write(&resultado, 1) == 1;
+    }
+    archivo.close();
+    if (listo && segmento.vivos > 0) segmento.vivos--;
+    return listo;
+  }
+  return false;
+}
+
+// Copia sin partir un carácter UTF-8 por la mitad.
+void copiarEtiqueta(char *destino, size_t largo, const char *origen) {
+  strlcpy(destino, origen, largo);
+  if (strlen(origen) < largo) return;
+  size_t corte = largo - 1;
+  while (corte > 0 && ((uint8_t)origen[corte] & 0xC0) == 0x80) corte--;
+  destino[corte] = '\0';
+}
+
+// Minúsculas y sin tildes (Latin-1 en UTF-8), para que "tercera" encuentre "Tercéra Hora".
+// Primero las letras de U+00C0 a U+00DF y luego las de U+00E0 a U+00FF.
+static const char LATIN1_PLEGADO[] =
+    "aaaaaaaceeeeiiiidnoooooxouuuuyts"  // À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß
+    "aaaaaaaceeeeiiiidnooooo/ouuuuyty";  // à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ
+static_assert(sizeof(LATIN1_PLEGADO) == 65, "la tabla cubre U+00C0 a U+00FF");
+
+void plegarTexto(const char *origen, char *destino, size_t largo) {
+  size_t n = 0;
+  while (*origen && n + 1 < largo) {
+    uint8_t c = (uint8_t)*origen;
+    if (c == 0xC3 && ((uint8_t)origen[1] & 0xC0) == 0x80) {
+      destino[n++] = LATIN1_PLEGADO[(uint8_t)origen[1] - 0x80];
+      origen += 2;
+    } else {
+      destino[n++] = (c >= 'A' && c <= 'Z') ? c + 32 : c;
+      origen++;
+    }
+  }
+  destino[n] = '\0';
+}
+
 // ---------- Secuencia de toques ----------
 
 struct SecuenciaToque {
   bool activa = false;
   uint32_t id = 0;
   bool programado = false;
+  // Epoch (s) en que se pidió el toque; 0 si el reloj no estaba en hora.
+  uint32_t pedidoEn = 0;
   char etiqueta[121] = "";
   uint8_t cantidad = 0;
   uint16_t duraciones[MAX_TOQUES];
@@ -199,12 +401,31 @@ void iniciarFase(bool encendida, uint32_t ahora) {
   }
 }
 
-void terminarToque(const char *motivo) {
+void registrarToque(ResultadoToque resultado) {
+  RegistroToque registro;
+  memset(&registro, 0, sizeof registro);
+  registro.inicio = toque.pedidoEn;
+  // Mientras el inversor arranca `inicio` aún está en el futuro: no sonó nada.
+  int32_t sono = (int32_t)(millis() - toque.inicio);
+  registro.sonoMs = sono < 0 ? 0 : sono;
+  registro.origen = toque.programado ? 1 : 0;
+  registro.resultado = resultado;
+  registro.cantidad = toque.cantidad;
+  memcpy(registro.duraciones, toque.duraciones, sizeof registro.duraciones);
+  memcpy(registro.pausas, toque.pausas, sizeof registro.pausas);
+  copiarEtiqueta(registro.etiqueta, sizeof registro.etiqueta, toque.etiqueta);
+  agregarRegistro(registro);
+}
+
+void terminarToque(ResultadoToque resultado) {
   fijarRele(false);
   fijarInversor(false);
+  // Primero se apagan los relés: escribir en la flash tarda decenas de ms.
+  registrarToque(resultado);
   toque.activa = false;
   toque.arrancando = false;
-  Serial.printf("[toque] #%lu %s\n", (unsigned long)toque.id, motivo);
+  static const char *textos[] = {"terminado", "detenido", "reemplazado"};
+  Serial.printf("[toque] #%lu %s\n", (unsigned long)toque.id, textos[resultado]);
 }
 
 void actualizarToque(uint32_t ahora) {
@@ -216,7 +437,7 @@ void actualizarToque(uint32_t ahora) {
   }
   if (toque.faseEncendida) {
     if (toque.indice + 1 >= toque.cantidad) {
-      terminarToque("terminado");
+      terminarToque(TOQUE_TERMINADO);
       return;
     }
     iniciarFase(false, ahora);
@@ -275,10 +496,11 @@ bool iniciarToque(JsonVariantConst config, bool programado) {
   uint16_t pausas[MAX_TOQUES - 1];
   uint8_t cantidad = leerToque(config, duraciones, pausas);
   if (cantidad == 0) return false;
-  if (toque.activa) terminarToque("reemplazado");
+  if (toque.activa) terminarToque(TOQUE_REEMPLAZADO);
 
   toque.id = ++ultimoIdToque;
   toque.programado = programado;
+  toque.pedidoEn = horaValida() ? (uint32_t)time(nullptr) : 0;
   strlcpy(toque.etiqueta, config["label"] | "", sizeof toque.etiqueta);
   toque.cantidad = cantidad;
   memcpy(toque.duraciones, duraciones, sizeof duraciones);
@@ -568,6 +790,7 @@ void responderEstado() {
   else doc["now"] = nullptr;
   doc["offsetMinutes"] = zonaMinutos;
   doc["scheduleRevision"] = revisionHorario;
+  doc["historyHead"] = cabezaHistorial();
   if (!toque.activa) {
     doc["run"] = nullptr;
   } else {
@@ -636,8 +859,141 @@ void alTocar() {
 }
 
 void alDetener() {
-  if (toque.activa) terminarToque("detenido");
+  if (toque.activa) terminarToque(TOQUE_DETENIDO);
   responderEstado();
+}
+
+// GET /api/history?limit=25&before=<id>&from=<ms>&to=<ms>&q=<texto>
+// Del más nuevo al más viejo. `from`/`to` (ms epoch, ambos incluidos) y `q` (parte del nombre,
+// sin mayúsculas ni tildes) filtran. `next` es el `before` del pedido siguiente, o null si ya
+// no queda nada por revisar. Un pedido revisa como mucho MAX_EXAMINADOS registros, así que puede
+// volver con menos de `limit` y un `next`: la app sigue pidiendo hasta juntar los que necesita.
+const char *nombreResultado(uint8_t resultado) {
+  switch (resultado) {
+    case TOQUE_DETENIDO: return "stopped";
+    case TOQUE_REEMPLAZADO: return "replaced";
+    default: return "completed";
+  }
+}
+
+void agregarRegistroJson(JsonArray lista, uint32_t id, const RegistroToque &registro) {
+  JsonObject objeto = lista.add<JsonObject>();
+  objeto["id"] = id;
+  if (registro.inicio) objeto["at"] = (int64_t)registro.inicio * 1000;
+  else objeto["at"] = nullptr;
+  objeto["source"] = registro.origen ? "scheduled" : "manual";
+  objeto["outcome"] = nombreResultado(registro.resultado);
+  objeto["label"] = registro.etiqueta;
+  objeto["soundedMs"] = registro.sonoMs;
+  uint8_t cantidad = std::min(registro.cantidad, MAX_TOQUES);
+  JsonArray duraciones = objeto["durations"].to<JsonArray>();
+  for (uint8_t i = 0; i < cantidad; i++) duraciones.add(registro.duraciones[i]);
+  JsonArray pausas = objeto["pauses"].to<JsonArray>();
+  for (uint8_t i = 0; i + 1 < cantidad; i++) pausas.add(registro.pausas[i]);
+}
+
+// Nombre con el que la app muestra el toque: la búsqueda tiene que encontrar lo que se ve.
+const char *nombreVisible(const RegistroToque &registro) {
+  if (registro.etiqueta[0]) return registro.etiqueta;
+  return registro.origen ? "Timbrado" : "Toque manual";
+}
+
+bool pasaFiltros(const RegistroToque &registro, bool hayDesde, int64_t desdeMs, bool hayHasta,
+                 int64_t hastaMs, const char *busqueda) {
+  if (hayDesde || hayHasta) {
+    if (registro.inicio == 0) return false;  // sin fecha no puede estar en un rango
+    int64_t ms = (int64_t)registro.inicio * 1000;
+    if (hayDesde && ms < desdeMs) return false;
+    if (hayHasta && ms > hastaMs) return false;
+  }
+  if (busqueda[0]) {
+    char nombre[sizeof registro.etiqueta + 16];
+    plegarTexto(nombreVisible(registro), nombre, sizeof nombre);
+    if (!strstr(nombre, busqueda)) return false;
+  }
+  return true;
+}
+
+void alLeerHistorial() {
+  uint8_t limite = constrain(servidor.arg("limit").toInt(), 0, PAGINA_HISTORIAL_MAX);
+  if (limite == 0) limite = PAGINA_HISTORIAL;
+  bool hayAntes = servidor.hasArg("before");
+  uint32_t antes = strtoul(servidor.arg("before").c_str(), nullptr, 10);
+  bool hayDesde = servidor.hasArg("from");
+  bool hayHasta = servidor.hasArg("to");
+  int64_t desdeMs = strtoll(servidor.arg("from").c_str(), nullptr, 10);
+  int64_t hastaMs = strtoll(servidor.arg("to").c_str(), nullptr, 10);
+  char busqueda[96];
+  plegarTexto(servidor.arg("q").c_str(), busqueda, sizeof busqueda);
+
+  JsonDocument doc;
+  doc["total"] = totalHistorial();
+  doc["capacity"] = limiteSegmentos() * REGISTROS_POR_SEGMENTO;
+  JsonArray lista = doc["records"].to<JsonArray>();
+
+  uint16_t examinados = 0;
+  uint32_t ultimoExaminado = 0;
+  uint32_t ultimoDevuelto = 0;
+  bool hayMas = false;    // apareció un registro más que no cabe en esta página
+  bool cortado = false;   // se llegó a MAX_EXAMINADOS sin terminar
+  for (size_t s = segmentos.size(); s-- > 0 && !hayMas && !cortado;) {
+    const Segmento &segmento = segmentos[s];
+    uint32_t base = idRegistro(segmento, 0);
+    uint8_t cuantos = segmento.registros;
+    if (hayAntes) {
+      if (antes <= base) continue;
+      if (antes - base < cuantos) cuantos = antes - base;
+    }
+    if (cuantos == 0) continue;
+    char ruta[24];
+    rutaSegmento(segmento.numero, ruta, sizeof ruta);
+    File archivo = LittleFS.open(ruta, "r");
+    if (!archivo) continue;
+    for (uint8_t i = cuantos; i-- > 0;) {
+      if (examinados >= MAX_EXAMINADOS) {
+        cortado = true;
+        break;
+      }
+      examinados++;
+      ultimoExaminado = base + i;
+      RegistroToque registro;
+      if (!archivo.seek(i * sizeof registro)) continue;
+      if (archivo.read((uint8_t *)&registro, sizeof registro) != sizeof registro) continue;
+      if (registro.resultado & REGISTRO_BORRADO) continue;
+      if (!pasaFiltros(registro, hayDesde, desdeMs, hayHasta, hastaMs, busqueda)) continue;
+      if (lista.size() >= limite) {
+        hayMas = true;
+        break;
+      }
+      agregarRegistroJson(lista, base + i, registro);
+      ultimoDevuelto = base + i;
+    }
+    archivo.close();
+  }
+  if (hayMas) doc["next"] = ultimoDevuelto;
+  else if (cortado) doc["next"] = ultimoExaminado;
+  else doc["next"] = nullptr;
+  responder(200, doc);
+}
+
+// POST /api/history/delete { "id": 123 }: borra un registro del historial.
+void alBorrarRegistro() {
+  JsonDocument doc;
+  if (!leerCuerpo(doc)) return;
+  if (!doc["id"].is<uint32_t>()) {
+    responderError(422, "Id inválido");
+    return;
+  }
+  uint32_t id = doc["id"].as<uint32_t>();
+  if (!borrarRegistro(id)) {
+    responderError(404, "No existe ese registro");
+    return;
+  }
+  Serial.printf("[historial] registro %lu borrado\n", (unsigned long)id);
+  JsonDocument respuesta;
+  respuesta["id"] = id;
+  respuesta["total"] = totalHistorial();
+  responder(200, respuesta);
 }
 
 // ---------- Wi-Fi de casa (elegida desde la app) ----------
@@ -663,6 +1019,7 @@ volatile uint8_t ultimoMotivoCaida = 0;
 // Diagnóstico del último intento: se asoció al router (sin IP aún) o ni siquiera arrancó.
 volatile bool casaAsociada = false;
 bool inicioFallido = false;
+bool redOlvidada = false;  // el loop apaga el radio si además el interruptor tiene el Wi-Fi apagado
 
 void cargarRedCasa() {
 #ifdef WIFI_CASA_NOMBRE
@@ -910,6 +1267,7 @@ void alOlvidarRed() {
   estadoCasa = CASA_SIN_RED;
   casaError = "";
   WiFi.disconnect(false, true);
+  redOlvidada = true;
   Serial.println("[red] red de casa olvidada");
   responderRed();
 }
@@ -921,6 +1279,8 @@ void iniciarApi() {
   servidor.on("/api/clock", HTTP_POST, alFijarHora);
   servidor.on("/api/ring", HTTP_POST, alTocar);
   servidor.on("/api/ring/stop", HTTP_POST, alDetener);
+  servidor.on("/api/history", HTTP_GET, alLeerHistorial);
+  servidor.on("/api/history/delete", HTTP_POST, alBorrarRegistro);
   servidor.on("/api/wifi", HTTP_GET, responderRed);
   servidor.on("/api/wifi", HTTP_PUT, alGuardarRed);
   servidor.on("/api/wifi/scan", HTTP_GET, alBuscarRedes);
@@ -962,21 +1322,31 @@ void alEventoWifi(arduino_event_id_t evento, arduino_event_info_t info) {
   }
 }
 
-void iniciarRed() {
+bool radioActiva = false;  // hay algo encendido: la STA sola o la STA con la red SolarBell
+
+// conAp = true: modo mixto, crea RED_NOMBRE y puede unirse a la red de casa (solo 2.4 GHz).
+// conAp = false: solo la STA, unida a la última red de casa. Sin AP el radio duerme entre
+// balizas del router y gasta una fracción; la app llega por la IP o por solarbell.local.
+void iniciarRed(bool conAp) {
   static bool eventosRegistrados = false;
   if (!eventosRegistrados) {
     eventosRegistrados = true;
     WiFi.onEvent(alEventoWifi);
   }
-  // Modo mixto: crea RED_NOMBRE y puede unirse a la red de casa (solo 2.4 GHz).
   WiFi.persistent(false);  // las credenciales las guarda este firmware, no el núcleo del ESP32
   WiFi.setHostname(NOMBRE_MDNS);
-  WiFi.mode(WIFI_AP_STA);
-  if (!WiFi.softAP(RED_NOMBRE, RED_CLAVE)) {
-    Serial.println("[red] no se pudo crear la red");
-    return;
+  WiFi.mode(conAp ? WIFI_AP_STA : WIFI_STA);
+  radioActiva = true;
+  if (conAp) {
+    if (!WiFi.softAP(RED_NOMBRE, RED_CLAVE)) {
+      Serial.println("[red] no se pudo crear la red");
+      return;
+    }
+    Serial.printf("[red] %s en http://%s\n", RED_NOMBRE, WiFi.softAPIP().toString().c_str());
+  } else {
+    WiFi.setSleep(true);  // modem-sleep: el radio solo se despierta en las balizas del router
+    Serial.println("[red] solo Wi-Fi de casa (red SolarBell apagada)");
   }
-  Serial.printf("[red] %s en http://%s\n", RED_NOMBRE, WiFi.softAPIP().toString().c_str());
   WiFi.setAutoReconnect(true);
 
   mdnsActivo = MDNS.begin(NOMBRE_MDNS);
@@ -992,11 +1362,23 @@ void iniciarRed() {
   else estadoCasa = CASA_SIN_RED;
 }
 
+void apagarRed() {
+  servidor.stop();
+  if (mdnsActivo) MDNS.end();
+  mdnsActivo = false;
+  WiFi.disconnect(true);
+  WiFi.softAPdisconnect(true);
+  WiFi.mode(WIFI_OFF);
+  radioActiva = false;
+}
+
 // ---------- Interruptor del Wi-Fi ----------
 
 #ifdef PIN_INTERRUPTOR_WIFI
 // Sin cable en el pin, la entrada queda en reposo (pull-up) y el Wi-Fi sigue encendido.
-// Con el Wi-Fi apagado el horario sigue sonando: solo se pierde el acceso desde el teléfono.
+// Apagado = sin la red SolarBell (el AP es lo que más gasta). Si hay una red de casa guardada,
+// la STA sigue unida a ella y la app llega por esa red; sin red guardada se apaga todo.
+// En ambos casos el horario sigue sonando solo.
 #ifdef INTERRUPTOR_WIFI_CERRADO_ENCIENDE
 constexpr int NIVEL_WIFI_ENCENDIDO = LOW;
 #else
@@ -1013,16 +1395,23 @@ void fijarWifi(bool encender) {
   wifiEncendido = encender;
   if (encender) {
     Serial.println("[red] interruptor: Wi-Fi encendido");
-    iniciarRed();
-    servidor.begin();
+    if (radioActiva) {
+      // La STA ya está unida a la red de casa: solo se levanta la red SolarBell.
+      WiFi.mode(WIFI_AP_STA);
+      if (!WiFi.softAP(RED_NOMBRE, RED_CLAVE)) Serial.println("[red] no se pudo crear la red");
+      else Serial.printf("[red] %s en http://%s\n", RED_NOMBRE, WiFi.softAPIP().toString().c_str());
+    } else {
+      iniciarRed(true);
+      servidor.begin();
+    }
+  } else if (radioActiva && casaSsid[0]) {
+    Serial.println("[red] interruptor: red SolarBell apagada, sigue la red de casa");
+    WiFi.softAPdisconnect(true);
+    WiFi.mode(WIFI_STA);
+    WiFi.setSleep(true);
   } else {
     Serial.println("[red] interruptor: Wi-Fi apagado");
-    servidor.stop();
-    if (mdnsActivo) MDNS.end();
-    mdnsActivo = false;
-    WiFi.disconnect(true);
-    WiFi.softAPdisconnect(true);
-    WiFi.mode(WIFI_OFF);
+    apagarRed();
   }
 }
 
@@ -1110,6 +1499,7 @@ void setup() {
   }
 
   if (!LittleFS.begin(true)) Serial.println("[memoria] no se pudo montar LittleFS");
+  iniciarHistorial();
   cargarHorario();
   cargarHora();
   cargarRedCasa();
@@ -1118,10 +1508,11 @@ void setup() {
   delay(20);
   wifiEncendido = digitalRead(PIN_INTERRUPTOR_WIFI) == NIVEL_WIFI_ENCENDIDO;
   Serial.printf("[red] interruptor Wi-Fi en GPIO%d: %s\n", PIN_INTERRUPTOR_WIFI, wifiEncendido ? "encendido" : "apagado");
-  if (wifiEncendido) iniciarRed();
+  if (wifiEncendido) iniciarRed(true);
+  else if (casaSsid[0]) iniciarRed(false);
   else WiFi.mode(WIFI_OFF);
 #else
-  iniciarRed();
+  iniciarRed(true);
 #endif
   iniciarApi();
 }
@@ -1131,9 +1522,14 @@ void loop() {
   atenderSerie();
 #ifdef PIN_INTERRUPTOR_WIFI
   revisarInterruptorWifi(ahora);
-  if (wifiEncendido) {
+  if (radioActiva) {
     servidor.handleClient();
     revisarRedCasa();
+  }
+  // Con la red SolarBell apagada, olvidar la red de casa deja el radio sin nada que hacer.
+  if (redOlvidada) {
+    redOlvidada = false;
+    if (!wifiEncendido) apagarRed();
   }
 #else
   servidor.handleClient();

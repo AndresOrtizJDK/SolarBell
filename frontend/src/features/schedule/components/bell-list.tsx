@@ -3,7 +3,7 @@ import { Sheet } from '@/components/ui/sheet'
 import { toast } from '@/features/feedback/toast'
 import { bellLabel, bellSummary, createBell } from '@/features/schedule/bell'
 import { BellForm } from '@/features/schedule/components/bell-form'
-import { formatClock } from '@/features/schedule/format'
+import { formatClock, formatClockText } from '@/features/schedule/format'
 import { deleteBell, saveBell } from '@/features/schedule/store'
 import type { Bell, BellScope } from '@/features/schedule/types'
 import { BellRing, ChevronRight, Plus } from 'lucide-react'
@@ -84,6 +84,7 @@ export function BellList({ scope, bells }: { scope: BellScope; bells: Bell[] }) 
               form={formId}
               submitLabel={editing.isNew ? 'Agregar timbrado' : 'Guardar cambios'}
               deleteLabel="Eliminar timbrado"
+              deleteDescription={editing.isNew ? undefined : `Se quitará «${bellLabel(editing.bell)}» (${formatClockText(editing.bell.time)}) del horario.`}
               onDelete={
                 editing.isNew
                   ? undefined
